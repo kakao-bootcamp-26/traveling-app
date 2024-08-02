@@ -104,12 +104,12 @@ pre-commit:
     backend-lint:
       root: "backend/nest-backend"
       run: yarn run lint
-# pre-push:
-#   parallel: true
-#   commands:
-    # branchName:
-      # run: echo "Running validate-branch-name" && npx validate-branch-name
-      # run: npx validate-branch-name
+pre-push:
+  parallel: true
+  commands:
+    branchName:
+      run: echo "Running validate-branch-name" && npx validate-branch-name
+      run: npx validate-branch-name
     # packages-audit:
     #   tags: frontend security
     #   run: yarn audit
