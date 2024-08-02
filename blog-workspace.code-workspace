@@ -1,0 +1,38 @@
+{
+  "folders": [
+    {
+      "path": "packages/frontend/next-app",
+    },
+    {
+      "path": "packages/backend/nest-app",
+    },
+    {
+      "path": "packages/libs/common",
+    },
+    {
+      "path": "packages/libs/frontend/components"
+    }
+  ],
+  "settings": {
+    "search.exclude": {
+      "**/.yarn": true,
+      "**/.pnp.*": true,
+      "**/dist": true,
+      "**/node_modules": true,
+      "tsconfig.tsbuildinfo": true
+    },
+    // "eslint.nodePath": "../.. /.yarn/sdks",
+    "eslint.nodePath": ".yarn/sdks",
+    "typescript.tsdk": ".yarn/sdks/typescript/lib",
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+  },
+  "extensions": {
+    "recommendations": [
+      "arcanis.vscode-zipfs",
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode"
+    ]
+  }
+}

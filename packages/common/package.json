@@ -1,0 +1,17 @@
+{
+  "name": "@blog/common",
+  "packageManager": "yarn@4.3.1",
+  "main": "dist/index",
+  "types": "dist/index",
+  "private": true,
+  "scripts": {
+    "build": "yarn clean && yarn compile",
+    "clean": "rirmaf -rf ./dist",
+    "compile": "tsc",
+    "type-check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "rimraf": "^6.0.1",
+    "typescript": "^5.5.3"
+  }
+}
