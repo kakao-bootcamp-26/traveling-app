@@ -93,8 +93,11 @@ pre-commit:
     #   glob: "*.{js,ts,jsx,tsx,json}"
     #   run: yarn workspaces foreach --all run lint --cache
     # run: yarn eslint --fix --no-ignore $(echo {staged_files} | sed -e 's/js\///g') && git add $(echo {staged_files} | sed -e 's/js\///g')
+    # frontend-lint:
+    #   root: "frontend/next-app"
+    #   glob: "**/*.{js,ts,jsx,tsx,json}"
     frontend-lint:
-      root: "frontend/next-app"
+      root: "frontend/react-app"
       glob: "**/*.{js,ts,jsx,tsx,json}"
       # run: |
       #   echo "Running ESLint for frontend {staged_files}" | tee -a pre-commit.log

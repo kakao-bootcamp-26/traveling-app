@@ -4,6 +4,9 @@
       "path": "packages/frontend/next-app",
     },
     {
+      "path": "packages/frontend/react-app",
+    },
+    {
       "path": "packages/backend/nest-app",
     },
     {
