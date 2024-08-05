@@ -9,7 +9,7 @@ export function Sidebar() {
   const { menuList, addMenuItem, selectTravelItem, selectedItem } = useGetMenuList();
 
   return (
-    <Sider width={120}>
+    <Sider width={120} style={{ zIndex: 1 }}>
       <Typography.Title level={4} style={{ color: "white", marginLeft: "8px", marginTop: "4px" }}>
         Your Trip
       </Typography.Title>
