@@ -1,10 +1,16 @@
 {
   "extends": "../../tsconfig.base.json", // Route의 build.json을 상속
   "compilerOptions": {
-    "rootDir": "./src",
-    "outDir": "./dist",
-    // "baseUrl": "./",
-    "composite": true
+    "outDir": "dist",
+    "target": "ES5",
+    "module": "ESNext",
+    "declaration": true,
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }
