@@ -1,123 +1,43 @@
-# # EXAMPLE USAGE:
-# #
-# #   Refer for explanation to following link:
-# #   https://github.com/evilmartians/lefthook/blob/master/docs/configuration.md
-# #
-# # pre-push:
-# #   commands:
-# #     packages-audit:
-# #       tags: frontend security
-# #       run: yarn audit
-# #     gems-audit:
-# #       tags: backend security
-# #       run: bundle audit
-# #
-# # pre-commit:
-# #   parallel: true
-# #   commands:
-# #     eslint:
-# #       glob: "*.{js,ts,jsx,tsx}"
-# #       run: yarn eslint {staged_files}
-# #     rubocop:
-# #       tags: backend style
-# #       glob: "*.rb"
-# #       exclude: '(^|/)(application|routes)\.rb$'
-# #       run: bundle exec rubocop --force-exclusion {all_files}
-# #     govet:
-# #       tags: backend style
-# #       files: git ls-files -m
-# #       glob: "*.go"
-# #       run: go vet {files}
-# #   scripts:
-# #     "hello.js":
-# #       runner: node
-# #     "any.go":
-# #       runner: go run
-
-# pre-commit:
-#   parallel: true
-#   commands:
-#     format:
-#       run: yarn format
-#       stage_fixed: true
-#     lint-next:
-#       run: yarn lint:next
-#       stage_fixed: true
-#     lint:
-#       run: yarn lint
-#       stage_fixed: true
-
-# pre-commit:
-#   parallel: true
-#   commands:
-#     lint:
-#       # root: "packages"
-#       glob: '*.{js,ts,jsx,tsx}' # glob filter for list of files
-#       # run: yarn run lint
-#       run: yarn workspaces foreach -p run lint --cache
-#     format:
-#       # root: "packages/frontend/next-app"
-#       glob: "*.{ts,tsx,js,jsx,json}"
-#       run: yarn run format
-
-#       stage_fixed: true
-#     # types:
-#       # glob: '*.{js,ts, jsx, tsx}'
-#     ts_format:
-#       root: "packages/*"
-#       glob: "*.{ts,tsx}"
-#       run: yarn run typecheck
-#     gitLeaks:
-#       run: yarn run gitleaks
-# pre-push:
-#   parallel: true
-#   commands:
-#     branchName:
-#       run: npx validate-branch-name
-#     packages-audit:
-#       tags: frontend security
-#       run: yarn audit
-# commit-msg:
-#   parallel: true
-#   scripts:
-#     "commitlint.sh":
-#       runner: bash
+commit-msg:
+  parallel: true
+  commands:
+    lint-commit-msg:
+      run: yarn commitlint --edit
+    # spell-check:
+    #   run: yarn cspell --no-summary {1}
 
 pre-commit:
   parallel: true
   commands:
     prettier:
+      # glob: "*.{js,ts,tsx,json}"
+      # run: |
+      #   yarn prettier --write $(echo {staged_files} | sed -e 's/js\///g')
+      #   git add $(echo {staged_files} | sed -e 's/js\///g')
       glob: "*.{js,ts,tsx,json}"
-      run: yarn prettier --write $(echo {staged_files} | sed -e 's/js\///g') && git add $(echo {staged_files} | sed -e 's/js\///g')
-    # eslint:
-    #   glob: "*.{js,ts,jsx,tsx,json}"
-    #   run: yarn workspaces foreach --all run lint --cache
-    # run: yarn eslint --fix --no-ignore $(echo {staged_files} | sed -e 's/js\///g') && git add $(echo {staged_files} | sed -e 's/js\///g')
-    # frontend-lint:
-    #   root: "frontend/next-app"
-    #   glob: "**/*.{js,ts,jsx,tsx,json}"
+      run: |
+        echo "Running Prettier"
+        echo {staged_files} | tr ' ' '\n' | grep -E "\.(js|ts|tsx|json)$" | xargs -I {} sh -c 'yarn prettier --write "{}" && git add "{}"'
     frontend-lint:
       root: "frontend/react-app"
       glob: "**/*.{js,ts,jsx,tsx,json}"
+      run: yarn run lint {staged_files}
+      # glob: "**/*.{js,ts,jsx,tsx,json}"
       # run: |
-      #   echo "Running ESLint for frontend {staged_files}" | tee -a pre-commit.log
-      #   yarn run lint 2>&1 | tee -a pre-commit.log
-      run: yarn run lint
-      # run: yarn workspaces foreach -p run lint --cache
+      #   echo "Running Frontend Lint"
+      #   echo {staged_files} | tr ' ' '\n' | grep -E "\.(js|ts|jsx|tsx|json)$" | xargs -I {} sh -c 'yarn --cwd frontend/react-app run lint "{}"'
     backend-lint:
       root: "backend/nest-backend"
-      run: yarn run lint
+      run: yarn run lint {staged_files}
+      # root: "backend/nest-backend"
+      # run: |
+      #   echo "Running Backend Lint"
+      #   echo {staged_files} | tr ' ' '\n' | grep -E "\.(js|ts|jsx|tsx|json)$" | xargs -I {} sh -c 'yarn --cwd backend/nest-backend run lint "{}"'
+
 pre-push:
   parallel: true
   commands:
     branchName:
-      run: echo "Running validate-branch-name" && npx validate-branch-name
-      run: npx validate-branch-name
-    # packages-audit:
-    #   tags: frontend security
-    #   run: yarn audit
-commit-msg:
-  parallel: true
-  scripts:
-    "commitlint.sh":
-      runner: bash
+      run: |
+        echo "Running validate-branch-name"
+        npx validate-branch-name

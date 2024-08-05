@@ -1,8 +1,10 @@
-import { FormHTMLAttributes, PropsWithChildren } from "react";
-
-export function Form({
-  children,
-  ...props
-}: PropsWithChildren<FormHTMLAttributes<HTMLFormElement>>) {
-  return <form {...props}>{children}</form>;
+import { Form as AntdForm } from "antd";
+import { PropsWithChildren } from "react";
+type Props = {
+  layout: "horizontal" | "vertical";
+};
+function Form({ children, ...props }: PropsWithChildren<Props>) {
+  return <AntdForm {...props}>{children}</AntdForm>;
 }
+
+export default Form;
