@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "gitleaks": "gitleaks detect -v",
-    "nextapp": "yarn workspace next-app",
-    "nestapp": "yarn workspace nest-app",
+    "nextapp": "yarn workspace @blog/frontend run dev",
+    "nestapp": "yarn workspace @blog/backend run dev",
     "prepare": "lefthook install",
     "format": "prettier --ignore-path .prettierignore --write \"**/*.+(js|ts|json|tsx|mdx)\" --log-level silent",
-    "lint": "eslint ./packages/**/**/src/**/*.{ts,tsx,js,jsx}",
+    "lint": "eslint ./**/**/**/src/**/*.{ts,tsx,js,jsx}",
     "typecheck": "yarn tsc --noEmit"
   },
   "workspaces": [
@@ -21,6 +21,7 @@
     "@commitlint/config-conventional": "^19.2.2",
     "@typescript-eslint/eslint-plugin": "^7.16.1",
     "@typescript-eslint/parser": "^7.16.1",
+    "commitlint": "^19.3.0",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
@@ -35,5 +36,8 @@
   "validate-branch-name": {
     "pattern": "^(feat|fix|hotfix|release|test|experimental)/.+$",
     "errorMsg": "Branch name validation failed"
+  },
+  "dependencies": {
+    "@eslint/eslintrc": "^3.1.0"
   }
 }
