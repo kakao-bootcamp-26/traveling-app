@@ -1,19 +1,37 @@
-import { Layout, Menu, Typography } from "antd";
-import { useGetMenuList } from "@/hooks/useGetMenuList";
+import { Layout, Menu, Space, Typography } from "antd";
+import { useGetMenuList } from "@/hooks/useControlMenuList";
 import { Button } from "@blog/components";
+import { PlusOutlined } from "@ant-design/icons";
 
 const { Sider } = Layout;
 
 export function Sidebar() {
-  const { menuList } = useGetMenuList();
+  const { menuList, addMenuItem, selectTravelItem, selectedItem } = useGetMenuList();
 
   return (
-    <Sider>
-      <Typography.Title level={4} style={{ color: "white" }}>
+    <Sider width={120}>
+      <Typography.Title level={4} style={{ color: "white", marginLeft: "8px", marginTop: "4px" }}>
         Your Trip
       </Typography.Title>
-      <Menu theme="dark" defaultSelectedKeys={["init"]} mode="inline" items={menuList} />
-      <Button>추가하기</Button>
+      <Space direction="vertical" size="middle" style={{ display: "flex", alignItems: "center" }}>
+        <Menu
+          theme="dark"
+          selectedKeys={[selectedItem.key]}
+          onClick={({ key }) => {
+            selectTravelItem(key.toString());
+          }}
+          mode="inline"
+          items={menuList}
+          style={{ width: "120px" }}
+        />
+        <Button
+          size="middle"
+          shape="circle"
+          icon={<PlusOutlined />}
+          iconPosition={"start"}
+          onClick={addMenuItem}
+        ></Button>
+      </Space>
     </Sider>
   );
 }
