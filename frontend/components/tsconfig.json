@@ -1,11 +1,17 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "src",
-    "baseUrl": "./",
-    "composite": true,
-    "jsx": "react-jsx"
+    "outDir": "dist",
+    "target": "ES5",
+    "module": "ESNext",
+    "declaration": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

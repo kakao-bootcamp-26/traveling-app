@@ -8,11 +8,11 @@ type Props = {
   };
   onClick?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
   loading?: boolean | { delay: number };
-  disabled: boolean;
-  block: boolean;
-  htmlType: "button" | "submit" | "reset";
-  type: "default" | "primary" | "text";
+  disabled?: boolean;
+  block?: boolean;
+  htmlType?: "button" | "submit" | "reset";
+  type?: "default" | "primary" | "text";
 };
-export default function Button({ children, ...props }: PropsWithChildren<Props>) {
+export const Button = ({ children, ...props }: PropsWithChildren<Props>) => {
   return <AntdButton {...props}>{children}</AntdButton>;
-}
+};

@@ -7,4 +7,4 @@ function Form({ children, ...props }: PropsWithChildren<Props>) {
   return <AntdForm {...props}>{children}</AntdForm>;
 }
 
-export default Form;
+export { Form };

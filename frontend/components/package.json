@@ -1,15 +1,15 @@
 {
   "name": "@blog/components",
   "packageManager": "yarn@4.3.1",
-  "main": "dist/index",
-  "types": "dist/index",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "yarn clean && yarn compile",
     "clean": "rimraf -rf ./dist",
-    "compile": "tsc",
+    "build": "yarn clean && yarn compile && echo 'Build complete'",
+    "compile": "tsc ",
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {

@@ -1,9 +1,9 @@
 {
   "extends": "../../tsconfig.base.json", // Route의 build.json을 상속
   "compilerOptions": {
+    "rootDir": "./src",
     "outDir": "./dist",
-    "rootDir": "src",
-    "baseUrl": "./",
+    // "baseUrl": "./",
     "composite": true
   },
   "include": ["src/**/*"]
