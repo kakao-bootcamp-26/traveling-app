@@ -40,4 +40,4 @@ pre-push:
     branchName:
       run: |
         echo "Running validate-branch-name"
-        npx validate-branch-name
+        yarn validate-branch-name

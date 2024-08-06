@@ -3,13 +3,21 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@blog/common": ["./packages/libs/common/src"]
+      "@blog/common": ["packages/common/src"],
+      "@blog/components": ["frontend/components/src"],
+      "@blog/frontend": ["frontend/react-app/src"]
     }
   },
   "files": [],
   "references": [
     {
       "path": "./packages/libs/common"
+    },
+    {
+      "path": "./frontend/components"
+    },
+    {
+      "path": "./frontend/react-app"
     }
   ]
 }

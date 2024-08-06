@@ -1,8 +1,11 @@
 {
   "name": "@blog/common",
   "packageManager": "yarn@4.3.1",
-  "main": "dist/index",
-  "types": "dist/index",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "private": true,
   "scripts": {
     "build": "yarn clean && yarn compile",
