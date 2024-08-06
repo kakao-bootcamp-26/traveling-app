@@ -2,12 +2,32 @@ import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
 import { MouseEvent } from "react";
 import { useSetRecoilState } from "recoil";
 
+const airportList = [
+  {
+    name: "서울/인천",
+    code: "ICN",
+  },
+  {
+    name: "서울/김포",
+    code: "GMP",
+  },
+  {
+    name: "부산/김해",
+    code: "PUS",
+  },
+  {
+    name: "대구",
+    code: "TAE",
+  },
+];
+
 export function OriginPanelItem() {
   const changeSelectedTravelInfo = useSetRecoilState(selectedTravelInfoSelector);
-  const handleSelect = (e: MouseEvent) => {
+  const updateSelectedAirport = (e: MouseEvent) => {
+    // 이 부분 로직을 좀 더 깊게 공부해보기
+    const target = e.target as HTMLElement;
     const airport =
-      (e.target as HTMLElement).dataset.airport ||
-      (e.target as HTMLElement).parentElement?.dataset.airport;
+      target.dataset.airport || (target.closest("[data-airport]") as HTMLElement)?.dataset.airport;
 
     if (airport) {
       changeSelectedTravelInfo((prev) => ({ ...prev, origin: airport }));
@@ -30,62 +50,23 @@ export function OriginPanelItem() {
             rowGap: "8px",
           }}
         >
-          <li
-            data-nonblur="true"
-            data-airport="ICN"
-            onClick={handleSelect}
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              width: "100%",
-              cursor: "pointer",
-            }}
-          >
-            <span style={{ flex: "1" }}>서울/인천</span>
-            <span>ICN</span>
-          </li>
-          <li
-            data-nonblur="true"
-            data-airport="GMP"
-            onClick={handleSelect}
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              width: "100%",
-              cursor: "pointer",
-            }}
-          >
-            <span style={{ flex: "1" }}>서울/김포</span>
-            <span>GMP</span>
-          </li>
-          <li
-            data-nonblur="true"
-            data-airport="PUS"
-            onClick={handleSelect}
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              width: "100%",
-              cursor: "pointer",
-            }}
-          >
-            <span style={{ flex: "1" }}>부산/김해</span>
-            <span>PUS</span>
-          </li>
-          <li
-            data-nonblur="true"
-            data-airport="TAE"
-            onClick={handleSelect}
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              width: "100%",
-              cursor: "pointer",
-            }}
-          >
-            <span style={{ flex: "1" }}>대구</span>
-            <span>TAE</span>
-          </li>
+          {airportList.map((airport) => (
+            <li
+              data-nonblur="true"
+              data-airport={airport.code}
+              onClick={updateSelectedAirport}
+              key={airport.code}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                width: "100%",
+                cursor: "pointer",
+              }}
+            >
+              <span style={{ flex: "1" }}>{airport.name}</span>
+              <span>{airport.code}</span>
+            </li>
+          ))}
         </ul>
       </div>
     </div>

@@ -5,7 +5,11 @@ export const createNewTravelItem = (key: string): InitTravelInfo => {
     origin: "ICN",
     destination: "",
     passenger: {
-      count: 0,
+      count: {
+        adults: 1,
+        children: 0,
+        infants: 0,
+      },
       flightClass: "Economy",
     },
     key,

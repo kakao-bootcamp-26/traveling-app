@@ -18,7 +18,11 @@ export const travelInfoAtom = atom<InitTravelInfo[]>({
       origin: "ICN",
       destination: "",
       passenger: {
-        count: 0,
+        count: {
+          adults: 1,
+          children: 0,
+          infants: 0,
+        },
         flightClass: "Economy",
       },
       key: uuidv4(),
@@ -46,13 +50,11 @@ export const selectedTravelInfoSelector = selector<InitTravelInfo>({
     return travelInfo[0];
   },
   set: ({ set, get }, newValue) => {
-    console.log("newValue", newValue);
     if ("key" in newValue) {
       const travelInfo = get(travelInfoAtom);
-      console.log("newValue", travelInfo, newValue);
       // 새로운 선택 항목이 유효한지 확인
       if (travelInfo.some((info) => info.key === newValue?.key)) {
-        console.log("newValue", travelInfo, newValue);
+        // console.log("newValue", travelInfo, newValue);
         sessionStorage.setItem(sessionStorageKey.selectedTravelKey, newValue?.key);
         // set(travelInfoAtom, [...travelInfo]);
         set(

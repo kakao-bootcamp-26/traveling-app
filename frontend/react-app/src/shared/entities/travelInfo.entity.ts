@@ -7,10 +7,16 @@ interface TravelSchedule {
   arrival: Date; // 도착 일시
 }
 
+export interface PassengerCount {
+  adults: number; // 성인 수
+  children: number; // 어린이 수
+  infants: number; // 유아 수
+} // 탑승객 수
+
 // 탑승객 정보를 나타내는 타입 정의
 interface Passenger {
   flightClass: FlightClass; // 비행기 클래스 정보
-  count: number; // 탑승객 수
+  count: PassengerCount;
 }
 
 // 여행 정보를 나타내는 타입 정의
@@ -26,7 +32,7 @@ export interface TravelInfo {
 export interface InitTravelInfo {
   origin: string; // 출발지
   destination: string; // 목적지
-  passenger?: Partial<Passenger>; // 탑승객 정보
+  passenger: Passenger; // 탑승객 정보
   schedule?: Partial<TravelSchedule>; // 여행 일정
   key: string;
 }

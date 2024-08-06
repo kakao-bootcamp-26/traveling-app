@@ -1,6 +1,7 @@
 import { FlightPanelUI } from "@/pages/home/components/FlightPanelUI";
 import { DestinationPanelItem } from "@/pages/home/components/panelItem/DestinationPanelItem";
 import { OriginPanelItem } from "@/pages/home/components/panelItem/OriginPanelItem";
+import { PassengerPanelItem } from "@/pages/home/components/panelItem/PassengerPanelItem";
 import { SelectedTravelInput } from "@/pages/home/components/TravelInfoForm";
 
 type Props = {
@@ -18,7 +19,7 @@ export function FlightConfigurationPanel({ selectedInputType, onBlur }: Props) {
         isOpen={selectedInputType === "passenger"}
         onBlur={onBlur}
       >
-        <DestinationPanelItem />
+        <PassengerPanelItem />
       </FlightPanelUI>
       <FlightPanelUI
         title="어디에서 출발하실건가요?"
