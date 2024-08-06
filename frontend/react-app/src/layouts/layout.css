@@ -5,7 +5,8 @@
   top: 0px;
   left: 0px;
   /* width: calc(-15px + 100vw); */
-  width: calc(100vw);
+  width: calc(15px + 100vw);
+  /* width: calc(100vw); */
   height: 100vh;
   background-image: url("//static.avionero.com/images/homepage/homepage-background.jpg");
   background-size: cover;

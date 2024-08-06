@@ -1,1 +1,1 @@
-export { Button } from "./core/index";
+export { Button, Form } from "./core/index";

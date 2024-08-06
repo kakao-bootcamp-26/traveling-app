@@ -9,39 +9,49 @@ export function Sidebar() {
   const { menuList, addMenuItem, selectTravelItem, selectedItem } = useGetMenuList();
 
   return (
-    <Sider
-      width={120}
+    <div
       style={{
-        zIndex: 1,
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "120px",
         height: "100vh",
-        overflowY: "scroll",
-        overflowX: "hidden",
-        msOverflowStyle: "none",
-        scrollbarWidth: "none",
+        zIndex: 1,
       }}
     >
-      <Typography.Title level={4} style={{ color: "white", marginLeft: "8px", marginTop: "4px" }}>
-        Your Trip
-      </Typography.Title>
-      <Space direction="vertical" size="middle" style={{ display: "flex", alignItems: "center" }}>
-        <Menu
-          theme="dark"
-          selectedKeys={[selectedItem.key]}
-          onClick={({ key }) => {
-            selectTravelItem(key.toString());
-          }}
-          mode="inline"
-          items={menuList}
-          style={{ width: "120px" }}
-        />
-        <Button
-          size="middle"
-          shape="circle"
-          icon={<PlusOutlined />}
-          iconPosition={"start"}
-          onClick={addMenuItem}
-        ></Button>
-      </Space>
-    </Sider>
+      <Sider
+        width={120}
+        style={{
+          height: "100vh",
+          overflowY: "scroll",
+          overflowX: "hidden",
+          msOverflowStyle: "none",
+          scrollbarWidth: "none",
+        }}
+      >
+        <Typography.Title level={4} style={{ color: "white", marginLeft: "8px", marginTop: "4px" }}>
+          Your Trip
+        </Typography.Title>
+        <Space direction="vertical" size="middle" style={{ display: "flex", alignItems: "center" }}>
+          <Menu
+            theme="dark"
+            selectedKeys={[selectedItem.key]}
+            onClick={({ key }) => {
+              selectTravelItem(key.toString());
+            }}
+            mode="inline"
+            items={menuList}
+            style={{ width: "120px" }}
+          />
+          <Button
+            size="middle"
+            shape="circle"
+            icon={<PlusOutlined />}
+            iconPosition={"start"}
+            onClick={addMenuItem}
+          ></Button>
+        </Space>
+      </Sider>
+    </div>
   );
 }

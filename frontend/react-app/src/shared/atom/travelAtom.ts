@@ -2,7 +2,7 @@ import { atom, selector } from "recoil";
 import { recoilPersist } from "recoil-persist";
 import { localStorageKey, sessionStorageKey } from "@/constants";
 import { InitTravelInfo } from "@/shared/entities";
-import { localStorageEffect, sessionStorageEffect } from "@/shared/atom/utils";
+import { localStorageEffect } from "@/shared/atom/utils";
 import { v4 as uuidv4 } from "uuid";
 
 const { persistAtom } = recoilPersist({
@@ -17,18 +17,15 @@ export const travelInfoAtom = atom<InitTravelInfo[]>({
     {
       origin: "Seoul",
       destination: "Jeju",
+      passenger: {
+        count: 0,
+        flightClass: "Economy",
+      },
       key: uuidv4(),
     },
   ],
   effects: [localStorageEffect(localStorageKey.menuList)],
   effects_UNSTABLE: [persistAtom],
-});
-
-// 선택된 키를 저장하는 Atom
-const { persistAtom: keyPersistAtom } = recoilPersist({
-  key: sessionStorageKey.selectedTravelKey,
-  storage: sessionStorage,
-  converter: JSON,
 });
 
 // 선택된 여행 정보를 관리하는 Selector

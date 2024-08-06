@@ -7,7 +7,7 @@ export default function MainLayout() {
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sidebar />
-      <Layout>
+      <Layout style={{ overflow: "hidden", paddingLeft: "120px" }}>
         <div className="bg"></div>
         <Outlet />
       </Layout>
