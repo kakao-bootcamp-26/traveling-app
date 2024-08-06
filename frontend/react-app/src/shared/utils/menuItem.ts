@@ -26,8 +26,8 @@ export const createMenuItem = (
 
 export const initializeMenuItem = (key: string) => {
   return createMenuItem({
-    origin: "Seoul",
-    destination: "Jeju",
+    origin: "ICN",
+    destination: "",
     key,
   });
 };

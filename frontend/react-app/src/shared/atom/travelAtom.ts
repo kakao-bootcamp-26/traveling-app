@@ -15,8 +15,8 @@ export const travelInfoAtom = atom<InitTravelInfo[]>({
   key: "travelInfo",
   default: [
     {
-      origin: "Seoul",
-      destination: "Jeju",
+      origin: "ICN",
+      destination: "",
       passenger: {
         count: 0,
         flightClass: "Economy",
@@ -46,12 +46,19 @@ export const selectedTravelInfoSelector = selector<InitTravelInfo>({
     return travelInfo[0];
   },
   set: ({ set, get }, newValue) => {
+    console.log("newValue", newValue);
     if ("key" in newValue) {
       const travelInfo = get(travelInfoAtom);
+      console.log("newValue", travelInfo, newValue);
       // 새로운 선택 항목이 유효한지 확인
       if (travelInfo.some((info) => info.key === newValue?.key)) {
+        console.log("newValue", travelInfo, newValue);
         sessionStorage.setItem(sessionStorageKey.selectedTravelKey, newValue?.key);
-        set(travelInfoAtom, [...travelInfo]);
+        // set(travelInfoAtom, [...travelInfo]);
+        set(
+          travelInfoAtom,
+          travelInfo.map((info) => (info.key === newValue.key ? newValue : info)),
+        );
       } else {
         console.log("제거된 항목:", newValue);
         // console.warn("유효하지 않은 선택 항목입니다:", newValue);

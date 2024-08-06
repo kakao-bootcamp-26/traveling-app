@@ -1,5 +1,5 @@
 import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { Form, Input } from "antd";
 import { FlightConfigurationPanel } from "@/pages/home/components/FlightConfigurationPanel";
 import { useEffect, useState } from "react";
@@ -8,7 +8,7 @@ import { TravelInfo } from "@/shared/entities";
 export type SelectedTravelInput = Exclude<keyof TravelInfo, "key">;
 
 export default function TravelInfoForm() {
-  const [selectedItem] = useRecoilState(selectedTravelInfoSelector);
+  const selectedItem = useRecoilValue(selectedTravelInfoSelector);
   const [selectedTravelInputType, setSelectedTravelInputType] =
     useState<SelectedTravelInput | null>(null);
 
@@ -21,12 +21,18 @@ export default function TravelInfoForm() {
   };
 
   useEffect(() => {
-    window.addEventListener("click", (e) => {
+    const closeOnOutsideClick = (e: MouseEvent) => {
       if ((e.target as HTMLElement).dataset.nonblur) {
         return;
       }
       handleInputBlur();
-    });
+    };
+    // Close the panel when clicking outside of the panel
+    window.addEventListener("click", closeOnOutsideClick);
+
+    return () => {
+      window.removeEventListener("click", closeOnOutsideClick);
+    };
   }, []);
 
   return (
