@@ -63,6 +63,9 @@ export default function TravelInfoForm() {
                 data-nonblur="true"
                 type="text"
                 placeholder="탑승 인원"
+                style={{
+                  padding: "8px 16px",
+                }}
                 value={`${passengerInformationToString(selectedItem.passenger as TravelInfo["passenger"])}`}
                 onFocus={handleInputFocus("passenger")}
               />
@@ -71,6 +74,9 @@ export default function TravelInfoForm() {
               <Input
                 data-nonblur="true"
                 type="text"
+                style={{
+                  padding: "8px 16px",
+                }}
                 placeholder="Pick Dates"
                 onFocus={handleInputFocus("schedule")}
                 value={scheduleInformationToString(selectedItem.schedule)}
@@ -81,6 +87,9 @@ export default function TravelInfoForm() {
                 data-nonblur="true"
                 type="text"
                 placeholder="출발지"
+                style={{
+                  padding: "8px 16px",
+                }}
                 value={domesticAirports[selectedItem.origin as keyof typeof domesticAirports]}
                 onFocus={handleInputFocus("origin")}
               />
@@ -90,6 +99,9 @@ export default function TravelInfoForm() {
                 data-nonblur="true"
                 type="text"
                 placeholder="목적지"
+                style={{
+                  padding: "8px 16px",
+                }}
                 value={selectedItem.destination}
                 onFocus={handleInputFocus("destination")}
               />

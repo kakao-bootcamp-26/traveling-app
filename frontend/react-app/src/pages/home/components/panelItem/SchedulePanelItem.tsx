@@ -104,7 +104,7 @@ export function SchedulePanelItem({ isOpen }: Props) {
           format={"YYYY-MM-DD HH:mm"}
           minuteStep={15}
           onChange={onChange("arrival")}
-          style={{ width: "70%" }}
+          style={{ width: "70%", padding: "8px 16px" }}
           open={arrivalOpen}
           onClick={() => setArrivalOpen(true)}
         />
@@ -120,7 +120,7 @@ export function SchedulePanelItem({ isOpen }: Props) {
           onChange={onChange("departure")}
           defaultValue={selectedTravelInfoAtom.schedule?.departure}
           value={selectedTravelInfoAtom.schedule?.departure}
-          style={{ width: "70%" }}
+          style={{ width: "70%", padding: "8px 16px" }}
           open={departureOpen}
           onClick={() => setDepartureOpen(true)}
         />
