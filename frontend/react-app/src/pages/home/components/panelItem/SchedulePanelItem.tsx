@@ -25,9 +25,13 @@ export function SchedulePanelItem({ isOpen }: Props) {
   };
 
   useEffect(() => {
-    if (!isOpen) {
+    function closeDatePicker() {
       setArrivalOpen(false);
       setDepartureOpen(false);
+    }
+    // Panel이 닫힐 때 DatePicker를 닫는다.
+    if (!isOpen) {
+      closeDatePicker();
     }
   }, [isOpen]);
 
@@ -43,11 +47,21 @@ export function SchedulePanelItem({ isOpen }: Props) {
         }
       }
 
+      if (type === "arrival" && newDate.isBefore(dayjs())) {
+        openNotificationWithIcon("현재보다 이전 시간은 선택할 수 없습니다.");
+        return;
+      }
+
       if (type === "departure" && selectedTravelInfoAtom.schedule?.arrival) {
         if (newDate.isBefore(selectedTravelInfoAtom.schedule.arrival)) {
           openNotificationWithIcon("도착일은 출발일보다 늦어야합니다.");
           return;
         }
+      }
+
+      if (type === "departure" && newDate.isBefore(dayjs())) {
+        openNotificationWithIcon("현재보다 이전 시간은 선택할 수 없습니다.");
+        return;
       }
 
       changeSelectedTravelInfo((prev) => ({
@@ -58,12 +72,18 @@ export function SchedulePanelItem({ isOpen }: Props) {
         },
       }));
       setArrivalOpen(false);
+      setDepartureOpen(false);
     };
 
   return (
     <section
       data-nonblur="true"
-      style={{ display: "flex", flexDirection: "column", rowGap: "20px" }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        rowGap: "20px",
+        height: "calc(100vh - 107px)",
+      }}
       onClick={(e) => {
         const target = e.target as HTMLElement;
         if (!target.closest(".ant-picker") && !target.closest(".ant-picker-dropdown")) {

@@ -1,20 +1,17 @@
 import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
 import { useRecoilValue } from "recoil";
-import { Form, Input } from "antd";
+import { Form, Input, Typography } from "antd";
 import { FlightConfigurationPanel } from "@/pages/home/components/FlightConfigurationPanel";
 import { useEffect, useState } from "react";
 import { TravelInfo } from "@/shared/entities";
-import { passengerInformationToString, scheduleInformationToString } from "@/pages/home/utils";
+
+import {
+  checkNonBlurTarget,
+  passengerInformationToString,
+  scheduleInformationToString,
+} from "@/pages/home/utils";
 
 export type SelectedTravelInput = Exclude<keyof TravelInfo, "key">;
-
-function checkIsNonBlurTarget(target: HTMLElement) {
-  return (
-    target.dataset.nonblur === "true" ||
-    target.closest(".ant-picker-dropdown") ||
-    target.closest(".ant-picker")
-  );
-}
 
 export default function TravelInfoForm() {
   const selectedItem = useRecoilValue(selectedTravelInfoSelector);
@@ -33,7 +30,7 @@ export default function TravelInfoForm() {
     const closeOnOutsideClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
 
-      if (checkIsNonBlurTarget(target)) {
+      if (checkNonBlurTarget(target)) {
         return;
       }
       handleInputBlur();
@@ -46,12 +43,16 @@ export default function TravelInfoForm() {
     };
   }, []);
 
-  console.log("selectedItem", selectedItem.schedule);
-
   return (
     <>
       <section style={{ width: "360px", height: "100vh", zIndex: "10" }}>
-        <div style={{ margin: "8px" }}>
+        <div style={{ margin: "14px", marginBottom: "40px" }}>
+          <Typography.Title level={2} style={{ color: "black" }}>
+            여행 정보
+          </Typography.Title>
+          <Typography.Paragraph style={{ color: "black" }}></Typography.Paragraph>
+        </div>
+        <div style={{ margin: "14px" }}>
           <Form layout={"vertical"}>
             <Form.Item style={{ marginBottom: "12px" }}>
               <Input
