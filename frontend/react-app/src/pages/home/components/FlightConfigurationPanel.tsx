@@ -27,7 +27,7 @@ export function FlightConfigurationPanel({ selectedInputType, onBlur }: Props) {
         isOpen={selectedInputType === "schedule"}
         onBlur={onBlur}
       >
-        <SchedulePanelItem />
+        <SchedulePanelItem isOpen={selectedInputType === "schedule"} />
       </FlightPanelUI>
 
       <FlightPanelUI

@@ -62,6 +62,7 @@ export function OriginPanelItem() {
                 width: "100%",
                 cursor: "pointer",
               }}
+              className="hover:text-gray-400"
             >
               <span style={{ flex: "1" }}>{airport.name}</span>
               <span>{airport.code}</span>
