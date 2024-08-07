@@ -23,6 +23,14 @@ export function FlightConfigurationPanel({ selectedInputType, onBlur }: Props) {
         <PassengerPanelItem />
       </FlightPanelUI>
       <FlightPanelUI
+        title="언제 여행을 떠나실건가요?"
+        isOpen={selectedInputType === "schedule"}
+        onBlur={onBlur}
+      >
+        <SchedulePanelItem />
+      </FlightPanelUI>
+
+      <FlightPanelUI
         title="어디에서 출발하실건가요?"
         isOpen={selectedInputType === "origin"}
         onBlur={onBlur}
@@ -35,13 +43,6 @@ export function FlightConfigurationPanel({ selectedInputType, onBlur }: Props) {
         onBlur={onBlur}
       >
         <DestinationPanelItem />
-      </FlightPanelUI>
-      <FlightPanelUI
-        title="언제 여행을 떠나실건가요?"
-        isOpen={selectedInputType === "schedule"}
-        onBlur={onBlur}
-      >
-        <SchedulePanelItem />
       </FlightPanelUI>
     </section>
   );

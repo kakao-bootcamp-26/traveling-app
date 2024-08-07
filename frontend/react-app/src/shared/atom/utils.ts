@@ -23,6 +23,8 @@
 //         : sessionStorage.setItem(key, JSON.stringify(newValue));
 //     });
 //   };
+import { InitTravelInfo } from "@/shared/entities";
+import dayjs from "dayjs";
 import { AtomEffect } from "recoil";
 
 // Type for the state value, can be adjusted based on your use case
@@ -33,7 +35,18 @@ export const localStorageEffect =
   ({ setSelf, onSet }) => {
     const savedValue = localStorage.getItem(key);
     if (savedValue !== null) {
-      setSelf(JSON.parse(savedValue));
+      const item = JSON.parse(savedValue).map((item: InitTravelInfo) => {
+        return {
+          ...item,
+          schedule: {
+            ...item.schedule,
+            arrival: dayjs(item.schedule?.arrival),
+            departure: dayjs(item.schedule?.departure),
+          },
+        };
+      });
+      console.log(item);
+      setSelf(item);
     }
     onSet((newValue, _, isReset) => {
       if (isReset) {

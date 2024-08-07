@@ -4,7 +4,7 @@ import { Form, Input } from "antd";
 import { FlightConfigurationPanel } from "@/pages/home/components/FlightConfigurationPanel";
 import { useEffect, useState } from "react";
 import { TravelInfo } from "@/shared/entities";
-import { passengerInformationToString } from "@/pages/home/utils";
+import { passengerInformationToString, scheduleInformationToString } from "@/pages/home/utils";
 
 export type SelectedTravelInput = Exclude<keyof TravelInfo, "key">;
 
@@ -46,6 +46,8 @@ export default function TravelInfoForm() {
     };
   }, []);
 
+  console.log("selectedItem", selectedItem.schedule);
+
   return (
     <>
       <section style={{ width: "360px", height: "100vh", zIndex: "10" }}>
@@ -60,7 +62,15 @@ export default function TravelInfoForm() {
                 onFocus={handleInputFocus("passenger")}
               />
             </Form.Item>
-
+            <Form.Item style={{ marginBottom: "12px" }}>
+              <Input
+                data-nonblur="true"
+                type="text"
+                placeholder="Pick Dates"
+                onFocus={handleInputFocus("schedule")}
+                value={scheduleInformationToString(selectedItem.schedule)}
+              />
+            </Form.Item>
             <Form.Item style={{ marginBottom: "12px" }}>
               <Input
                 data-nonblur="true"
@@ -77,15 +87,6 @@ export default function TravelInfoForm() {
                 placeholder="목적지"
                 value={selectedItem.destination}
                 onFocus={handleInputFocus("destination")}
-              />
-            </Form.Item>
-            <Form.Item style={{ marginBottom: "12px" }}>
-              <Input
-                data-nonblur="true"
-                type="text"
-                placeholder="날짜"
-                onFocus={handleInputFocus("schedule")}
-                value={selectedItem.schedule?.arrival?.toString()}
               />
             </Form.Item>
           </Form>
