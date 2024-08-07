@@ -130,10 +130,13 @@ export function PassengerPanelItem() {
               width: "30px",
               height: "30px",
               border: 0,
+              backgroundColor:
+                selectedTravelInfoAtom.passenger.count.adults <= 1 ? "rgba(0,0,0,0.1)" : "#5480f6",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               cursor: "pointer",
+              transition: "background-color 0.3s",
             }}
             onClick={() =>
               updatePassengerCount("adults", (cur: number) => (cur - 1 > 1 ? cur - 1 : 1))
@@ -156,6 +159,9 @@ export function PassengerPanelItem() {
               alignItems: "center",
               justifyContent: "center",
               cursor: "pointer",
+              backgroundColor:
+                selectedTravelInfoAtom.passenger.count.adults >= 8 ? "rgba(0,0,0,0.1)" : "#5480f6",
+              transition: "background-color 0.3s",
             }}
             onClick={() =>
               updatePassengerCount("adults", (cur: number) => (cur + 1 > 8 ? 8 : cur + 1))
@@ -181,6 +187,11 @@ export function PassengerPanelItem() {
               alignItems: "center",
               justifyContent: "center",
               cursor: "pointer",
+              backgroundColor:
+                selectedTravelInfoAtom.passenger.count.children <= 0
+                  ? "rgba(0,0,0,0.1)"
+                  : "#5480f6",
+              transition: "background-color 0.3s",
             }}
             onClick={() =>
               updatePassengerCount("children", (cur: number) => (cur - 1 > 0 ? cur - 1 : 0))
@@ -203,6 +214,11 @@ export function PassengerPanelItem() {
               alignItems: "center",
               justifyContent: "center",
               cursor: "pointer",
+              backgroundColor:
+                selectedTravelInfoAtom.passenger.count.children >= 8
+                  ? "rgba(0,0,0,0.1)"
+                  : "#5480f6",
+              transition: "background-color 0.3s",
             }}
             onClick={() =>
               updatePassengerCount("children", (cur: number) => (cur + 1 > 8 ? 8 : cur + 1))
@@ -228,6 +244,9 @@ export function PassengerPanelItem() {
               alignItems: "center",
               justifyContent: "center",
               cursor: "pointer",
+              backgroundColor:
+                selectedTravelInfoAtom.passenger.count.infants <= 0 ? "rgba(0,0,0,0.1)" : "#5480f6",
+              transition: "background-color 0.3s",
             }}
             onClick={() =>
               updatePassengerCount("infants", (cur: number) => (cur - 1 > 0 ? cur - 1 : 0))
@@ -250,6 +269,9 @@ export function PassengerPanelItem() {
               alignItems: "center",
               justifyContent: "center",
               cursor: "pointer",
+              backgroundColor:
+                selectedTravelInfoAtom.passenger.count.infants >= 8 ? "rgba(0,0,0,0.1)" : "#5480f6",
+              transition: "background-color 0.3s",
             }}
             onClick={() =>
               updatePassengerCount("infants", (cur: number) => (cur + 1 > 8 ? 8 : cur + 1))
