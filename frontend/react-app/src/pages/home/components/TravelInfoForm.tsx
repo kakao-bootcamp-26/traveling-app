@@ -8,6 +8,14 @@ import { passengerInformationToString } from "@/pages/home/utils";
 
 export type SelectedTravelInput = Exclude<keyof TravelInfo, "key">;
 
+function checkIsNonBlurTarget(target: HTMLElement) {
+  return (
+    target.dataset.nonblur === "true" ||
+    target.closest(".ant-picker-dropdown") ||
+    target.closest(".ant-picker")
+  );
+}
+
 export default function TravelInfoForm() {
   const selectedItem = useRecoilValue(selectedTravelInfoSelector);
   const [selectedTravelInputType, setSelectedTravelInputType] =
@@ -23,7 +31,9 @@ export default function TravelInfoForm() {
 
   useEffect(() => {
     const closeOnOutsideClick = (e: MouseEvent) => {
-      if ((e.target as HTMLElement).dataset.nonblur) {
+      const target = e.target as HTMLElement;
+
+      if (checkIsNonBlurTarget(target)) {
         return;
       }
       handleInputBlur();

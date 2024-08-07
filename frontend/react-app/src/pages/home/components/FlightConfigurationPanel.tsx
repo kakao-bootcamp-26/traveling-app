@@ -2,6 +2,7 @@ import { FlightPanelUI } from "@/pages/home/components/FlightPanelUI";
 import { DestinationPanelItem } from "@/pages/home/components/panelItem/DestinationPanelItem";
 import { OriginPanelItem } from "@/pages/home/components/panelItem/OriginPanelItem";
 import { PassengerPanelItem } from "@/pages/home/components/panelItem/PassengerPanelItem";
+import { SchedulePanelItem } from "@/pages/home/components/panelItem/SchedulePanelItem";
 import { SelectedTravelInput } from "@/pages/home/components/TravelInfoForm";
 
 type Props = {
@@ -40,7 +41,7 @@ export function FlightConfigurationPanel({ selectedInputType, onBlur }: Props) {
         isOpen={selectedInputType === "schedule"}
         onBlur={onBlur}
       >
-        d
+        <SchedulePanelItem />
       </FlightPanelUI>
     </section>
   );

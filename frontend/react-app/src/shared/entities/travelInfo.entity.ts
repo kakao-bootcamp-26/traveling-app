@@ -1,10 +1,14 @@
+import { Dayjs } from "dayjs";
+
 // 비행기 클래스 정보 타입 정의
 export type FlightClass = "Economy" | "Business" | "First";
 
 // 여행 일정을 나타내는 타입 정의
 export interface TravelSchedule {
-  departure: Date; // 출발 일시
-  arrival: Date; // 도착 일시
+  // departure: Date; // 출발 일시
+  // arrival: Date; // 도착 일시
+  departure: Dayjs; // 출발 일시
+  arrival: Dayjs; // 도착 일시
 }
 
 export interface PassengerCount {

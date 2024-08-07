@@ -75,7 +75,7 @@ input,
 button,
 textarea,
 select {
-  font: inherit;
+  /* font: inherit; */
 }
 
 /* 행 속성이 없는 textarea가 너무 작지 않도록 합니다. */
@@ -174,7 +174,7 @@ video {
   padding: 0;
   border: 0;
   font-size: 100%;
-  font: inherit;
+  /* font: inherit; */
   vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */

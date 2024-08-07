@@ -1,7 +1,6 @@
 import { useRecoilState } from "recoil";
 import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
 import type { FlightClass, PassengerCount } from "@/shared/entities";
-import { Radio } from "antd";
 
 export function PassengerPanelItem() {
   const [selectedTravelInfoAtom, changeSelectedTravelInfo] = useRecoilState(
