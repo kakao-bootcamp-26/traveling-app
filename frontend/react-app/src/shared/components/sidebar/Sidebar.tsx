@@ -41,7 +41,7 @@ export function Sidebar() {
             }}
             mode="inline"
             items={menuList}
-            style={{ width: "120px" }}
+            style={{ width: "120px", whiteSpace: "pre" }}
           />
           <Button
             size="middle"
