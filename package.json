@@ -6,7 +6,7 @@
     "gitleaks": "gitleaks detect -v",
     "dev:front": "yarn workspace @blog/frontend run dev",
     "build:components": "yarn workspace @blog/components run build",
-    "dev:back": "yarn workspace @blog/backend run dev",
+    "dev:back": "yarn workspace @blog/backend run start:dev",
     "prepare": "lefthook install",
     "format": "prettier --ignore-path .prettierignore --write \"**/*.+(js|ts|json|tsx|mdx)\" --log-level silent",
     "lint": "eslint ./**/**/**/src/**/*.{ts,tsx,js,jsx}",
