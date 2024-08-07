@@ -52,3 +52,8 @@ body,
 body {
   overflow: hidden;
 }
+
+.open .main_section {
+  transition: background-color 0.5s;
+  background-color: rgba(0, 0, 0, 0.5);
+}

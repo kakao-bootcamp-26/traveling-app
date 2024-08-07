@@ -21,7 +21,7 @@ export default function HomePage() {
       </Helmet>
       <main style={{ display: "flex", position: "absolute", width: "100%", overflow: "hidden" }}>
         <TravelInfoForm />
-        <section style={{ height: "100vh", flex: "1 1 0" }}></section>
+        <section className="main_section" style={{ height: "100vh", flex: "1 1 0" }}></section>
       </main>
     </>
   );

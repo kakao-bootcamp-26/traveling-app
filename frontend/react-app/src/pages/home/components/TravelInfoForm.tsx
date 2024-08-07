@@ -50,7 +50,10 @@ export default function TravelInfoForm() {
           <Typography.Title level={2} style={{ color: "black" }}>
             여행 정보
           </Typography.Title>
-          <Typography.Paragraph style={{ color: "black" }}></Typography.Paragraph>
+          <Typography.Paragraph style={{ color: "black" }}>
+            여행 계획을 입력해주세요. <br />
+            여행 정보를 입력하면 여행 경로를 추천해드립니다.
+          </Typography.Paragraph>
         </div>
         <div style={{ margin: "14px" }}>
           <Form layout={"vertical"}>
