@@ -1,27 +1,6 @@
+import { Label } from "@/shared/components/sidebar";
 import { MenuItem, TravelSchedule } from "@/shared/entities";
 import { TravelInfo } from "@/shared/entities";
-
-const Label = ({ location, schedule }: { location: string; schedule?: TravelSchedule }) => {
-  return (
-    <div
-      style={{
-        // minHeight: "120px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-      }}
-    >
-      <span>{location}</span>
-      {schedule ? (
-        <span>
-          {schedule.departure.toLocaleDateString()} - {schedule.arrival.toLocaleDateString()}
-        </span>
-      ) : (
-        <span>Anytime</span>
-      )}
-    </div>
-  );
-};
 
 const defaultStyle = {
   fontSize: "14px",
@@ -34,7 +13,9 @@ const defaultStyle = {
 
 export const createMenuItem = (
   // travelInfo: Pick<TravelInfo, "origin" | "destination" | "schedule">,
-  travelInfo: Pick<TravelInfo, "origin" | "destination" | "key"> & Partial<TravelInfo>,
+  travelInfo: Pick<TravelInfo, "origin" | "destination" | "key"> & {
+    schedule?: Partial<TravelSchedule>;
+  },
   icon?: React.ReactNode,
   children?: MenuItem[],
 ): MenuItem => {
