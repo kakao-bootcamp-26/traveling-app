@@ -1,12 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body::before {
   position: fixed;
   content: "";
   display: block;
+  width: 100%;
   inset: 0px;
   background-image: url("//static.avionero.com/images/homepage/homepage-background.jpg");
   /* background-image: url("https://static.avionero.com/images/homepage/homepage-background.jpg"); */
   background-size: cover;
   background-attachment: fixed;
   opacity: 0.5;
+
   /* z-index: -1; */
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-display: swap;
+
+  font-weight: normal;
+  font-style: normal;
+  src: url("./assets/fonts/Pretendard-R.ttf") format("truetype");
+  /* src: url("./assets/fonts/Pretendard-Bold.ttf") format("truetype"); */
+}
+
+@font-face {
+  font-family: "Pretendard-Regular";
+  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
+    format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "MangoDdobak-B";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2405-3@1.1/MangoDdobak-B.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+body,
+#root,
+* {
+  font-family: "MangoDdobak-B", "sans-serif" !important;
+  /* Pretendard를 우선 사용하고, 대체 폰트로 sans-serif 사용 */
+}
+
+body {
+  overflow: hidden;
+}
+
+.open .main_section {
+  transition: background-color 0.5s;
+  background-color: rgba(0, 0, 0, 0.5);
 }

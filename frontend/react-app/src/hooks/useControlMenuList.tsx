@@ -22,7 +22,12 @@ export function useGetMenuList() {
 
   const menuList = travelInfo.map((info) =>
     createMenuItem(
-      { origin: info.origin, destination: info.destination, key: info.key },
+      {
+        origin: info.origin,
+        destination: info.destination,
+        key: info.key,
+        schedule: info?.schedule,
+      },
       <span
         style={{
           position: "absolute",
