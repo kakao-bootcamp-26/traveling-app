@@ -5,6 +5,7 @@
   "scripts": {
     "gitleaks": "gitleaks detect -v",
     "dev:front": "yarn workspace @blog/frontend run dev",
+    "test:front": "yarn workspace @blog/frontend run test",
     "build:components": "yarn workspace @blog/components run build",
     "dev:back": "yarn workspace @blog/backend run start:dev",
     "prepare": "lefthook install",

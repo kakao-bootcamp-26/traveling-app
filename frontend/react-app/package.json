@@ -1,5 +1,6 @@
 {
   "name": "@blog/frontend",
+  "packageManager": "yarn@4.3.1",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,7 +11,8 @@
     "mocks": "npx tsx watch ./src/app/msw/libs/server.ts",
     "lint": "npx eslint --fix",
     "format": "yarn prettier --write \"./**/*.{js,jsx,ts,tsx,json,md,css}\"",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "test": "vitest"
   },
   "dependencies": {
     "@ant-design/icons": "^5.4.0",
@@ -31,6 +33,9 @@
   "devDependencies": {
     "@prerenderer/renderer-puppeteer": "^1.2.4",
     "@prerenderer/rollup-plugin": "^0.3.12",
+    "@testing-library/jest-dom": "^6.4.8",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.5.2",
     "@types/node": "^22.0.3",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
@@ -42,13 +47,18 @@
     "eslint": "9.8.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
+    "jsdom": "^24.1.1",
     "postcss": "^8.4.41",
     "puppeteer": "^22.15.0",
     "tailwindcss": "^3.4.7",
     "typescript": "^5.2.2",
-    "vite": "^5.3.4"
+    "vite": "^5.3.4",
+    "vitest": "^2.0.5"
   },
   "engines": {
     "node": "18.x"
+  },
+  "resolutions": {
+    "vitest": "^2.0.5"
   }
 }

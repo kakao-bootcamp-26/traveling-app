@@ -40,6 +40,16 @@ export default defineConfig(({ mode }) => {
         },
       }),
     ],
+    test: {
+      environment: "jsdom",
+      globals: true,
+      setupFiles: ["./src/tests/setup.ts"],
+    },
+    base: "/",
+    build: {
+      outDir: "dist",
+      assetsDir: "assets",
+    },
     resolve: {
       alias: [{ find: "@", replacement: "/src" }],
     },

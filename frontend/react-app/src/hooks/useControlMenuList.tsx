@@ -3,7 +3,7 @@ import { createMenuItem } from "@/shared/utils";
 import { v4 as uuidv4 } from "uuid";
 import { selectedTravelInfoSelector, travelInfoAtom } from "@/shared/atom/travelAtom";
 import { DeleteOutlined } from "@ant-design/icons";
-import { createNewTravelItem } from "@/shared/utils/travelInfo";
+import { createNewTravelItem } from "@/shared/utils";
 
 export function useGetMenuList() {
   const [travelInfo, setTravelInfo] = useRecoilState(travelInfoAtom);

@@ -1,1 +1,2 @@
-export * from "./menuItem";
+export * from "./menuItem/index";
+export * from "./travelInfo/index";
