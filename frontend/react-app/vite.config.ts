@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react";
 import prerender from "@prerenderer/rollup-plugin";
 import puppeteerRenderer from "@prerenderer/renderer-puppeteer";
 import puppeteer from "puppeteer";
+import svgr from "vite-plugin-svgr";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -37,6 +38,12 @@ export default defineConfig(({ mode }) => {
           renderedRoute.html = renderedRoute.html
             .replace(/http:/i, "https:")
             .replace(/(https:\/\/)?(localhost|127\.0\.0\.1):\d*/i, env.VITE_BASE_URL || "");
+        },
+      }),
+      svgr({
+        // exportAsDefault: true,
+        svgrOptions: {
+          icon: true,
         },
       }),
     ],

@@ -1,9 +1,14 @@
 import { Outlet } from "react-router-dom";
 import { Layout } from "antd";
 import { Sidebar } from "@/shared/components/sidebar/index";
-import "./layout.css";
+import "./mainLayout.css";
+import { useEffect } from "react";
 
 export default function MainLayout() {
+  useEffect(() => {
+    document.body.classList.add("after-auth");
+  }, []);
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sidebar />

@@ -35,7 +35,8 @@
     "tests",
     "**/*.test.ts",
     "**/*.test.tsx",
-    "vite.config.ts"
+    "vite.config.ts",
+    "./types/custom.d.ts"
   ],
   "exclude": ["node_modules"]
 }
