@@ -1,13 +1,10 @@
 import { GoogleCircleFilled } from "@ant-design/icons";
 import { Button } from "@blog/components";
 import { Typography } from "antd";
-import React from "react";
+import { useLoginHandler } from "@/pages/login/hooks/useLoginHandler";
 
 export function LoginCard() {
-  const loginHandler = () => {
-    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?&response_type=code
-		&scope=email profile`;
-  };
+  const { loginHandler } = useLoginHandler();
 
   return (
     <main className="absolute top-[50%] -translate-y-[50%] min-h-[50vh] left-[50%] -translate-x-[50%] w-[70%] bg-white shadow-lg rounded-lg hover:shadow-2xl py-6 px-4 flex flex-col justify-center">
