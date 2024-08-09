@@ -45,7 +45,7 @@ export const localStorageEffect =
           },
         };
       });
-      console.log(item);
+      // console.log(item);
       setSelf(item);
     }
     onSet((newValue, _, isReset) => {
