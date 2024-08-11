@@ -1,12 +1,12 @@
+import { Logo } from "@/pages/login/components/Logo";
 import { LoginCard } from "@/pages/login/components/LoginCard";
 import { Typography } from "antd";
-import Icon from "@/assets/images/main-icon.png";
 
 export default function LoginPage() {
   return (
     <section className="h-[100vh] overflow-hidden flex bg-mint">
-      <article className="w-[50vw] h-[100%]">
-        <div className="flex flex-col justify-start w-[70%] relative top-[50%] -translate-y-[50%] -translate-x-[50%] left-[50%]">
+      <article className="w-[50vw] h-[100%] flex flex-col justify-center items-center">
+        <div className="flex flex-col justify-start w-[70%]">
           <Typography.Title
             level={1}
             className="text-center"
@@ -25,10 +25,7 @@ export default function LoginPage() {
           >
             Go And Travel
           </Typography.Title>
-          {/* style={{
-            filter: 'drop-shadow(5px 5px 5px #000)'
-          }} */}
-          <img src={Icon} alt="icon" className="w-[100%] drop-shadow-md hover:drop-shadow-2xl" />
+          <Logo />
         </div>
       </article>
       <article className="relative w-[50vw]">
