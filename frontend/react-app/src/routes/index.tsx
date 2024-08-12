@@ -1,8 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout/index";
-import HomePage from "@/pages/home/page";
 import { AuthLayout } from "@/layouts/AuthLayout";
 import LoginPage from "@/pages/login/page";
+import { lazy, Suspense } from "react";
+
+const HomePage = lazy(async () => await import("@/pages/home/page"));
 
 export const router = createBrowserRouter([
   {
@@ -25,7 +27,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/main",
-        element: <HomePage />,
+        element: (
+          <Suspense fallback={<>로딩</>}>
+            <HomePage />
+          </Suspense>
+        ),
       },
       {
         path: "/about",

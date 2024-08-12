@@ -67,7 +67,6 @@ export const Airplane = ({ stopAnimation, isAnimationActive }: Props) => {
     }
   });
 
-  // FIX: 애니메이션 한번만 되는 이유를 찾자!
   return (
     <>
       <group ref={modelGroup} position={[80, -32, -60]} rotation={[-Math.PI / 10, -Math.PI, 0]} />
@@ -88,13 +87,13 @@ function setupAnimation(
 
   if (airplane && line) {
     // console.log(modelGroup.position);
-    if (modelGroup.position.z < -250) {
+    if (modelGroup.position.z < -400) {
       console.log("stop");
       stopAnimation();
       setTimeout(() => {
         modelGroup.position.set(80, -32, -60);
       }, 500);
     }
-    modelGroup.translateZ(2);
+    modelGroup.translateZ(3.5);
   }
 }

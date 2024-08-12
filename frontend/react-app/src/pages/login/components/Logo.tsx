@@ -22,9 +22,7 @@ export function Logo() {
         className="w-[100%] drop-shadow-md hover:drop-shadow-2xl cursor-pointer"
         onClick={showAnimation}
       />
-      {/* <canvas
-        className={`w-[100vw] h-[100vh] absolute top-0 left-0 ${showCanvas ? "visible" : "hidden"} border-2 border-black z-[100000000000000]`}
-      /> */}
+
       <Canvas
         style={{
           position: "absolute",

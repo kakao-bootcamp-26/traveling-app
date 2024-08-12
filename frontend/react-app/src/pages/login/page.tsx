@@ -4,8 +4,8 @@ import { Typography } from "antd";
 
 export default function LoginPage() {
   return (
-    <section className="h-[100vh] overflow-hidden flex bg-mint">
-      <article className="w-[50vw] h-[100%] flex flex-col justify-center items-center">
+    <section className="h-[100vh] bg-mint flex overflow-x-scroll">
+      <article className="w-[50vw] h-[100%] flex flex-col justify-center items-center min-w-[500px]">
         <div className="flex flex-col justify-start w-[70%]">
           <Typography.Title
             level={1}
@@ -28,7 +28,7 @@ export default function LoginPage() {
           <Logo />
         </div>
       </article>
-      <article className="relative w-[50vw]">
+      <article className="relative w-[50vw] min-w-[500px]">
         <LoginCard />
       </article>
     </section>
