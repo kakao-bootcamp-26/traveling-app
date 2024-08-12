@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    // "rootDir": ".",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -18,7 +19,16 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@blog/common": ["../../libs/common/src"]
+      "@blog/common": ["../../libs/common/src"],
+      "@/*": ["src/*"]
     }
-  }
+  },
+  "include": [
+    ".eslint.config.js",
+    "src/**/*.ts",
+    "apps/**/*.ts",
+    "libs/**/*.ts",
+    "test/**/*.ts",
+    "e2e/**/*.ts"
+  ]
 }

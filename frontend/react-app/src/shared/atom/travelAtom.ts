@@ -50,20 +50,22 @@ export const selectedTravelInfoSelector = selector<InitTravelInfo>({
     return travelInfo[0];
   },
   set: ({ set, get }, newValue) => {
-    if ("key" in newValue) {
-      const travelInfo = get(travelInfoAtom);
-      // 새로운 선택 항목이 유효한지 확인
-      if (travelInfo.some((info) => info.key === newValue?.key)) {
-        // console.log("newValue", travelInfo, newValue);
-        sessionStorage.setItem(sessionStorageKey.selectedTravelKey, newValue?.key);
-        // set(travelInfoAtom, [...travelInfo]);
-        set(
-          travelInfoAtom,
-          travelInfo.map((info) => (info.key === newValue.key ? newValue : info)),
-        );
-      } else {
-        console.log("제거된 항목:", newValue);
-        // console.warn("유효하지 않은 선택 항목입니다:", newValue);
+    if (newValue) {
+      if ("key" in newValue) {
+        const travelInfo = get(travelInfoAtom);
+        // 새로운 선택 항목이 유효한지 확인
+        if (travelInfo.some((info) => info.key === newValue?.key)) {
+          // console.log("newValue", travelInfo, newValue);
+          sessionStorage.setItem(sessionStorageKey.selectedTravelKey, newValue?.key);
+          // set(travelInfoAtom, [...travelInfo]);
+          set(
+            travelInfoAtom,
+            travelInfo.map((info) => (info.key === newValue.key ? newValue : info)),
+          );
+        } else {
+          console.log("제거된 항목:", newValue);
+          // console.warn("유효하지 않은 선택 항목입니다:", newValue);
+        }
       }
     }
   },

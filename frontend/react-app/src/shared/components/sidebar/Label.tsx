@@ -7,7 +7,7 @@ export const Label = ({
   location: string;
   schedule?: Partial<TravelSchedule>;
 }) => {
-  console.log("schedule", schedule);
+  // console.log("schedule", schedule);
   return (
     <div
       style={{

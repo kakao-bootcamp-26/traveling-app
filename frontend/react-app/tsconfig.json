@@ -2,10 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
-    "types": [
-      "node"
-      // "vitest/globals"
-    ],
+    "types": ["node", "vitest/globals"],
     "baseUrl": "./",
     "allowJs": true,
     "skipLibCheck": true,
@@ -31,6 +28,15 @@
       "@blog/components": ["../components/src"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", "./src", "tests"],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "./src",
+    "tests",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "vite.config.ts",
+    "./types/custom.d.ts"
+  ],
   "exclude": ["node_modules"]
 }

@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-body::before {
+.after-auth::before {
   position: fixed;
   content: "";
   display: block;
@@ -20,7 +20,6 @@ body::before {
 @font-face {
   font-family: "Pretendard";
   font-display: swap;
-
   font-weight: normal;
   font-style: normal;
   src: url("./assets/fonts/Pretendard-R.ttf") format("truetype");
@@ -42,10 +41,12 @@ body::before {
   font-weight: 700;
   font-style: normal;
 }
+
 body,
 #root,
 * {
-  font-family: "MangoDdobak-B", "sans-serif" !important;
+  /* font-family: "MangoDdobak-B", "sans-serif"; */
+  font-family: "MangoDdobak-B", "sans-serif";
   /* Pretendard를 우선 사용하고, 대체 폰트로 sans-serif 사용 */
 }
 
