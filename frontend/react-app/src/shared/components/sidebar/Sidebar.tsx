@@ -1,6 +1,6 @@
-import { Layout, Menu, Space, Typography } from "antd";
+import { Button, Layout, Menu, Space, Typography } from "antd";
 import { useGetMenuList } from "@/hooks/useControlMenuList";
-import { Button } from "@blog/components";
+// import { Button } from "@blog/components";
 import { PlusOutlined } from "@ant-design/icons";
 
 const { Sider } = Layout;

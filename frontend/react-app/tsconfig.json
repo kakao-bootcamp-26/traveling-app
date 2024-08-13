@@ -23,9 +23,9 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": ["./src/*"]
       // "@blog/common": ["../../libs/common/src"],
-      "@blog/components": ["../components/src"]
+      // "@blog/components": ["../components/src"]
     }
   },
   "include": [

@@ -48,7 +48,7 @@ export function DestinationPanelItem() {
         className="flex flex-col justify-between"
       >
         <div></div>
-        <button data-nonblur="true" className="font-semibold text-xl" onClick={submitMyTravelInfo}>
+        <button data-nonblur="true" className="text-xl font-semibold" onClick={submitMyTravelInfo}>
           Done
         </button>
       </div>
