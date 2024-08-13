@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-// import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+// import { AuthModule } from './auth/auth.module';
+// import { UsersModule } from './users/users.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -17,18 +19,24 @@ import { AppService } from './app.service';
           : '.env.development',
       ],
     }),
-    // TypeOrmModule.forRootAsync({
-    //   inject: [ConfigService],
-    //   useFactory: async (configService: ConfigService) =>
-    //     await typeOrmConfig(configService),
-    // }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        host: configService.get('DB_HOST'),
+        port: +configService.get<number>('DB_PORT'),
+        username: configService.get('DB_USERNAME'),
+        password: configService.get('DB_PASSWORD'),
+        database: configService.get('DB_DATABASE'),
+        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        synchronize: true, // 프로덕션 환경에서는 false로 설정
+      }),
+      inject: [ConfigService],
+    }),
+    // AuthModule,
+    // UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
-// function typeOrmConfig(
-//   configService: ConfigService<Record<string, unknown>, false>,
-// ): any {
-//   throw new Error('Function not implemented.');
-// }
