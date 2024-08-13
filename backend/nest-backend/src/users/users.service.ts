@@ -10,7 +10,7 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) {}
 
-  async findorCreate(
+  async findOrCreateUser(
     email: string,
     googleId: string,
     name: string,
