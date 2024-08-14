@@ -1,0 +1,36 @@
+# 1단계: Build environment
+FROM node:18 AS build
+
+# 작업 디렉토리를 설정합니다.
+WORKDIR /app
+
+# 프로젝트 파일을 복사합니다.
+COPY ../../tsconfig.base.json ./
+COPY . .
+
+# Yarn Berry를 사용할 수 있도록 corepack을 활성화합니다.
+RUN corepack enable
+
+# 프론트엔드 디렉토리로 이동합니다.
+WORKDIR /app/frontend/react-app
+
+# 의존성 설치
+RUN yarn install
+
+# 프로젝트 빌드 (상세 로그 포함)
+RUN yarn build --verbose
+
+# 2단계: Production environment
+FROM node:18
+
+# 작업 디렉토리를 설정합니다.
+WORKDIR /app
+
+# 빌드된 파일을 복사합니다.
+COPY --from=build /app/frontend/react-app .
+
+# 애플리케이션이 사용하는 포트를 노출합니다.
+EXPOSE 3000
+
+# 애플리케이션을 시작합니다.
+CMD ["yarn", "start"]
