@@ -1,3 +1,7 @@
+export type Keyword = {
+  keyword: string;
+  icon: string;
+};
 export const keywords = [
   { keyword: "낭만적", icon: "💖" },
   { keyword: "예술", icon: "🎨" },
