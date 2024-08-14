@@ -27,7 +27,7 @@ describe("createMenuItem 함수는", () => {
         style: typeof defaultStyle;
         children?: unknown;
         icon?: unknown;
-        label: unknown;
+        label: React.ReactNode;
       };
 
       expect(result.key).toBe(travelInfo.key);
