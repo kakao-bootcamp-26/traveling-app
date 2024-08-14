@@ -619,8 +619,6 @@ __metadata:
   resolution: "@blog/frontend@workspace:frontend/react-app"
   dependencies:
     "@ant-design/icons": "npm:^5.4.0"
-    "@blog/common": "workspace:packages/common"
-    "@blog/components": "workspace:frontend/components"
     "@eslint/compat": "npm:^1.1.1"
     "@eslint/eslintrc": "npm:^3.1.0"
     "@eslint/js": "npm:^9.8.0"
