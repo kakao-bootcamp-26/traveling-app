@@ -48,9 +48,9 @@ export default function ResultPage({ moveToInitialPage }: Props) {
   return (
     <>
       {contextHolder}
-      <div>
-        최종 결과
-        <div>
+      <div data-nonblur="true" className="flex flex-col items-center">
+        <div data-nonblur="true">최종 결과</div>
+        <div data-nonblur="true" className="flex justify-center">
           <button
             data-nonblur="true"
             onClick={moveToInitialPage}
@@ -60,7 +60,7 @@ export default function ResultPage({ moveToInitialPage }: Props) {
           </button>
           <button
             data-nonblur="true"
-            className="text-xl font-semibold"
+            className="w-[120px] py-2 border-2 rounded-lg mr-10"
             onClick={submitMyTravelInfo}
           >
             Done

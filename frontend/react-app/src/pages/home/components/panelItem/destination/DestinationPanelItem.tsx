@@ -4,10 +4,14 @@ import HumanSelectPage from "@/pages/home/components/panelItem/destination/human
 import QuestionPage from "@/pages/home/components/panelItem/destination/question/QuestionPage";
 import ResultPage from "@/pages/home/components/panelItem/destination/result/ResultPage";
 import { RecommendationByKeyword } from "@/pages/home/components/panelItem/destination/keywordItem/RecommendationByKeywordPage";
+import { useRecoilValue } from "recoil";
+import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
+import { useEffect } from "react";
 
 type FunnelSteps = "Question" | "AIRecommendation" | "HumanSelect" | "Result";
 
 export function DestinationPanelItem() {
+  const selectedTravelInfo = useRecoilValue(selectedTravelInfoSelector);
   const { Funnel, setStep } = useFunnel<FunnelSteps>("Question");
 
   const moveToAIRecommendationPage = () => {
@@ -25,6 +29,13 @@ export function DestinationPanelItem() {
   const moveToResultPage = () => {
     setStep("Result");
   };
+
+  // Reset step when travel info is changed
+  useEffect(() => {
+    if (selectedTravelInfo) {
+      setStep("Question");
+    }
+  }, [selectedTravelInfo]);
 
   return (
     <>

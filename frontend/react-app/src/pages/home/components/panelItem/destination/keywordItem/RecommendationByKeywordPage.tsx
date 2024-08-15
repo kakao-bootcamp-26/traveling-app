@@ -28,16 +28,36 @@ export function RecommendationByKeyword({ moveToInitialPage, moveToResultPage }:
     });
   };
 
+  const openMoreThanOneNotification = (message: string) => {
+    api["info"]({
+      message: "키워드를 선택해주세요.",
+      description: message,
+    });
+  };
+
   useEffect(() => {
     // Reset selected keywords when travel info is changed
     setSelectedKeywords([]);
   }, [selectedTravelInfo]);
 
+  const moveToNextStep = () => {
+    // TODO: 키워드가 1개 이상이어야 함
+    if (selectedKeywords.length === 0) {
+      openMoreThanOneNotification("키워드를 1개 이상 선택해주세요.");
+      return;
+    } else {
+      moveToResultPage();
+    }
+  };
+
   return (
     <>
       {contextHolder}
-      <article>
-        <h5 className="mb-4 text-[20px]">키워드를 선택해주세요</h5>
+      <article className="flex flex-col items-center">
+        <div className="flex flex-col items-center mt-4 mb-6">
+          <h5 className="text-[20px] mb-2">키워드를 선택해주세요</h5>
+          <p className="text-md">키워드는 최대 3개까지 선택 가능합니다</p>
+        </div>
         <div
           className="grid grid-cols-3 gap-x-4 gap-y-2 h-[25vh] overflow-scroll"
           data-nonblur="true"
@@ -61,9 +81,10 @@ export function RecommendationByKeyword({ moveToInitialPage, moveToResultPage }:
           >
             이전
           </button>
+
           <button
             data-nonblur="true"
-            onClick={moveToResultPage}
+            onClick={moveToNextStep}
             className="w-[120px] py-2 border-2 rounded-lg"
           >
             다음
