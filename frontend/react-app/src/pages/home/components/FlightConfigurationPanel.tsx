@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { FlightPanelUI } from "@/pages/home/components/FlightPanelUI";
-import { DestinationPanelItem } from "@/pages/home/components/panelItem/DestinationPanelItem";
-import { OriginPanelItem } from "@/pages/home/components/panelItem/OriginPanelItem";
-import { PassengerPanelItem } from "@/pages/home/components/panelItem/PassengerPanelItem";
+import { DestinationPanelItem } from "@/pages/home/components/panelItem/destination/DestinationPanelItem";
+import { OriginPanelItem } from "@/pages/home/components/panelItem/original/OriginPanelItem";
+import { PassengerPanelItem } from "@/pages/home/components/panelItem/passenger/PassengerPanelItem";
 import { SelectedTravelInput } from "@/pages/home/components/TravelInfoForm";
-import { SchedulePanelItem } from "@/pages/home/components/panelItem/SchedulePanelItem";
+import { SchedulePanelItem } from "@/pages/home/components/panelItem/schedule/SchedulePanelItem";
 
 type Props = {
   selectedInputType: SelectedTravelInput | null;

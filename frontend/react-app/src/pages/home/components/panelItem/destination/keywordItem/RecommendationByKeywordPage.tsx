@@ -1,4 +1,4 @@
-import KeywordItem from "@/pages/home/components/panelItem/destinationPanel/keywordItem/KeywordItem";
+import KeywordItem from "@/pages/home/components/panelItem/destination/keywordItem/KeywordItem";
 import { keywords } from "@/pages/home/constants/keywords";
 import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
 import { notification } from "antd";

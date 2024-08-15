@@ -1,9 +1,9 @@
 import { useFunnel } from "@/shared/hooks/useFunnel";
-import HumanSelectPage from "@/pages/home/components/panelItem/destinationPanel/humanSelect/HumanSelectPage";
+import HumanSelectPage from "@/pages/home/components/panelItem/destination/humanSelect/HumanSelectPage";
 
-import QuestionPage from "@/pages/home/components/panelItem/destinationPanel/question/QuestionPage";
-import ResultPage from "@/pages/home/components/panelItem/destinationPanel/result/ResultPage";
-import { RecommendationByKeyword } from "@/pages/home/components/panelItem/destinationPanel/keywordItem/RecommendationByKeywordPage";
+import QuestionPage from "@/pages/home/components/panelItem/destination/question/QuestionPage";
+import ResultPage from "@/pages/home/components/panelItem/destination/result/ResultPage";
+import { RecommendationByKeyword } from "@/pages/home/components/panelItem/destination/keywordItem/RecommendationByKeywordPage";
 
 type FunnelSteps = "Question" | "AIRecommendation" | "HumanSelect" | "Result";
 
