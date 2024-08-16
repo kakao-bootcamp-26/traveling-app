@@ -15,9 +15,15 @@ pre-commit:
       #   yarn prettier --write $(echo {staged_files} | sed -e 's/js\///g')
       #   git add $(echo {staged_files} | sed -e 's/js\///g')
       glob: "*.{js,ts,tsx,json}"
+      # run: |
+      #   echo "Running Prettier"
+      #   echo {staged_files} | tr ' ' '\n' | grep -E "\.(js|ts|tsx|json)$" | xargs -I {} sh -c 'yarn prettier --write "{}" && git add "{}"'
       run: |
         echo "Running Prettier"
-        echo {staged_files} | tr ' ' '\n' | grep -E "\.(js|ts|tsx|json)$" | xargs -I {} sh -c 'yarn prettier --write "{}" && git add "{}"'
+        for file in $(echo {staged_files} | tr ' ' '\n' | grep -E "\.(js|ts|tsx|json)$"); do
+          yarn prettier --write "$file" && git add "$file"
+        done
+
     frontend-lint:
       root: "frontend/react-app"
       glob: "**/*.{js,ts,jsx,tsx,json}"

@@ -1,44 +1,33 @@
-import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
-import { notification } from "antd";
-import React from "react";
-import { useRecoilState } from "recoil";
+import { useFunnel } from "@/shared/hooks/useFunnel";
+import HumanSelectPage from "@/pages/home/components/panelItem/destinationPanel/humanSelect/HumanSelectPage";
+
+import QuestionPage from "@/pages/home/components/panelItem/destinationPanel/question/QuestionPage";
+import ResultPage from "@/pages/home/components/panelItem/destinationPanel/result/ResultPage";
+import { RecommendationByKeyword } from "@/pages/home/components/panelItem/destinationPanel/keywordItem/RecommendationByKeywordPage";
+
+type FunnelSteps = "Question" | "AIRecommendation" | "HumanSelect" | "Result";
 
 export function DestinationPanelItem() {
-  const [selectedTravelInfo, updateSelectedTravelInfo] = useRecoilState(selectedTravelInfoSelector);
-  const [api, contextHolder] = notification.useNotification();
-  const openNotificationWithIcon = (message: string) => {
-    api["error"]({
-      message: "입력 오류",
-      description: message,
-    });
+  const { Funnel, setStep } = useFunnel<FunnelSteps>("Question");
+
+  const moveToAIRecommendationPage = () => {
+    setStep("AIRecommendation");
   };
 
-  const submitMyTravelInfo = () => {
-    if (!selectedTravelInfo.origin) {
-      openNotificationWithIcon("출발지를 선택해주세요.");
-      return;
-    }
+  const moveToHumanSelectPage = () => {
+    setStep("HumanSelect");
+  };
 
-    if (!selectedTravelInfo.schedule?.arrival) {
-      openNotificationWithIcon("도착일을 선택해주세요.");
-      return;
-    }
+  const moveToInitialPage = () => {
+    setStep("Question");
+  };
 
-    if (!selectedTravelInfo.schedule?.departure) {
-      openNotificationWithIcon("출발일을 선택해주세요.");
-      return;
-    }
-    if (!selectedTravelInfo.destination) {
-      openNotificationWithIcon("도착지를 선택해주세요.");
-      return;
-    }
-
-    // 여기에 API 호출 로직을 작성해주세요.
+  const moveToResultPage = () => {
+    setStep("Result");
   };
 
   return (
     <>
-      {contextHolder}
       <div
         data-nonblur="true"
         style={{
@@ -47,10 +36,24 @@ export function DestinationPanelItem() {
         }}
         className="flex flex-col justify-between"
       >
-        <div></div>
-        <button data-nonblur="true" className="text-xl font-semibold" onClick={submitMyTravelInfo}>
-          Done
-        </button>
+        <Funnel>
+          <QuestionPage
+            name="Question"
+            moveToAIRecommendationPage={moveToAIRecommendationPage}
+            moveToHumanSelectPage={moveToHumanSelectPage}
+          />
+          <RecommendationByKeyword
+            name="AIRecommendation"
+            moveToInitialPage={moveToInitialPage}
+            moveToResultPage={moveToResultPage}
+          />
+          <HumanSelectPage
+            name="HumanSelect"
+            moveToInitialPage={moveToInitialPage}
+            moveToResultPage={moveToResultPage}
+          />
+          <ResultPage name="Result" moveToInitialPage={moveToInitialPage} />
+        </Funnel>
       </div>
     </>
   );
