@@ -1,39 +1,30 @@
-import { useFunnel } from "@/shared/hooks/useFunnel";
 import HumanSelectPage from "@/pages/home/components/panelItem/destination/humanSelect/HumanSelectPage";
 
-import QuestionPage from "@/pages/home/components/panelItem/destination/question/QuestionPage";
+import InitPage from "@/pages/home/components/panelItem/destination/init/InitPage";
 import ResultPage from "@/pages/home/components/panelItem/destination/result/ResultPage";
 import { RecommendationByKeyword } from "@/pages/home/components/panelItem/destination/keywordItem/RecommendationByKeywordPage";
 import { useRecoilValue } from "recoil";
 import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
 import { useEffect } from "react";
-
-type FunnelSteps = "Question" | "AIRecommendation" | "HumanSelect" | "Result";
+import useDestinationPanelFunnel from "@/pages/home/hooks/destination/useDestinationPanelFunnel";
 
 export function DestinationPanelItem() {
   const selectedTravelInfo = useRecoilValue(selectedTravelInfoSelector);
-  const { Funnel, setStep } = useFunnel<FunnelSteps>("Question");
 
-  const moveToAIRecommendationPage = () => {
-    setStep("AIRecommendation");
-  };
-
-  const moveToHumanSelectPage = () => {
-    setStep("HumanSelect");
-  };
-
-  const moveToInitialPage = () => {
-    setStep("Question");
-  };
-
-  const moveToResultPage = () => {
-    setStep("Result");
-  };
+  const {
+    moveToInitialPage,
+    moveToResultPage,
+    moveToAIRecommendationPage,
+    moveToHumanSelectPage,
+    Funnel,
+  } = useDestinationPanelFunnel();
 
   // Reset step when travel info is changed
   useEffect(() => {
-    if (selectedTravelInfo) {
-      setStep("Question");
+    if (!selectedTravelInfo.destination.airportCode || !selectedTravelInfo.destination.city) {
+      moveToInitialPage();
+    } else {
+      moveToResultPage();
     }
   }, [selectedTravelInfo.origin, selectedTravelInfo.passenger, selectedTravelInfo.schedule]);
 
@@ -48,8 +39,8 @@ export function DestinationPanelItem() {
         className="flex flex-col justify-between"
       >
         <Funnel>
-          <QuestionPage
-            name="Question"
+          <InitPage
+            name="Init"
             moveToAIRecommendationPage={moveToAIRecommendationPage}
             moveToHumanSelectPage={moveToHumanSelectPage}
           />
