@@ -2,6 +2,7 @@ import { internationalAirportsWithCity } from "@/constants";
 import CitySelect from "@/pages/home/components/panelItem/destination/humanSelect/CitySelect";
 import CountrySelect from "@/pages/home/components/panelItem/destination/humanSelect/CountrySelect";
 import { cityMap } from "@/pages/home/constants/countries";
+import { FunnelSteps } from "@/pages/home/hooks/destination/useDestinationPanelFunnel";
 import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
 import { useFunnel } from "@/shared/hooks/useFunnel";
 import { notification } from "antd";
@@ -9,12 +10,13 @@ import { useEffect, useMemo, useState } from "react";
 import { useRecoilState } from "recoil";
 
 type Props = {
-  name: string;
+  name: FunnelSteps;
   moveToInitialPage: () => void;
   moveToResultPage: () => void;
 };
 
 type HumanSelectFunnels = "COUNTRY" | "CITY";
+
 export default function HumanSelectPage({ moveToInitialPage, moveToResultPage }: Props) {
   const [selectedTravelInfo, changeSelectedTravelInfo] = useRecoilState(selectedTravelInfoSelector);
   const { Funnel, setStep, step } = useFunnel<HumanSelectFunnels>("COUNTRY");

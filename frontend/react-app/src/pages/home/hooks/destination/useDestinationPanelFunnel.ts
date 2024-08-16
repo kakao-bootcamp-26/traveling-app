@@ -2,7 +2,7 @@ import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
 import { useFunnel } from "@/shared/hooks/useFunnel";
 import { useSetRecoilState } from "recoil";
 
-type FunnelSteps = "INIT" | "AI_RECOMMENDATION" | "HUMAN_SELECT" | "RESULT";
+export type FunnelSteps = "INIT" | "AI_RECOMMENDATION" | "HUMAN_SELECT" | "RESULT";
 
 export default function useDestinationPanelFunnel() {
   const { step, setStep, Funnel } = useFunnel<FunnelSteps>("INIT");

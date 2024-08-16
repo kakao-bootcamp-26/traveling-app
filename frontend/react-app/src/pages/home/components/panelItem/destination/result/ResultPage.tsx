@@ -2,9 +2,10 @@ import { useRecoilState } from "recoil";
 import { notification } from "antd";
 import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
 import { internationalAirports } from "@/constants";
+import { FunnelSteps } from "@/pages/home/hooks/destination/useDestinationPanelFunnel";
 
 type Props = {
-  name: string;
+  name: FunnelSteps;
   moveToInitialPage: () => void;
 };
 

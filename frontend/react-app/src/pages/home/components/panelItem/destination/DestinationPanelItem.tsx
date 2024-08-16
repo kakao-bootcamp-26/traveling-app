@@ -40,21 +40,21 @@ export function DestinationPanelItem() {
       >
         <Funnel>
           <InitPage
-            name="Init"
+            name="INIT"
             moveToAIRecommendationPage={moveToAIRecommendationPage}
             moveToHumanSelectPage={moveToHumanSelectPage}
           />
           <RecommendationByKeyword
-            name="AIRecommendation"
+            name="AI_RECOMMENDATION"
             moveToInitialPage={moveToInitialPage}
             moveToResultPage={moveToResultPage}
           />
           <HumanSelectPage
-            name="HumanSelect"
+            name="HUMAN_SELECT"
             moveToInitialPage={moveToInitialPage}
             moveToResultPage={moveToResultPage}
           />
-          <ResultPage name="Result" moveToInitialPage={moveToInitialPage} />
+          <ResultPage name="RESULT" moveToInitialPage={moveToInitialPage} />
         </Funnel>
       </div>
     </>

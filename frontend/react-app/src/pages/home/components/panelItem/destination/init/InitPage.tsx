@@ -1,5 +1,7 @@
+import { FunnelSteps } from "@/pages/home/hooks/destination/useDestinationPanelFunnel";
+
 type Props = {
-  name: string;
+  name: FunnelSteps;
   moveToAIRecommendationPage: () => void;
   moveToHumanSelectPage: () => void;
 };
