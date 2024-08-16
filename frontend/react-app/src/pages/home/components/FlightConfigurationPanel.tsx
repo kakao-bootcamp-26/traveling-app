@@ -1,15 +1,16 @@
+import { useEffect } from "react";
 import { FlightPanelUI } from "@/pages/home/components/FlightPanelUI";
 import { DestinationPanelItem } from "@/pages/home/components/panelItem/DestinationPanelItem";
 import { OriginPanelItem } from "@/pages/home/components/panelItem/OriginPanelItem";
 import { PassengerPanelItem } from "@/pages/home/components/panelItem/PassengerPanelItem";
-import { SchedulePanelItem } from "@/pages/home/components/panelItem/SchedulePanelItem";
 import { SelectedTravelInput } from "@/pages/home/components/TravelInfoForm";
-import { useEffect } from "react";
+import { SchedulePanelItem } from "@/pages/home/components/panelItem/SchedulePanelItem";
 
 type Props = {
   selectedInputType: SelectedTravelInput | null;
   onBlur: () => void;
 };
+
 export function FlightConfigurationPanel({ selectedInputType, onBlur }: Props) {
   useEffect(() => {
     if (selectedInputType !== null) {
