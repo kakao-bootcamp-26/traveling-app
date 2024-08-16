@@ -1,29 +1,13 @@
+import { HumanSelectFunnels } from "@/pages/home/hooks/destination/useHumanSelectFunnel";
 import { countries } from "../../../../constants/countries";
 
 type Props = {
-  name: string;
-  myCountries: string[];
-  setMyCountries: React.Dispatch<React.SetStateAction<string[]>>;
-  openInfoNotification: (title: string, message: string) => void;
+  name: HumanSelectFunnels;
+  selectedCountries: string[];
+  toggleSelection: (country: string) => void;
 };
 
-export default function CountrySelect({
-  setMyCountries,
-  myCountries,
-  openInfoNotification,
-}: Props) {
-  const clickCountryHandler = (country: string) => () => {
-    if (myCountries.includes(country)) {
-      setMyCountries((prev) => prev.filter((c) => c !== country));
-      return;
-    }
-    if (myCountries.length >= 3) {
-      openInfoNotification("최대 선택 개수 초과", "최대 3개까지 선택 가능합니다.");
-      return;
-    }
-    setMyCountries((prev) => [...prev, country]);
-  };
-
+export default function CountrySelect({ toggleSelection, selectedCountries }: Props) {
   return (
     <section data-nonblur="true">
       <div data-nonblur="true" className="flex flex-col items-center mb-6">
@@ -39,7 +23,7 @@ export default function CountrySelect({
         className="grid flex-1 w-full grid-cols-3 font-pretendard gap-x-4 gap-y-2"
       >
         {countries.map((country) => {
-          const isSelected = myCountries.includes(country);
+          const isSelected = selectedCountries.includes(country);
           return (
             <div
               data-nonblur="true"
@@ -51,7 +35,7 @@ export default function CountrySelect({
                 position: "relative",
               }}
               className="px-2 py-1 rounded-md"
-              onClick={clickCountryHandler(country)}
+              onClick={() => toggleSelection(country)}
             >
               {isSelected ? (
                 <div
