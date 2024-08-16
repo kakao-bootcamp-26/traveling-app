@@ -1,49 +1,22 @@
 import KeywordItem from "@/pages/home/components/panelItem/destination/keywordItem/KeywordItem";
 import { keywords } from "@/pages/home/constants/keywords";
-import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
-import { notification } from "antd";
-import React, { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
+import { FunnelSteps } from "@/pages/home/hooks/destination/useDestinationPanelFunnel";
+import useSelectKeyword from "@/pages/home/hooks/destination/useSelectKeyword";
+import React from "react";
 
 type Props = {
-  name: string;
+  name: FunnelSteps;
   moveToInitialPage: () => void;
   moveToResultPage: () => void;
 };
 
 export function RecommendationByKeyword({ moveToInitialPage, moveToResultPage }: Props) {
-  const selectedTravelInfo = useRecoilValue(selectedTravelInfoSelector);
-
-  const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
-
-  const [api, contextHolder] = notification.useNotification({
-    maxCount: 2,
-    showProgress: true,
-  });
-
-  const openInfoNotification = (message: string) => {
-    api["info"]({
-      message: "최대 선택 개수 초과",
-      description: message,
-    });
-  };
-
-  const openMoreThanOneNotification = (message: string) => {
-    api["info"]({
-      message: "키워드를 선택해주세요.",
-      description: message,
-    });
-  };
-
-  useEffect(() => {
-    // Reset selected keywords when travel info is changed
-    setSelectedKeywords([]);
-  }, [selectedTravelInfo]);
+  const { contextHolder, toggleSelection, openMoreThanOneNotification, selectedKeywords } =
+    useSelectKeyword();
 
   const moveToNextStep = () => {
-    // TODO: 키워드가 1개 이상이어야 함
     if (selectedKeywords.length === 0) {
-      openMoreThanOneNotification("키워드를 1개 이상 선택해주세요.");
+      openMoreThanOneNotification();
       return;
     } else {
       moveToResultPage();
@@ -71,9 +44,7 @@ export function RecommendationByKeyword({ moveToInitialPage, moveToResultPage }:
               key={item.keyword}
               item={item}
               isSelected={selectedKeywords.includes(item.keyword)}
-              openInfoNotification={openInfoNotification}
-              selectedItemsCount={selectedKeywords.length}
-              setSelectedKeywords={setSelectedKeywords}
+              toggleSelection={toggleSelection}
             />
           ))}
         </div>
