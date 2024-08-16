@@ -1,3 +1,4 @@
+import { internationalAirportsWithCity } from "@/constants";
 import { cityMap } from "@/pages/home/constants/countries";
 
 type Props = {
@@ -71,6 +72,12 @@ export default function CitySelect({ myCountries, myCity, setMyCity, myCountry }
       <div>
         <p>도시</p>
         <p>{myCity}</p>
+        <p>인근 공항</p>
+        <p>
+          {myCity &&
+            internationalAirportsWithCity[myCity as keyof typeof internationalAirportsWithCity]
+              .name}
+        </p>
       </div>
     </section>
   );

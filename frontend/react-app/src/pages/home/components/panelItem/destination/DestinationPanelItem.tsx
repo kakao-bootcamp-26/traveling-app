@@ -35,7 +35,7 @@ export function DestinationPanelItem() {
     if (selectedTravelInfo) {
       setStep("Question");
     }
-  }, [selectedTravelInfo]);
+  }, [selectedTravelInfo.origin, selectedTravelInfo.passenger, selectedTravelInfo.schedule]);
 
   return (
     <>

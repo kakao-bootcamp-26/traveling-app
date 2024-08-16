@@ -1,3 +1,4 @@
+import { internationalAirportsWithCity } from "@/constants";
 import CitySelect from "@/pages/home/components/panelItem/destination/humanSelect/CitySelect";
 import CountrySelect from "@/pages/home/components/panelItem/destination/humanSelect/CountrySelect";
 import { cityMap } from "@/pages/home/constants/countries";
@@ -5,7 +6,7 @@ import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
 import { useFunnel } from "@/shared/hooks/useFunnel";
 import { notification } from "antd";
 import { useEffect, useMemo, useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 
 type Props = {
   name: string;
@@ -15,7 +16,7 @@ type Props = {
 
 type HumanSelectFunnels = "COUNTRY" | "CITY";
 export default function HumanSelectPage({ moveToInitialPage, moveToResultPage }: Props) {
-  const selectedTravelInfo = useRecoilValue(selectedTravelInfoSelector);
+  const [selectedTravelInfo, changeSelectedTravelInfo] = useRecoilState(selectedTravelInfoSelector);
   const { Funnel, setStep, step } = useFunnel<HumanSelectFunnels>("COUNTRY");
   const [myCountries, setMyCountries] = useState<string[]>([]);
   const [myCity, setMyCity] = useState<string | null>(null);
@@ -46,13 +47,25 @@ export default function HumanSelectPage({ moveToInitialPage, moveToResultPage }:
   };
 
   const clickNext = () => {
-    if (myCountries.length === 0) {
-      openInfoNotification("국가를 선택해주세요.", "국가를 1개 이상 선택해주세요.");
+    if (step === "COUNTRY") {
+      if (myCountries.length === 0) {
+        openInfoNotification("국가를 선택해주세요.", "국가를 1개 이상 선택해주세요.");
+        return;
+      }
+      setStep("CITY");
       return;
     }
-    if (step === "COUNTRY") {
-      setStep("CITY");
-    } else if (step === "CITY") {
+    if (step === "CITY") {
+      if (!myCity) {
+        openInfoNotification("도시를 선택해주세요.", "도시를 1개만 선택해주세요.");
+        return;
+      }
+      const airportCode =
+        internationalAirportsWithCity[myCity as keyof typeof internationalAirportsWithCity].code;
+      changeSelectedTravelInfo({
+        ...selectedTravelInfo,
+        destination: { airportCode, city: myCity },
+      });
       moveToResultPage();
     }
   };

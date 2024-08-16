@@ -13,7 +13,10 @@ vitest.spyOn(Sidebar, "Label").mockImplementation(({ location, schedule }) => (
 function makeTravelInfo(key: string) {
   return {
     origin: "ICN",
-    destination: "",
+    destination: {
+      city: "",
+      airportCode: "",
+    },
     key,
   };
 }

@@ -19,7 +19,7 @@ export const createMenuItem = (
   icon?: React.ReactNode,
   children?: MenuItem[],
 ) => {
-  const location = `${travelInfo.origin} - ${travelInfo.destination || "ANY"}`;
+  const location = `${travelInfo.origin} - ${travelInfo.destination.airportCode || "ANY"}`;
 
   const item: MenuItem = {
     key: travelInfo.key,
@@ -35,7 +35,10 @@ export const createMenuItem = (
 export const initializeMenuItem = (key: string) => {
   return createMenuItem({
     origin: "ICN",
-    destination: "",
+    destination: {
+      city: "",
+      airportCode: "",
+    },
     key,
   });
 };
