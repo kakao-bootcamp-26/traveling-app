@@ -1,4 +1,4 @@
-import CounterFactory from "@/pages/home/components/panelItem/passenger/passengerCount/CounterFactory";
+import PassengerCounterFactory from "@/pages/home/components/panelItem/passenger/passengerCount/PassengerCounterFactory";
 
 export default function SelectPassengerCount() {
   return (
@@ -12,9 +12,9 @@ export default function SelectPassengerCount() {
         rowGap: "24px",
       }}
     >
-      <CounterFactory passengerType="adults" />
-      <CounterFactory passengerType="children" />
-      <CounterFactory passengerType="infants" />
+      <PassengerCounterFactory passengerType="adults" />
+      <PassengerCounterFactory passengerType="children" />
+      <PassengerCounterFactory passengerType="infants" />
     </div>
   );
 }

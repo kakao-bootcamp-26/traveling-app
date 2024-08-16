@@ -8,7 +8,7 @@ type Props = {
   passengerType: keyof PassengerCount;
 };
 
-export default function CounterFactory({ passengerType }: Props) {
+export default function PassengerCounterFactory({ passengerType }: Props) {
   const { updatePassengerCount } = useControlPassengerCount();
   const passengerCount = useRecoilValue(selectedTravelInfoSelector).passenger.count;
   if (passengerType === "adults") {
