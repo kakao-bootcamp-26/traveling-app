@@ -2,11 +2,11 @@ import HumanSelectPage from "@/pages/home/components/panelItem/destination/human
 
 import InitPage from "@/pages/home/components/panelItem/destination/init/InitPage";
 import ResultPage from "@/pages/home/components/panelItem/destination/result/ResultPage";
-import { RecommendationByKeyword } from "@/pages/home/components/panelItem/destination/keywordItem/RecommendationByKeywordPage";
 import { useRecoilValue } from "recoil";
 import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
 import { useEffect } from "react";
 import useDestinationPanelFunnel from "@/pages/home/hooks/destination/useDestinationPanelFunnel";
+import AIRecommendationPage from "@/pages/home/components/panelItem/destination/aiRecommendation/AIRecommendationPage";
 
 export function DestinationPanelItem() {
   const selectedTravelInfo = useRecoilValue(selectedTravelInfoSelector);
@@ -44,7 +44,7 @@ export function DestinationPanelItem() {
             moveToAIRecommendationPage={moveToAIRecommendationPage}
             moveToHumanSelectPage={moveToHumanSelectPage}
           />
-          <RecommendationByKeyword
+          <AIRecommendationPage
             name="AI_RECOMMENDATION"
             moveToInitialPage={moveToInitialPage}
             moveToResultPage={moveToResultPage}

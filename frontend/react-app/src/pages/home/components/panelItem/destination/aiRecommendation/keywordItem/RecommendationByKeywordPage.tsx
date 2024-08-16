@@ -1,16 +1,18 @@
-import KeywordItem from "@/pages/home/components/panelItem/destination/keywordItem/KeywordItem";
+import KeywordItem from "@/pages/home/components/panelItem/destination/aiRecommendation/keywordItem/KeywordItem";
 import { keywords } from "@/pages/home/constants/keywords";
-import { FunnelSteps } from "@/pages/home/hooks/destination/useDestinationPanelFunnel";
+import { AIRecommendationFunnelSteps } from "@/pages/home/hooks/destination/useAIRecommendationFunnel";
 import useSelectKeyword from "@/pages/home/hooks/destination/useSelectKeyword";
-import React from "react";
 
 type Props = {
-  name: FunnelSteps;
-  moveToInitialPage: () => void;
-  moveToResultPage: () => void;
+  name: AIRecommendationFunnelSteps;
+  moveToAIRecommendationInitStep: () => void;
+  moveToAIRecommendationResultStep: () => void;
 };
 
-export function RecommendationByKeyword({ moveToInitialPage, moveToResultPage }: Props) {
+export function RecommendationByKeyword({
+  moveToAIRecommendationInitStep,
+  moveToAIRecommendationResultStep,
+}: Props) {
   const { contextHolder, toggleSelection, openMoreThanOneNotification, selectedKeywords } =
     useSelectKeyword();
 
@@ -19,7 +21,7 @@ export function RecommendationByKeyword({ moveToInitialPage, moveToResultPage }:
       openMoreThanOneNotification();
       return;
     } else {
-      moveToResultPage();
+      moveToAIRecommendationResultStep();
     }
   };
 
@@ -51,7 +53,7 @@ export function RecommendationByKeyword({ moveToInitialPage, moveToResultPage }:
         <div className="mt-4" data-nonblur="true">
           <button
             data-nonblur="true"
-            onClick={moveToInitialPage}
+            onClick={moveToAIRecommendationInitStep}
             className="w-[120px] py-2 border-2 rounded-lg mr-10"
           >
             이전
