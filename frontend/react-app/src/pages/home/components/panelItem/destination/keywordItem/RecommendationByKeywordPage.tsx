@@ -53,10 +53,14 @@ export function RecommendationByKeyword({ moveToInitialPage, moveToResultPage }:
   return (
     <>
       {contextHolder}
-      <article className="flex flex-col items-center">
-        <div className="flex flex-col items-center mt-4 mb-6">
-          <h5 className="text-[20px] mb-2">키워드를 선택해주세요</h5>
-          <p className="text-md">키워드는 최대 3개까지 선택 가능합니다</p>
+      <article className="flex flex-col items-center" data-nonblur="true">
+        <div className="flex flex-col items-center mt-4 mb-6" data-nonblur="true">
+          <h5 className="text-[20px] mb-2" data-nonblur="true">
+            키워드를 선택해주세요
+          </h5>
+          <p className="text-md" data-nonblur="true">
+            키워드는 최대 3개까지 선택 가능합니다
+          </p>
         </div>
         <div
           className="grid grid-cols-3 gap-x-4 gap-y-2 h-[25vh] overflow-scroll"
@@ -73,7 +77,7 @@ export function RecommendationByKeyword({ moveToInitialPage, moveToResultPage }:
             />
           ))}
         </div>
-        <div className="mt-4">
+        <div className="mt-4" data-nonblur="true">
           <button
             data-nonblur="true"
             onClick={moveToInitialPage}

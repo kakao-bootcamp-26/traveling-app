@@ -48,25 +48,27 @@ export default function ResultPage({ moveToInitialPage }: Props) {
   return (
     <>
       {contextHolder}
-      <div data-nonblur="true" className="flex flex-col items-center">
-        <div data-nonblur="true">최종 결과</div>
+      <section data-nonblur="true" className="flex flex-col items-center">
+        <div className="flex flex-col items-center mt-4 mb-6">
+          <h5 className="text-[20px] mb-2">최종 결과</h5>
+        </div>
         <div data-nonblur="true" className="flex justify-center">
           <button
             data-nonblur="true"
             onClick={moveToInitialPage}
             className="w-[120px] py-2 border-2 rounded-lg mr-10"
           >
-            처음으로 돌아가기
+            처음으로
           </button>
           <button
             data-nonblur="true"
-            className="w-[120px] py-2 border-2 rounded-lg mr-10"
+            className="w-[120px] py-2 border-2 rounded-lg"
             onClick={submitMyTravelInfo}
           >
             Done
           </button>
         </div>
-      </div>
+      </section>
     </>
   );
 }

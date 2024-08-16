@@ -558,7 +558,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@blog/backend@workspace:backend/nest-backend"
   dependencies:
-    "@blog/common": "workspace:packages/common"
     "@eslint/eslintrc": "npm:^3.1.0"
     "@eslint/js": "npm:^9.9.0"
     "@nestjs/cli": "npm:^10.0.0"
