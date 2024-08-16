@@ -1,39 +1,43 @@
-import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
-import { DatePicker, DatePickerProps, notification, Typography } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import dayjs from "dayjs";
+import { DatePicker, DatePickerProps, notification, Typography } from "antd";
+import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
+import useControlDatePicker from "@/pages/home/hooks/schedule/useControlDatePicker";
 
 type Props = {
   isOpen: boolean;
 };
+
 export function SchedulePanelItem({ isOpen }: Props) {
   const [selectedTravelInfoAtom, changeSelectedTravelInfo] = useRecoilState(
     selectedTravelInfoSelector,
   );
+
   // DatePicker를 열고 닫는 상태를 관리
-  const [arrivalOpen, setArrivalOpen] = useState(false);
-  const [departureOpen, setDepartureOpen] = useState(false);
+  // const [arrivalOpen, setArrivalOpen] = useState(false);
+  // const [departureOpen, setDepartureOpen] = useState(false);
+  const { isArrivalDatePickerOpen, isDepartureDatePickerOpen, openDatePicker, closeAllDatePicker } =
+    useControlDatePicker();
 
   // Notification
   const [api, contextHolder] = notification.useNotification();
   const openNotificationWithIcon = (message: string) => {
     api["error"]({
-      message: "입력 오류",
+      message: "날짜 입력 오류",
       description: message,
     });
   };
 
-  useEffect(() => {
-    function closeDatePicker() {
-      setArrivalOpen(false);
-      setDepartureOpen(false);
-    }
+  useEffect(
     // Panel이 닫힐 때 DatePicker를 닫는다.
-    if (!isOpen) {
-      closeDatePicker();
-    }
-  }, [isOpen]);
+    function closeDatePickerWhenPanelClosed() {
+      if (!isOpen) {
+        closeAllDatePicker();
+      }
+    },
+    [isOpen],
+  );
 
   const onChange: (type: "arrival" | "departure") => DatePickerProps["onChange"] =
     (type) => (_, dateStr) => {
@@ -71,9 +75,15 @@ export function SchedulePanelItem({ isOpen }: Props) {
           [type]: newDate,
         },
       }));
-      setArrivalOpen(false);
-      setDepartureOpen(false);
+      closeAllDatePicker();
     };
+
+  const panelClickHandler = (e: React.MouseEvent) => {
+    const target = e.target as HTMLElement;
+    if (!target.closest(".ant-picker") && !target.closest(".ant-picker-dropdown")) {
+      closeAllDatePicker();
+    }
+  };
 
   return (
     <section
@@ -84,13 +94,7 @@ export function SchedulePanelItem({ isOpen }: Props) {
         rowGap: "20px",
         height: "calc(100vh - 107px)",
       }}
-      onClick={(e) => {
-        const target = e.target as HTMLElement;
-        if (!target.closest(".ant-picker") && !target.closest(".ant-picker-dropdown")) {
-          setArrivalOpen(false);
-          setDepartureOpen(false);
-        }
-      }}
+      onClick={panelClickHandler}
     >
       {contextHolder}
       <div data-nonblur="true">
@@ -105,8 +109,8 @@ export function SchedulePanelItem({ isOpen }: Props) {
           minuteStep={15}
           onChange={onChange("arrival")}
           style={{ width: "70%", padding: "8px 16px" }}
-          open={arrivalOpen}
-          onClick={() => setArrivalOpen(true)}
+          open={isArrivalDatePickerOpen}
+          onClick={() => openDatePicker("arrival")}
         />
       </div>
       <div data-nonblur="true">
@@ -121,8 +125,8 @@ export function SchedulePanelItem({ isOpen }: Props) {
           defaultValue={selectedTravelInfoAtom.schedule?.departure}
           value={selectedTravelInfoAtom.schedule?.departure}
           style={{ width: "70%", padding: "8px 16px" }}
-          open={departureOpen}
-          onClick={() => setDepartureOpen(true)}
+          open={isDepartureDatePickerOpen}
+          onClick={() => openDatePicker("departure")}
         />
       </div>
     </section>
