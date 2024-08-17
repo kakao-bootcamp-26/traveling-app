@@ -8,12 +8,12 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "mocks": "npx tsx watch ./src/app/msw/libs/server.ts",
-    "lint": "npx eslint --fix",
+    "mocks": "yarn dlx tsx watch ./src/app/msw/libs/server.ts",
+    "lint": "yarn dlx eslint --fix",
     "format": "yarn prettier --write \"./**/*.{js,jsx,ts,tsx,json,md,css}\"",
     "type-check": "tsc --noEmit",
     "test": "vitest",
-    "svgr": "npx @svgr/cli -d src/assets/svg --ignore-existing --typescript --no-dimensions public/svg"
+    "svgr": "yarn dlx @svgr/cli -d src/assets/svg --ignore-existing --typescript --no-dimensions public/svg"
   },
   "dependencies": {
     "@ant-design/icons": "^5.4.0",
