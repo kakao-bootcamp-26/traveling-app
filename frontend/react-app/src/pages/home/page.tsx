@@ -1,5 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import TravelInfoForm from "@/pages/home/components/TravelInfoForm";
+import { FindFlightProvider } from "@/pages/home/components/provider/FindFlightContext";
+import FlightSuggestions from "@/pages/home/components/flightSuggestions/FlightSuggestions";
 
 export default function HomePage() {
   return (
@@ -19,10 +21,14 @@ export default function HomePage() {
         <meta property="twitter:image" content="https://via.placeholder.com/1200" />
         <meta property="twitter:card" content="summary_large_image" />
       </Helmet>
-      <main style={{ display: "flex", position: "absolute", width: "100%", overflow: "hidden" }}>
-        <TravelInfoForm />
-        <section className="main_section" style={{ height: "100vh", flex: "1 1 0" }}></section>
-      </main>
+      <FindFlightProvider>
+        <main style={{ display: "flex", position: "absolute", width: "100%", overflow: "hidden" }}>
+          <TravelInfoForm />
+          <section className="main_section" style={{ height: "100vh", flex: "1 1 0" }}>
+            <FlightSuggestions />
+          </section>
+        </main>
+      </FindFlightProvider>
     </>
   );
 }

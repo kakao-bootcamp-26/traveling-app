@@ -1,14 +1,14 @@
 // eslint.config.js
 
-import { FlatCompat } from '@eslint/eslintrc';
-import js from '@eslint/js';
+const { FlatCompat } = require('@eslint/eslintrc');
+const js = require('@eslint/js');
 // import typescriptParser from '@typescript-eslint/parser';
-import typescriptPlugin from '@typescript-eslint/eslint-plugin';
-import path from 'path';
-import { fileURLToPath } from 'url';
+// import typescriptPlugin from '@typescript-eslint/eslint-plugin';
+// const path = require('path');
+// const { fileURLToPath } = require('url');
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
@@ -17,7 +17,7 @@ const compat = new FlatCompat({
   allConfig: js.configs.all,
 });
 
-export default [
+module.exports = [
   js.configs.recommended,
   // {
   //   files: ['*.ts', '*.tsx'],
@@ -49,7 +49,7 @@ export default [
   ...compat.config({
     root: true,
     extends: ['eslint:recommended'],
-    ignorePatterns: ['dist', 'eslint.config.js'],
+    ignorePatterns: ['dist', 'eslint.config.cjs'],
     parser: '@typescript-eslint/parser',
     parserOptions: {
       sourceType: 'module',

@@ -16,7 +16,10 @@ export const travelInfoAtom = atom<InitTravelInfo[]>({
   default: [
     {
       origin: "ICN",
-      destination: "",
+      destination: {
+        city: "",
+        airportCode: "",
+      },
       passenger: {
         count: {
           adults: 1,

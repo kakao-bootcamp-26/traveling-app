@@ -4,19 +4,10 @@ import React from "react";
 type Props = {
   item: Keyword;
   isSelected: boolean;
-  selectedItemsCount: number;
-  setSelectedKeywords: React.Dispatch<React.SetStateAction<string[]>>;
-  openInfoNotification: (message: string) => void;
+  toggleSelection: (item: string) => void;
 };
 
-const MAX_KEYWORD_COUNT = 3;
-export default function KeywordItem({
-  item,
-  isSelected,
-  setSelectedKeywords,
-  selectedItemsCount,
-  openInfoNotification,
-}: Props) {
+export default function KeywordItem({ item, isSelected, toggleSelection }: Props) {
   return (
     <div
       key={item.keyword}
@@ -29,14 +20,7 @@ export default function KeywordItem({
       }}
       data-nonblur="true"
       onClick={() => {
-        if (isSelected) {
-          setSelectedKeywords((prev) => prev.filter((keyword) => keyword !== item.keyword));
-        } else if (selectedItemsCount === MAX_KEYWORD_COUNT) {
-          openInfoNotification("키워드는 최대 3가지만 선택할 수 있습니다.");
-          return;
-        } else {
-          setSelectedKeywords((prev) => [...prev, item.keyword]);
-        }
+        toggleSelection(item.keyword);
       }}
     >
       {isSelected ? (

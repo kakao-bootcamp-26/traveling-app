@@ -132,7 +132,6 @@ export const keywords = [
   { keyword: "강", icon: "🏞️" },
   { keyword: "신성한", icon: "🕉️" },
   { keyword: "스파", icon: "💆" },
-  { keyword: "현대적 건축", icon: "🏗️" },
 ];
 
 // const data = {
