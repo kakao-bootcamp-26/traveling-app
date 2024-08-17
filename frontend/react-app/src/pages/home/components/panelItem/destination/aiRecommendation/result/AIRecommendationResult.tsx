@@ -1,29 +1,31 @@
 import { AIRecommendationFunnelSteps } from "@/pages/home/hooks/destination/useAIRecommendationFunnel";
-import { Spin } from "antd";
+import { DestinationEntity } from "@/shared/entities/destination.entity";
 
 type Props = {
   name: AIRecommendationFunnelSteps;
   moveToAIRecommendationInitStep: () => void;
   moveToResultPage: () => void;
-  recommendations: string[];
+  recommendationCities: DestinationEntity[];
 };
 
 export default function AIRecommendationResult({
   moveToAIRecommendationInitStep,
   moveToResultPage,
-  recommendations,
+  recommendationCities,
 }: Props) {
-  if (recommendations.length === 0) {
-    return (
-      <div data-nonblur="true" className="flex flex-col items-center">
-        <h5 className="mb-6">AI의 결과를 기다리는 중입니다.</h5>
-        <Spin tip="Loading" size="large"></Spin>
-      </div>
-    );
-  }
-
   return (
     <div data-nonblur="true">
+      {recommendationCities.length === 0 ? (
+        <div data-nonblur="true" className="flex flex-col items-center">
+          추천 결과가 없습니다.
+        </div>
+      ) : (
+        <div data-nonblur="true" className="flex flex-col items-center">
+          {recommendationCities.map((city) => {
+            return <div data-nonblur="true">{city.city}</div>;
+          })}
+        </div>
+      )}
       <div className="mt-4" data-nonblur="true">
         <button
           data-nonblur="true"

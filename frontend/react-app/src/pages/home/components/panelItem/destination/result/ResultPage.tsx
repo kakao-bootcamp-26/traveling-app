@@ -62,11 +62,17 @@ export default function ResultPage({ moveToInitialPage }: Props) {
     <>
       {contextHolder}
       <section data-nonblur="true" className="flex flex-col items-center">
-        <div className="flex flex-col items-center mt-4 mb-6">
-          <h5 className="text-[20px] mb-2">최종선택하신 도시는 </h5>
-          <h5 className="text-[20px] mb-2">"{selectedTravelInfo.destination?.city}" 이며, </h5>
-          <h5 className="text-[20px] mb-2">인근 공항은</h5>
-          <h5 className="text-[20px] mb-2">
+        <div data-nonblur="true" className="flex flex-col items-center mt-4 mb-6">
+          <h5 data-nonblur="true" className="text-[20px] mb-2">
+            최종선택하신 도시는{" "}
+          </h5>
+          <h5 data-nonblur="true" className="text-[20px] mb-2">
+            "{selectedTravelInfo.destination?.city}" 이며,{" "}
+          </h5>
+          <h5 data-nonblur="true" className="text-[20px] mb-2">
+            인근 공항은
+          </h5>
+          <h5 data-nonblur="true" className="text-[20px] mb-2">
             "
             {
               internationalAirports[

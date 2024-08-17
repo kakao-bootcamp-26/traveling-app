@@ -1,10 +1,12 @@
 import ChatBot from "@/pages/home/components/panelItem/destination/aiRecommendation/chatbot/ChatBot";
 import { AIRecommendationFunnelSteps } from "@/pages/home/hooks/destination/useAIRecommendationFunnel";
+import { DestinationEntity } from "@/shared/entities/destination.entity";
 
 type Props = {
   name: AIRecommendationFunnelSteps;
   moveToAIRecommendationInitStep: () => void;
   moveToAIRecommendationResultStep: () => void;
+  saveAIRecommendationDestinations: (cities: DestinationEntity[]) => void;
 };
 
 export default function ChatBotPage({
