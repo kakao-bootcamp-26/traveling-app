@@ -66,6 +66,7 @@ export default function AIRecommendationResult({
             : recommendationCities.map((city, index) => {
                 return (
                   <CityCuration
+                    key={city.city}
                     city={city}
                     sequence={index + 1}
                     selectCity={selectCity}

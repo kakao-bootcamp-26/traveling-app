@@ -12,11 +12,15 @@ type Props = {
 export default function ChatBotPage({
   moveToAIRecommendationInitStep,
   moveToAIRecommendationResultStep,
+  saveAIRecommendationDestinations,
 }: Props) {
   return (
     <div data-nonblur="true">
       <div className="chatbot">
-        <ChatBot />
+        <ChatBot
+          moveToAIRecommendationResultStep={moveToAIRecommendationResultStep}
+          saveAIRecommendationDestinations={saveAIRecommendationDestinations}
+        />
       </div>
       <div className="mt-4" data-nonblur="true">
         <button

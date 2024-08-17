@@ -5,11 +5,27 @@ import MessageParser from "./MessageParser";
 import ActionProvider from "./ActionProvider";
 import "react-chatbot-kit/build/main.css";
 import "./ChatBot.css";
+import { DestinationEntity } from "@/shared/entities/destination.entity";
 
 export type ChatBotProps = Parameters<typeof Chatbot>[0];
-
-export default function ChatBot() {
-  return <Chatbot config={config} messageParser={MessageParser} actionProvider={ActionProvider} />;
+type Props = {
+  moveToAIRecommendationResultStep: () => void;
+  saveAIRecommendationDestinations: (cities: DestinationEntity[]) => void;
+};
+export default function ChatBot({
+  moveToAIRecommendationResultStep,
+  saveAIRecommendationDestinations,
+}: Props) {
+  return (
+    <Chatbot
+      config={config}
+      messageParser={MessageParser}
+      actionProvider={ActionProvider({
+        saveAIRecommendationDestinations,
+        moveToResultStep: moveToAIRecommendationResultStep,
+      })}
+    />
+  );
 }
 
 ChatBot.Header = () => {
