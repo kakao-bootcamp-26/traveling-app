@@ -1,6 +1,5 @@
 import { ChatBotProps } from "@/pages/home/components/panelItem/destination/aiRecommendation/chatbot/ChatBot";
 import React, { PropsWithChildren } from "react";
-import "react-chatbot-kit/build/main.css";
 
 type Props = {
   setState: any;
