@@ -1,3 +1,4 @@
+import ChatBot from "@/pages/home/components/panelItem/destination/aiRecommendation/chatbot/ChatBot";
 import { AIRecommendationFunnelSteps } from "@/pages/home/hooks/destination/useAIRecommendationFunnel";
 
 type Props = {
@@ -11,7 +12,10 @@ export default function ChatBotPage({
   moveToAIRecommendationResultStep,
 }: Props) {
   return (
-    <div>
+    <div data-nonblur="true">
+      <div data-nonblur="chatbot">
+        <ChatBot />
+      </div>
       <div className="mt-4" data-nonblur="true">
         <button
           data-nonblur="true"

@@ -4,6 +4,7 @@ import { RecommendationByKeyword } from "@/pages/home/components/panelItem/desti
 import AIRecommendationResult from "@/pages/home/components/panelItem/destination/aiRecommendation/result/AIRecommendationResult";
 import useAIRecommendationFunnel from "@/pages/home/hooks/destination/useAIRecommendationFunnel";
 import { FunnelSteps } from "@/pages/home/hooks/destination/useDestinationPanelFunnel";
+import { useState } from "react";
 
 type Props = {
   name: FunnelSteps;
@@ -19,6 +20,8 @@ export default function AIRecommendationPage({ moveToInitialPage, moveToResultPa
     moveToKeywordStep,
     moveToAIRecommendationResultStep,
   } = useAIRecommendationFunnel();
+
+  const [AIRecommendations, setAIRecommendations] = useState([]);
 
   return (
     <article className="flex flex-col items-center" data-nonblur="true">
@@ -43,6 +46,7 @@ export default function AIRecommendationPage({ moveToInitialPage, moveToResultPa
           name="AI_RESULT"
           moveToAIRecommendationInitStep={moveToAIRecommendationInitStep}
           moveToResultPage={moveToResultPage}
+          recommendations={AIRecommendations}
         />
       </Funnel>
     </article>
