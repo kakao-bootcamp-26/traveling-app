@@ -12,8 +12,8 @@ const ActionProvider: ChatBotProps["actionProvider"] = ({
   setState,
   children,
 }: PropsWithChildren<Props>) => {
-  const handleHello = () => {
-    const botMessage = createChatBotMessage("Hello. Nice to meet you.");
+  const handleMessage = (message: string) => {
+    const botMessage = createChatBotMessage(message);
 
     setState((prev: any) => ({
       ...prev,
@@ -26,7 +26,7 @@ const ActionProvider: ChatBotProps["actionProvider"] = ({
         if (React.isValidElement(child)) {
           return React.cloneElement<any>(child, {
             actions: {
-              handleHello,
+              handleMessage,
             },
           });
         }

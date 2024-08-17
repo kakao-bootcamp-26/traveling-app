@@ -6,9 +6,7 @@ type Props = {
 
 const MessageParser = ({ children, actions }: PropsWithChildren<Props>) => {
   const parse = (message: string) => {
-    if (message.includes("안녕")) {
-      actions.handleHello();
-    }
+    actions.handleMessage(message);
   };
 
   return (

@@ -12,6 +12,7 @@ const config: ChatBotProps["config"] = {
   customComponents: {
     header: () => <ChatBot.Header />,
   },
+  customStyles: {},
 };
 
 export default config;

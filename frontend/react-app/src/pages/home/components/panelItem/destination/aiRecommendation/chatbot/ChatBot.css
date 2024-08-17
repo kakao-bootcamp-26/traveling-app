@@ -1,5 +1,17 @@
+.react-chatbot-kit-chat-container {
+  width: 300px;
+  border-radius: 1rem;
+}
+.react-chatbot-kit-chat-message-container {
+  background-color: transparent;
+  height: 100%;
+}
 .react-chatbot-kit-chat-container,
 .react-chatbot-kit-chat-container * {
   font-size: 11px;
   font-family: Pretendard;
+}
+
+.react-chatbot-kit-chat-input {
+  color: black;
 }

@@ -13,7 +13,7 @@ export default function ChatBotPage({
 }: Props) {
   return (
     <div data-nonblur="true">
-      <div data-nonblur="chatbot">
+      <div className="chatbot">
         <ChatBot />
       </div>
       <div className="mt-4" data-nonblur="true">
