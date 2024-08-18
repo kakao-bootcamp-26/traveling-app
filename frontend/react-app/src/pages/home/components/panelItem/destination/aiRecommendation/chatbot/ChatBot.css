@@ -1,6 +1,6 @@
 .react-chatbot-kit-chat-container {
   width: 300px;
-  border-radius: 1rem;
+  border-radius: 16px;
 }
 .react-chatbot-kit-chat-message-container {
   background-color: transparent;
