@@ -1,3 +1,4 @@
+import { TravelInfo } from "@/shared/entities";
 import { createContext, PropsWithChildren, useState } from "react";
 
 type FindFlightStateProps = {
@@ -16,10 +17,21 @@ export const FindFlightDispatchContext = createContext<FindFlightDispatchProps>(
 });
 
 export const FindFlightProvider = ({ children }: PropsWithChildren) => {
-  const [flight, setFlight] = useState();
-  const findFlight = (flight: any) => {
-    setFlight(flight);
+  const [flight, setFlight] = useState<any>(null);
+
+  const findFlight = (travelInfo: TravelInfo) => {
+    setTimeout(() => {
+      const flight = {
+        origin: travelInfo.origin,
+        destination: travelInfo.destination,
+        schedule: travelInfo.schedule,
+      };
+
+      console.log("항공편 정보를 찾았습니다.", flight);
+      setFlight(flight);
+    }, 2000);
   };
+
   return (
     <FindFlightStateContext.Provider value={{ flight }}>
       <FindFlightDispatchContext.Provider value={{ findFlight }}>

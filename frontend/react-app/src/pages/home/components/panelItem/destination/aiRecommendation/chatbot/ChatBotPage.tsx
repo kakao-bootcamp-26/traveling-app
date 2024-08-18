@@ -51,7 +51,7 @@ export default function ChatBotPage({
           messageParser={MessageParser}
           actionProvider={ActionProvider({
             saveAIRecommendationDestinations,
-            moveToResultStep: moveToAIRecommendationResultStep,
+            moveToAIResultStep: moveToAIRecommendationResultStep,
           })}
         />
       </div>
