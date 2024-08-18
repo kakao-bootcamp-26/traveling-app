@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import type { PropsWithChildren } from "react";
 import { ChatBotProps } from "@/pages/home/components/panelItem/destination/aiRecommendation/chatbot/ChatBotPage";
 import { DestinationEntity } from "@/shared/entities/destination.entity";

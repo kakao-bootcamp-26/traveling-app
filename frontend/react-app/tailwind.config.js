@@ -7,6 +7,7 @@ export default {
         coral: "#eb9980",
         mint: "#5CFFD1",
         "mint-dark": "#92B8B1",
+        "dark-blue": "rgb(27, 29, 43)",
       },
       fontFamily: {
         pretendard: ["Pretendard"],

@@ -57,4 +57,29 @@ body {
 .open .main_section {
   transition: background-color 0.5s;
   background-color: rgba(0, 0, 0, 0.5);
+  font-size: 0 !important;
+}
+.suggestion {
+  position: relative;
+}
+
+.open .main_section > .suggestion::after {
+  transition: background-color 0.5s;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(27, 229, 243);
+}
+
+.open .main_section > .suggestion::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(27, 29, 43, 0.1); /* yellow의 반투명 배경 */
+  pointer-events: none; /* 마우스 이벤트가 부모 요소에 전달되도록 설정 */
 }
