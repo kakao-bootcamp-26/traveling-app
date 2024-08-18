@@ -3,7 +3,10 @@ import { InitTravelInfo } from "@/shared/entities";
 export const createNewTravelItem = (key: string): InitTravelInfo => {
   return {
     origin: "ICN",
-    destination: "",
+    destination: {
+      city: "",
+      airportCode: "",
+    },
     passenger: {
       count: {
         adults: 1,
