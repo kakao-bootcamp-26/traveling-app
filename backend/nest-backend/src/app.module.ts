@@ -6,24 +6,32 @@ import { typeOrmConfig } from './config/typeorm.config';
 // import { UsersModule } from './users/users.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+// import * as Joi from 'joi';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true, // 전역 모듈로 설정
-      // validationSchema,
-      load: [],
+      // validationSchema: Joi.object({
+      //   DB_HOST: Joi.string().required(),
+      //   DB_PORT: Joi.number().default(5432),
+      // }),
+      load: [], // 필요에 따라 설정 파일을 추가
       cache: true,
       envFilePath: [
-        process.env.NODE_ENV === 'production'
-          ? '.env.production'
-          : '.env.development',
+        `env/.env.${process.env.NODE_ENV || 'development'}.local`,
+        `env/.env.${process.env.NODE_ENV || 'development'}`,
+        'env/.env',
+        '.env',
       ],
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: typeOrmConfig,
+      useFactory: (configService: ConfigService) => {
+        console.log('DB_DATABASE:', configService.get<string>('DB_DATABASE'));
+        return typeOrmConfig(configService);
+      },
     }),
     // AuthModule,
     // UsersModule,
