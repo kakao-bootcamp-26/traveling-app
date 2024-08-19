@@ -38,11 +38,12 @@ RUN apt-get update && apt-get install -y \
 # Puppeteer가 사용하는 Chrome 브라우저를 설치합니다.
 RUN npx puppeteer browsers install chrome
 
-# 프론트엔드 디렉토리로 이동하여 의존성 설치
-WORKDIR /app/frontend/react-app
+# 루트 디렉토리에서 전체 의존성 설치
+WORKDIR /app
 RUN yarn install
 
-# 프로젝트 빌드
+# 프론트엔드 디렉토리로 이동하여 빌드
+WORKDIR /app/frontend/react-app
 RUN yarn build
 
 # 2단계: Production environment
