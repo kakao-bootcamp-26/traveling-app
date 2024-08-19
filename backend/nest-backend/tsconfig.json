@@ -24,8 +24,8 @@
     }
   },
   "include": [
-    ".eslint.config.js",
     "src/**/*.ts",
+    "eslint.config.cjs",
     "apps/**/*.ts",
     "libs/**/*.ts",
     "test/**/*.ts",

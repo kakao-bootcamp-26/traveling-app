@@ -1,6 +1,4 @@
-import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
-import { MouseEvent } from "react";
-import { useSetRecoilState } from "recoil";
+import useControlOrigin from "@/pages/home/hooks/origin/useControlOrigin";
 
 const airportList = [
   {
@@ -22,17 +20,7 @@ const airportList = [
 ];
 
 export function OriginPanelItem() {
-  const changeSelectedTravelInfo = useSetRecoilState(selectedTravelInfoSelector);
-  const updateSelectedAirport = (e: MouseEvent) => {
-    // 이 부분 로직을 좀 더 깊게 공부해보기
-    const target = e.target as HTMLElement;
-    const airport =
-      target.dataset.airport || (target.closest("[data-airport]") as HTMLElement)?.dataset.airport;
-
-    if (airport) {
-      changeSelectedTravelInfo((prev) => ({ ...prev, origin: airport }));
-    }
-  };
+  const { updateOrigin } = useControlOrigin();
 
   return (
     <div data-nonblur="true">
@@ -54,7 +42,7 @@ export function OriginPanelItem() {
             <li
               data-nonblur="true"
               data-airport={airport.code}
-              onClick={updateSelectedAirport}
+              onClick={() => updateOrigin(airport.code)}
               key={airport.code}
               style={{
                 display: "flex",

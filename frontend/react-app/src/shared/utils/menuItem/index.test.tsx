@@ -13,7 +13,10 @@ vitest.spyOn(Sidebar, "Label").mockImplementation(({ location, schedule }) => (
 function makeTravelInfo(key: string) {
   return {
     origin: "ICN",
-    destination: "",
+    destination: {
+      city: "",
+      airportCode: "",
+    },
     key,
   };
 }
@@ -27,7 +30,7 @@ describe("createMenuItem 함수는", () => {
         style: typeof defaultStyle;
         children?: unknown;
         icon?: unknown;
-        label: unknown;
+        label: React.ReactNode;
       };
 
       expect(result.key).toBe(travelInfo.key);
