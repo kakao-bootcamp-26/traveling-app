@@ -131,8 +131,7 @@ resource "aws_security_group" "frontend_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-  ingress {
+    ingress {
     description = "Allow Jenkins"
     from_port   = 8080
     to_port     = 8080
@@ -160,13 +159,14 @@ resource "aws_instance" "frontend" {
   vpc_security_group_ids      = [aws_security_group.frontend_sg.id]
   key_name                    = var.key_name  # SSH 접속을 위한 키 페어
 
-  # Docker 및 Jenkins 설치 및 설정
   user_data = <<-EOF
               #!/bin/bash
-                            sleep 30
+              exec > /var/log/user_data.log 2>&1
+              set -x
+
               sudo apt-get update -y
               sudo apt-get upgrade -y
-              
+
               # Docker 설치
               sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
               curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -174,26 +174,28 @@ resource "aws_instance" "frontend" {
               sudo apt-get update -y
               sudo apt-get install -y docker-ce
 
+              # Jdk 설치
+              sudo apt-get install -y openjdk-11-jdk
+
               # Jenkins 설치
-              sudo apt-get update -y
               curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null
               echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
               sudo apt-get update -y
-              sudo apt-get install -y jenkins
-              sudo systemctl start jenkins
+              sudo apt-get install -y jenkins || { echo 'Jenkins 설치 실패' ; exit 1; }
+              sudo systemctl start jenkins || { echo 'Jenkins 시작 실패' ; exit 1; }
               sudo systemctl enable jenkins
 
               # Jenkins와 Docker 권한 설정
               sudo usermod -aG docker jenkins
               sudo systemctl restart jenkins
 
-              #깃허브 클론 테스트
+              # 깃허브 클론 테스트
               sudo mkdir /app
               sudo chown ubuntu:ubuntu /app
               cd /app
-              sudo git clone --branch "feat/docker&jenkins&gitWebHook" https://github.com/kakao-bootcamp-26/traveling-app.git
-              # 프론트엔드 Docker 컨테이너 실행
-              # (여기에서 도커 이미지 빌드 및 실행)
+              sudo git clone --branch "feat/docker&jenkins&gitWebHook" https://github.com/kakao-bootcamp-26/traveling-app.git || { echo 'Git 클론 실패' ; exit 1; }
+
+              echo "user_data 스크립트 완료"
               EOF
 
   tags = {
@@ -221,13 +223,6 @@ resource "aws_security_group" "backend_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  ingress {
-    description = "Allow Jenkins"
-    from_port   = 8080
-    to_port     = 8080
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
   egress {
     from_port   = 0
     to_port     = 0
@@ -251,7 +246,6 @@ resource "aws_instance" "backend" {
   # Docker 및 Jenkins 설치 및 설정
   user_data = <<-EOF
               #!/bin/bash
-                            sleep 30
               sudo apt-get update -y
               sudo apt-get upgrade -y
               
@@ -261,14 +255,15 @@ resource "aws_instance" "backend" {
               sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
               sudo apt-get update -y
               sudo apt-get install -y docker-ce
+              # Jdk 설치
+              sudo apt-get install -y openjdk-11-jdk
 
               # Jenkins 설치
-              sudo apt-get update -y
               curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null
               echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
               sudo apt-get update -y
-              sudo apt-get install -y jenkins
-              sudo systemctl start jenkins
+              sudo apt-get install -y jenkins || { echo 'Jenkins 설치 실패' ; exit 1; }
+              sudo systemctl start jenkins || { echo 'Jenkins 시작 실패' ; exit 1; }
               sudo systemctl enable jenkins
 
               # Jenkins와 Docker 권한 설정
@@ -290,14 +285,7 @@ resource "aws_instance" "backend" {
 # 데이터베이스 보안 그룹 생성 (EC2용)
 resource "aws_security_group" "db_sg" {
   vpc_id = aws_vpc.main.id
-  
-  ingress {
-    description = "Allow Jenkins"
-    from_port   = 8080
-    to_port     = 8080
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+
   ingress {
     description = "Allow from backend"
     from_port   = 5432
@@ -337,7 +325,6 @@ resource "aws_instance" "db" {
   # Docker 및 Jenkins 설치 및 PostgreSQL Docker 컨테이너 실행
   user_data = <<-EOF
               #!/bin/bash
-              sleep 30
               sudo apt-get update -y
               sudo apt-get upgrade -y
               
@@ -348,13 +335,15 @@ resource "aws_instance" "db" {
               sudo apt-get update -y
               sudo apt-get install -y docker-ce
 
+              # Jdk 설치
+              sudo apt-get install -y openjdk-11-jdk
+
               # Jenkins 설치
-              sudo apt-get update -y
               curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null
               echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
               sudo apt-get update -y
-              sudo apt-get install -y jenkins
-              sudo systemctl start jenkins
+              sudo apt-get install -y jenkins || { echo 'Jenkins 설치 실패' ; exit 1; }
+              sudo systemctl start jenkins || { echo 'Jenkins 시작 실패' ; exit 1; }
               sudo systemctl enable jenkins
 
 
