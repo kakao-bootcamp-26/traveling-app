@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 // import { UsersModule } from './users/users.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { FlightModule } from './flight/flight.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { AppService } from './app.service';
       }),
       inject: [ConfigService],
     }),
+    FlightModule,
     // AuthModule,
     // UsersModule,
   ],
