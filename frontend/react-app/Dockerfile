@@ -59,7 +59,7 @@ COPY --from=build /app/frontend/react-app .
 ENV PATH /app/frontend/react-app/node_modules/.bin:$PATH
 
 # 애플리케이션이 사용하는 포트를 노출합니다.
-EXPOSE 3000
+EXPOSE 5173
 
 # 애플리케이션을 시작합니다.
 CMD ["yarn", "run", "dev"]
