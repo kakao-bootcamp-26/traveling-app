@@ -12,4 +12,5 @@ export const typeOrmConfig = (
   database: configService.get<string>('DB_DATABASE'),
   entities: [__dirname + '/../**/*.entity{.ts,.js}'], // 엔티티 경로를 지정
   synchronize: true, // 프로덕션 환경에서는 false로 설정해야 함
+  logging: true,
 });

@@ -19,8 +19,9 @@ import { AppService } from './app.service';
       load: [], // 필요에 따라 설정 파일을 추가
       cache: true,
       envFilePath: [
-        `env/.env.${process.env.NODE_ENV || 'development'}.local`,
-        `env/.env.${process.env.NODE_ENV || 'development'}`,
+        // `env/.env.${process.env.NODE_ENV === 'production' ? '.env.production' : '.env.development'}.local`,
+        `env/.env.${process.env.NODE_ENV || 'production'}.local`,
+        // `env/.env.${process.env.NODE_ENV || 'development'}`,
         'env/.env',
         '.env',
       ],
