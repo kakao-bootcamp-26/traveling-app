@@ -10,7 +10,7 @@ describe("createNewTravelItem 함수", () => {
     // Then
     expect(result).toEqual({
       origin: "ICN",
-      destination: "",
+      destination: { airportCode: "", city: "" },
       key: "1",
       passenger: {
         count: {

@@ -6,7 +6,7 @@ export const initTravelItem: InitTravelInfo[] = [
   {
     key: "1",
     origin: "ICN",
-    destination: "LAX",
+    destination: { airportCode: "LAX", city: "Los Angeles" },
     schedule: { departure: dayjs("10:00"), arrival: dayjs("14:00") },
     passenger: {
       flightClass: "Economy",
@@ -20,7 +20,7 @@ export const initTravelItem: InitTravelInfo[] = [
   {
     key: "2",
     origin: "JFK",
-    destination: "HND",
+    destination: { airportCode: "HND", city: "Tokyo" },
     schedule: { departure: dayjs("08:00"), arrival: dayjs("12:00") },
     passenger: {
       flightClass: "Economy",
