@@ -60,7 +60,7 @@ WORKDIR /app
 COPY --from=build /app/frontend/react-app .
 
 # 환경 변수 설정 (Vite가 설치된 경로 추가)
-ENV PATH /app/frontend/react-app/node_modules/.bin:$PATH
+ENV PATH /app/node_modules/.bin:$PATH
 
 # 애플리케이션이 사용하는 포트를 노출합니다.
 EXPOSE 5173
