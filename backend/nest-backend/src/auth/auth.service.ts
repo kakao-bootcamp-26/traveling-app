@@ -20,10 +20,7 @@ export class AuthService {
     if (!req.user) {
       return 'No user from google';
     }
-    return await this.usersService.findOrCreateUser(
-      req.user.email,
-      req.user.googleId,
-      req.user.name,
-    );
+    const { email, id, displayName } = req.user;
+    return await this.usersService.findOrCreateUser(email, id, displayName);
   }
 }
