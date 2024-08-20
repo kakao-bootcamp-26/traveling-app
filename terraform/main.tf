@@ -165,6 +165,10 @@ resource "aws_instance" "frontend" {
   subnet_id                   = aws_subnet.public.id
   vpc_security_group_ids      = [aws_security_group.frontend_sg.id]
   key_name                    = var.key_name  # SSH 접속을 위한 키 페어
+  #공간이 부족해서 설치 안되는 패키지가 있는 것 같아서.
+  root_block_device {
+    volume_size = 50  # 루트 EBS 볼륨 크기를 50GB로 설정
+  }
 
   user_data = <<-EOF
               #!/bin/bash
