@@ -1,45 +1,17 @@
 import { renderHook, act, cleanup } from "@testing-library/react";
 import { RecoilRoot } from "recoil";
-import { travelInfoAtom, selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
+import { travelInfoAtom } from "@/shared/atom/travelAtom";
 import { useGetMenuList } from "@/hooks/useControlMenuList";
 import { InitTravelInfo } from "@/shared/entities";
 import * as uuid from "uuid";
 import dayjs from "dayjs";
+import { initTravelItem } from "@/tests/__mocks__/travelItem";
 
 const mockV4 = vi.fn();
 vi.spyOn(uuid, "v4").mockImplementation(mockV4);
 
 describe("useGetMenuList 훅은", () => {
-  const initialTravelInfo: InitTravelInfo[] = [
-    {
-      key: "1",
-      origin: "ICN",
-      destination: "LAX",
-      schedule: { departure: dayjs("10:00"), arrival: dayjs("14:00") },
-      passenger: {
-        flightClass: "Economy",
-        count: {
-          adults: 1,
-          children: 0,
-          infants: 0,
-        },
-      },
-    },
-    {
-      key: "2",
-      origin: "JFK",
-      destination: "HND",
-      schedule: { departure: dayjs("08:00"), arrival: dayjs("12:00") },
-      passenger: {
-        flightClass: "Economy",
-        count: {
-          adults: 1,
-          children: 0,
-          infants: 0,
-        },
-      },
-    },
-  ];
+  const initialTravelInfo: InitTravelInfo[] = initTravelItem;
 
   const setup = (initialState = initialTravelInfo) =>
     renderHook(() => useGetMenuList(), {
@@ -103,7 +75,7 @@ describe("useGetMenuList 훅은", () => {
       {
         key: "1",
         origin: "ICN",
-        destination: "LAX",
+        destination: { airportCode: "LAX", city: "Los Angeles" },
         schedule: { departure: dayjs("10:00"), arrival: dayjs("14:00") },
         passenger: {
           flightClass: "Economy",

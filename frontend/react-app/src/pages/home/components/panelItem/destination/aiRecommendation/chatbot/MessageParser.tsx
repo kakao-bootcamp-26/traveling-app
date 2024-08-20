@@ -1,4 +1,5 @@
-import React, { PropsWithChildren } from "react";
+import React from "react";
+import type { PropsWithChildren } from "react";
 
 type Props = {
   actions: any;
@@ -6,7 +7,20 @@ type Props = {
 
 const MessageParser = ({ children, actions }: PropsWithChildren<Props>) => {
   const parse = (message: string) => {
-    actions.handleMessage(message);
+    // TODO: AI로부터 받은 결과를 파싱하여 메시지를 생성하는 로직을 작성합니다.
+    const AIResult = [
+      {
+        country: "일본",
+        city: "도쿄",
+        airport: { name: "나리타 국제공항", code: "NRT" },
+      },
+      {
+        country: "이탈리아",
+        city: "로마",
+        airport: { name: "파우미치노 국제공항", code: "FCO" },
+      },
+    ];
+    actions.handleCurationMessage(AIResult);
   };
 
   return (

@@ -1,10 +1,10 @@
-import { render, screen, act, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { MockedFunction } from "vitest";
 import { Sidebar } from "./Sidebar";
 import { RecoilRoot } from "recoil";
 import userEvent from "@testing-library/user-event";
 import { useGetMenuList } from "@/hooks/useControlMenuList";
-import { initMenuList, initTravelItem } from "@/tests/__mocks__/travelItem";
+import { initTravelItem } from "@/tests/__mocks__/travelItem";
 
 // useGetMenuList 훅을 모킹하여 필요한 데이터와 함수들을 설정
 vi.mock("@/hooks/useControlMenuList");
@@ -21,7 +21,7 @@ describe("Sidebar 컴포넌트", () => {
     mockUseGetMenuList.mockReturnValue({
       menuList: initTravelItem.map((item) => ({
         key: item.key,
-        label: `${item.origin} - ${item.destination}`,
+        label: `${item.origin} - ${item.destination.airportCode}`,
       })),
       addMenuItem: vi.fn(),
       selectTravelItem: vi.fn().mockImplementation((key: string) => {

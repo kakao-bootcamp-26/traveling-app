@@ -4,6 +4,7 @@ import { RecommendationByKeyword } from "@/pages/home/components/panelItem/desti
 import AIRecommendationResult from "@/pages/home/components/panelItem/destination/aiRecommendation/result/AIRecommendationResult";
 import useAIRecommendationFunnel from "@/pages/home/hooks/destination/useAIRecommendationFunnel";
 import { FunnelSteps } from "@/pages/home/hooks/destination/useDestinationPanelFunnel";
+import { DestinationEntity } from "@/shared/entities/destination.entity";
 import { useState } from "react";
 
 type Props = {
@@ -21,7 +22,13 @@ export default function AIRecommendationPage({ moveToInitialPage, moveToResultPa
     moveToAIRecommendationResultStep,
   } = useAIRecommendationFunnel();
 
-  const [AIRecommendations, setAIRecommendations] = useState([]);
+  const [AIRecommendationDestinations, setAIRecommendationDestinations] = useState<
+    DestinationEntity[]
+  >([]);
+
+  const saveAIRecommendationDestinations = (cities: DestinationEntity[]) => {
+    setAIRecommendationDestinations(cities);
+  };
 
   return (
     <article className="flex flex-col items-center" data-nonblur="true">
@@ -36,17 +43,19 @@ export default function AIRecommendationPage({ moveToInitialPage, moveToResultPa
           name="KEYWORD"
           moveToAIRecommendationInitStep={moveToAIRecommendationInitStep}
           moveToAIRecommendationResultStep={moveToAIRecommendationResultStep}
+          saveAIRecommendationDestinations={saveAIRecommendationDestinations}
         />
         <ChatBotPage
           name="CHAT_BOT"
           moveToAIRecommendationInitStep={moveToAIRecommendationInitStep}
           moveToAIRecommendationResultStep={moveToAIRecommendationResultStep}
+          saveAIRecommendationDestinations={saveAIRecommendationDestinations}
         />
         <AIRecommendationResult
           name="AI_RESULT"
           moveToAIRecommendationInitStep={moveToAIRecommendationInitStep}
           moveToResultPage={moveToResultPage}
-          recommendations={AIRecommendations}
+          recommendationCities={AIRecommendationDestinations}
         />
       </Funnel>
     </article>

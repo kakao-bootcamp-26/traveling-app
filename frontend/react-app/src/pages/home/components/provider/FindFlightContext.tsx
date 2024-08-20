@@ -1,7 +1,11 @@
-import { createContext, PropsWithChildren, useState } from "react";
+import { selectedTravelInfoFlightSuggestionsAtom } from "@/shared/atom/flightAtom";
+import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
+import { TravelInfo } from "@/shared/entities";
+import { createContext, PropsWithChildren, useEffect, useState } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 type FindFlightStateProps = {
-  flight: any;
+  isFetching: boolean;
 };
 
 type FindFlightDispatchProps = {
@@ -9,19 +13,45 @@ type FindFlightDispatchProps = {
 };
 
 export const FindFlightStateContext = createContext<FindFlightStateProps>({
-  flight: null,
+  isFetching: false,
 });
 export const FindFlightDispatchContext = createContext<FindFlightDispatchProps>({
   findFlight: () => {},
 });
 
 export const FindFlightProvider = ({ children }: PropsWithChildren) => {
-  const [flight, setFlight] = useState();
-  const findFlight = (flight: any) => {
-    setFlight(flight);
+  const [isFetching, setIsFetching] = useState(false);
+  const selectedTravelInfo = useRecoilValue(selectedTravelInfoSelector);
+  const updateFlightSuggestions = useSetRecoilState(selectedTravelInfoFlightSuggestionsAtom);
+
+  useEffect(() => {
+    if (selectedTravelInfo) {
+      setIsFetching(false);
+    }
+  }, [selectedTravelInfo]);
+
+  const findFlight = (travelInfo: TravelInfo) => {
+    updateFlightSuggestions({
+      key: travelInfo.key,
+      flight: null,
+    });
+    setIsFetching(true);
+    setTimeout(() => {
+      const flight = {
+        origin: travelInfo.origin,
+        destination: travelInfo.destination,
+        schedule: travelInfo.schedule,
+      };
+      updateFlightSuggestions({
+        key: travelInfo.key,
+        flight,
+      });
+      setIsFetching(false);
+    }, 3000);
   };
+
   return (
-    <FindFlightStateContext.Provider value={{ flight }}>
+    <FindFlightStateContext.Provider value={{ isFetching }}>
       <FindFlightDispatchContext.Provider value={{ findFlight }}>
         {children}
       </FindFlightDispatchContext.Provider>
