@@ -12,7 +12,12 @@ export class AuthController {
 
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
-  googleAuthRedirect(@Req() _req) {
-    return this.authService.googleLogin(_req);
+  async googleAuthRedirect(@Req() _req) {
+    const user = await this.authService.googleLogin(_req);
+    return {
+      statusCode: 200,
+      data: user,
+      message: 'User login success',
+    };
   }
 }
