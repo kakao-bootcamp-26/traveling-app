@@ -1,3 +1,4 @@
+import { fetchInternationalRoundTripFlightList } from "@/services/flight";
 import { selectedTravelInfoFlightSuggestionsAtom } from "@/shared/atom/flightAtom";
 import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
 import { TravelInfo } from "@/shared/entities";
@@ -30,12 +31,14 @@ export const FindFlightProvider = ({ children }: PropsWithChildren) => {
     }
   }, [selectedTravelInfo]);
 
-  const findFlight = (travelInfo: TravelInfo) => {
+  const findFlight = async (travelInfo: TravelInfo) => {
     updateFlightSuggestions({
       key: travelInfo.key,
       flight: null,
     });
     setIsFetching(true);
+    const response = await fetchInternationalRoundTripFlightList();
+    console.log(response);
     setTimeout(() => {
       const flight = {
         origin: travelInfo.origin,
