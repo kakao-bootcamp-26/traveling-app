@@ -4,8 +4,12 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class FlightService {
   async getRoundTripFlight() {
-    const roundTrip = await fetchInternationalFlightList();
-    return roundTrip;
+    try {
+      const roundTrip = await fetchInternationalFlightList();
+      return roundTrip;
+    } catch (error) {
+      console.error('getRoundTripFlight Service Error');
+    }
   }
 
   getOneWayFlight() {

@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
 import {
   makeInternationalRoundTripFlightListKeyPayload,
   makeInternationalRoundTripFlightListPayload,
@@ -37,7 +38,11 @@ const fetchNaverFlightKey = async (): Promise<NaverFlightKey> => {
       galileoKey,
     };
   } catch (error) {
-    console.error('Error fetching the first response:', error.response?.body);
+    console.error(
+      'Error fetching the first response:',
+      error,
+      error.response?.body,
+    );
     if (error.response?.body?.errors) {
       const err = error.response.body.errors[0];
       console.error('Error fetching the first response:', err.extensions);
@@ -65,7 +70,6 @@ export const fetchInternationalFlightList = async () => {
         })) as any;
 
         const results = response.body?.data?.internationalList?.results;
-        console.log(results);
         const fares = results['fares'];
         const schedules = results['schedules'];
         const [departureSchedule, arrivalSchedule] = schedules as [any, any];
