@@ -1,12 +1,12 @@
 import { TravelInformation } from '@/flight/dto/TravelInformation.dto';
-import { fetchInternationalFlightList } from '@/flight/adapter/naverFlight.adapter';
+import { getInternationalFlightList } from '@/flight/adapter/naverFlight.adapter';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class FlightService {
   async getRoundTripFlight(travelInformation: TravelInformation) {
     try {
-      const roundTrip = await fetchInternationalFlightList(travelInformation);
+      const roundTrip = await getInternationalFlightList(travelInformation);
       return roundTrip;
     } catch (error) {
       console.error('getRoundTripFlight Service Error');
