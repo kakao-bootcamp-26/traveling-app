@@ -32,25 +32,26 @@ export const FindFlightProvider = ({ children }: PropsWithChildren) => {
   }, [selectedTravelInfo]);
 
   const findFlight = async (travelInfo: TravelInfo) => {
-    updateFlightSuggestions({
-      key: travelInfo.key,
-      flight: null,
-    });
-    setIsFetching(true);
-    const response = await fetchInternationalRoundTripFlightList();
-    console.log(response);
-    setTimeout(() => {
-      const flight = {
-        origin: travelInfo.origin,
-        destination: travelInfo.destination,
-        schedule: travelInfo.schedule,
-      };
+    try {
       updateFlightSuggestions({
         key: travelInfo.key,
-        flight,
+        flightCuration: null,
       });
+      setIsFetching(true);
+      const flightCuration = await fetchInternationalRoundTripFlightList();
+      console.log(flightCuration);
+
+      updateFlightSuggestions({
+        key: travelInfo.key,
+        flightCuration,
+      });
+
       setIsFetching(false);
-    }, 3000);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsFetching(false);
+    }
   };
 
   return (

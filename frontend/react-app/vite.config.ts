@@ -68,6 +68,8 @@ export default defineConfig(({ mode }) => {
           rewrite: (path: string) => path.replace(/^\/api/, ""),
         },
       },
+      // host: "0.0.0.0",
+      // port: 5173,
     },
   };
 });

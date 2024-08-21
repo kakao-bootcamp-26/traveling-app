@@ -8,6 +8,8 @@ export default {
         mint: "#5CFFD1",
         "mint-dark": "#92B8B1",
         "dark-blue": "rgb(27, 29, 43)",
+        "dark-blue-2": "rgb(37, 40, 62)",
+        "dark-grey": "rgb(48, 51, 73)",
       },
       fontFamily: {
         pretendard: ["Pretendard"],
