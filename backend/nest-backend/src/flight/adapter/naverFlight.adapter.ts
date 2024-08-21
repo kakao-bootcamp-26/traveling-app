@@ -87,6 +87,7 @@ export const fetchInternationalFlightList = async (
 
         const fares = results['fares'];
         const schedules = results['schedules'];
+        const airlines = results['airlines'];
         const [departureSchedule, arrivalSchedule] = schedules as [any, any];
 
         const result = {};
@@ -118,7 +119,7 @@ export const fetchInternationalFlightList = async (
             infant: pricePerInfant,
           };
 
-          console.log(fare);
+          // console.log(fare);
           const [departureSchKey, arrivalSchKey] = value.sch;
           const departureSch = departureSchedule[departureSchKey];
           const arrivalSch = arrivalSchedule[arrivalSchKey];
@@ -156,6 +157,7 @@ export const fetchInternationalFlightList = async (
             },
             fare: pricePerPerson,
             link: fare?.ReserveParameter?.['#cdata-section'],
+            airlines,
           };
         }
 
