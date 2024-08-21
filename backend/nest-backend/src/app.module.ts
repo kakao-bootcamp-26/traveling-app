@@ -1,42 +1,45 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-// import { AuthModule } from './auth/auth.module';
-// import { UsersModule } from './users/users.module';
+import { typeOrmConfig } from './config/typeorm.config';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { FlightModule } from './flight/flight.module';
+// import * as Joi from 'joi';
+
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true, // 전역 모듈로 설정
-      // validationSchema,
-      load: [],
+      // validationSchema: Joi.object({
+      //   DB_HOST: Joi.string().required(),
+      //   DB_PORT: Joi.number().default(5432),
+      // }),
+      load: [], // 필요에 따라 설정 파일을 추가
       cache: true,
       envFilePath: [
-        process.env.NODE_ENV === 'production'
-          ? '.env.production'
-          : '.env.development',
+        // `env/.env.${process.env.NODE_ENV === 'production' ? '.env.production' : '.env.development'}.local`,
+        // `env/.env.${process.env.NODE_ENV || 'production'}.local`,
+        `env/.env.${process.env.NODE_ENV || 'development'}.local`,
+        'env/.env',
+        '.env',
       ],
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get('DB_HOST'),
-        port: +configService.get<number>('DB_PORT'),
-        username: configService.get('DB_USERNAME'),
-        password: configService.get('DB_PASSWORD'),
-        database: configService.get('DB_DATABASE'),
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: true, // 프로덕션 환경에서는 false로 설정
-      }),
       inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        console.log('DB_DATABASE:', configService.get<string>('DB_DATABASE'));
+        return typeOrmConfig(configService);
+      },
     }),
     FlightModule,
-    // AuthModule,
-    // UsersModule,
+    AuthModule,
+    UsersModule,
+
   ],
   controllers: [AppController],
   providers: [AppService],
