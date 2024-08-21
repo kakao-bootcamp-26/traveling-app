@@ -32,7 +32,7 @@ export default function CityCuration({ city, sequence, isSelected, selectCity }:
         <p data-nonblur="true">{city.city}</p>
         <p data-nonblur="true">공항</p>
         <p data-nonblur="true">
-          {city.airport.name} ({city.airport.code})
+          {city.airport.name} ({city.airport.cityCode})
         </p>
       </div>
     </div>

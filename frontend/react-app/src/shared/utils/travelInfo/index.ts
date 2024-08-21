@@ -2,10 +2,11 @@ import { InitTravelInfo } from "@/shared/entities";
 
 export const createNewTravelItem = (key: string): InitTravelInfo => {
   return {
-    origin: { airportCode: "ICN", city: "서울/인천" },
+    origin: { airportCode: "ICN", city: "서울/인천", cityCode: "SEL" },
     destination: {
       city: "",
       airportCode: "",
+      cityCode: "",
     },
     passenger: {
       count: {

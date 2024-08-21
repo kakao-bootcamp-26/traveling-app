@@ -5,6 +5,7 @@ export type FlightClass = "Economy" | "Business" | "First";
 export type AirportLocation = {
   city: string;
   airportCode: string;
+  cityCode: string;
 };
 // 여행 일정을 나타내는 타입 정의
 export interface TravelSchedule {

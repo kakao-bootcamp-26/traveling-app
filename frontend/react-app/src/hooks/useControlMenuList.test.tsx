@@ -74,8 +74,8 @@ describe("useGetMenuList 훅은", () => {
     const singleTravelInfo: InitTravelInfo[] = [
       {
         key: "1",
-        origin: { airportCode: "ICN", city: "Seoul/Incheon" },
-        destination: { airportCode: "LAX", city: "Los Angeles" },
+        origin: { airportCode: "ICN", city: "서울/인천", cityCode: "SEL" },
+        destination: { airportCode: "LAX", city: "로스엔젤레스", cityCode: "LAX" },
         schedule: { departure: dayjs("10:00"), arrival: dayjs("14:00") },
         passenger: {
           flightClass: "Economy",

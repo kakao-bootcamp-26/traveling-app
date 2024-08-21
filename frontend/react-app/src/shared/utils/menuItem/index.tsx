@@ -34,10 +34,11 @@ export const createMenuItem = (
 
 export const initializeMenuItem = (key: string) => {
   return createMenuItem({
-    origin: { airportCode: "ICN", city: "서울/인천" },
+    origin: { airportCode: "ICN", city: "서울/인천", cityCode: "SEL" },
     destination: {
       city: "",
       airportCode: "",
+      cityCode: "",
     },
     key,
   });

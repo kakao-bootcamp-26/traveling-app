@@ -25,25 +25,36 @@ export default function FlightSuggestions() {
           <div className="mt-14">Searching for best flights</div>
         </div>
 
-        <div>
-          {flightSuggestions?.flightCuration && (
-            <>
-              <nav className="flex flex-col justify-center mb-10 text-xl">
-                <p>
-                  Flights from {selectedTravelInfo.origin.city} To{" "}
-                  {selectedTravelInfo.destination.city}
-                </p>
-              </nav>
-              <section className="flex flex-col w-full gap-y-8">
-                {curationKeys.map((key) => {
-                  if (!flightSuggestions?.flightCuration) return null;
-                  const curation = flightSuggestions.flightCuration[key];
-                  return <CurationItem key={key} curation={curation} />;
-                })}
-              </section>
-            </>
-          )}
-        </div>
+        {!isFetching && (
+          <div>
+            {flightSuggestions?.flightCuration && (
+              <div>
+                <nav className="flex flex-col justify-center mb-10 text-xl">
+                  <p>
+                    Flights from {selectedTravelInfo.origin.city} To{" "}
+                    {selectedTravelInfo.destination.city}
+                  </p>
+                </nav>
+                <section className="flex flex-col w-full gap-y-8">
+                  {curationKeys.map((key) => {
+                    if (!flightSuggestions?.flightCuration) return null;
+                    const curation = flightSuggestions.flightCuration[key];
+                    return <CurationItem key={key} curation={curation} />;
+                  })}
+                </section>
+              </div>
+            )}
+            {!flightSuggestions?.flightCuration && (
+              <div>
+                <h5>검색된 항공편이 없습니다.</h5>
+                <div>
+                  <p>선택하신 조건으로 검색된 항공편이 없습니다</p>
+                  <p>다른 조건으로 다시 검색해주세요</p>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </section>
     </div>
   );

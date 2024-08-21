@@ -33,7 +33,7 @@ export default function CurationMessage({ result, goToNextStep, goToPrevStep }: 
             <p>{city.city}</p>
             <p>공항</p>
             <p>
-              {city.airport.name} ({city.airport.code})
+              {city.airport.name} ({city.airport.cityCode})
             </p>
           </div>
         </div>

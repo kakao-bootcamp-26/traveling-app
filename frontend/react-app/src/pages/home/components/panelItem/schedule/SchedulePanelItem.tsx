@@ -54,6 +54,22 @@ export function SchedulePanelItem({ isOpen }: Props) {
             여행 시작일
           </Typography.Title>
           <DatePicker
+            showTime
+            format={"YYYY-MM-DD HH:mm"}
+            minuteStep={15}
+            onChange={pickDateHandler("departure", closeAllDatePicker)}
+            defaultValue={selectedTravelInfoAtom.schedule?.departure}
+            value={selectedTravelInfoAtom.schedule?.departure}
+            style={{ width: "70%", padding: "8px 16px" }}
+            open={isDepartureDatePickerOpen}
+            onClick={() => openDatePicker("departure")}
+          />
+        </div>
+        <div data-nonblur="true">
+          <Typography.Title level={4} style={{ color: "white" }} data-nonblur="true">
+            여행 종료일
+          </Typography.Title>
+          <DatePicker
             defaultValue={selectedTravelInfoAtom.schedule?.arrival}
             value={selectedTravelInfoAtom.schedule?.arrival}
             showTime
@@ -64,22 +80,6 @@ export function SchedulePanelItem({ isOpen }: Props) {
             style={{ width: "70%", padding: "8px 16px" }}
             open={isArrivalDatePickerOpen}
             onClick={() => openDatePicker("arrival")}
-          />
-        </div>
-        <div data-nonblur="true">
-          <Typography.Title level={4} style={{ color: "white" }} data-nonblur="true">
-            여행 종료일
-          </Typography.Title>
-          <DatePicker
-            showTime
-            format={"YYYY-MM-DD HH:mm"}
-            minuteStep={15}
-            onChange={pickDateHandler("departure", closeAllDatePicker)}
-            defaultValue={selectedTravelInfoAtom.schedule?.departure}
-            value={selectedTravelInfoAtom.schedule?.departure}
-            style={{ width: "70%", padding: "8px 16px" }}
-            open={isDepartureDatePickerOpen}
-            onClick={() => openDatePicker("departure")}
           />
         </div>
       </section>

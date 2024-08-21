@@ -1,3 +1,4 @@
+import { fareType } from "@/pages/home/constants/fareType";
 import { fetchInternationalRoundTripFlightList } from "@/services/flight";
 import { selectedTravelInfoFlightSuggestionsAtom } from "@/shared/atom/flightAtom";
 import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
@@ -38,8 +39,21 @@ export const FindFlightProvider = ({ children }: PropsWithChildren) => {
         flightCuration: null,
       });
       setIsFetching(true);
-      const flightCuration = await fetchInternationalRoundTripFlightList();
-      console.log(flightCuration);
+      const flightCuration = await fetchInternationalRoundTripFlightList({
+        passenger: {
+          count: {
+            adult: travelInfo.passenger.count.adults,
+            child: travelInfo.passenger.count.children,
+            infant: travelInfo.passenger.count.infants,
+          },
+          fareType: fareType[travelInfo.passenger.flightClass],
+        },
+        originCityCode: travelInfo.origin.cityCode,
+        destinationCityCode: travelInfo.destination.cityCode,
+        departureDate: travelInfo.schedule.departure.format("YYYYMMDD"),
+        arrivalDate: travelInfo.schedule.arrival.format("YYYYMMDD"),
+        trip: "RT",
+      });
 
       updateFlightSuggestions({
         key: travelInfo.key,

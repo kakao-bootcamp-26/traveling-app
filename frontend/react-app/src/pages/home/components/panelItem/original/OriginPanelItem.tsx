@@ -3,19 +3,23 @@ import useControlOrigin from "@/pages/home/hooks/origin/useControlOrigin";
 const airportList = [
   {
     name: "서울/인천",
-    code: "ICN",
+    airportCode: "ICN",
+    cityCode: "SEL",
   },
   {
     name: "서울/김포",
-    code: "GMP",
+    airportCode: "GMP",
+    cityCode: "SEL",
   },
   {
     name: "부산/김해",
-    code: "PUS",
+    airportCode: "PUS",
+    cityCode: "PUS",
   },
   {
     name: "대구",
-    code: "TAE",
+    airportCode: "TAE",
+    cityCode: "TAE",
   },
 ];
 
@@ -41,9 +45,15 @@ export function OriginPanelItem() {
           {airportList.map((airport) => (
             <li
               data-nonblur="true"
-              data-airport={airport.code}
-              onClick={() => updateOrigin({ airportCode: airport.code, city: airport.name })}
-              key={airport.code}
+              data-airport={airport.airportCode}
+              onClick={() =>
+                updateOrigin({
+                  airportCode: airport.airportCode,
+                  city: airport.name,
+                  cityCode: airport.cityCode,
+                })
+              }
+              key={airport.airportCode}
               style={{
                 display: "flex",
                 justifyContent: "space-between",
@@ -53,7 +63,7 @@ export function OriginPanelItem() {
               className="hover:text-gray-400"
             >
               <span style={{ flex: "1" }}>{airport.name}</span>
-              <span>{airport.code}</span>
+              <span>{airport.airportCode}</span>
             </li>
           ))}
         </ul>

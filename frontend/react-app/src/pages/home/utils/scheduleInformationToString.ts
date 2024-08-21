@@ -8,14 +8,14 @@ export function scheduleInformationToString(schedule: Partial<TravelSchedule> | 
     return "";
   }
   if (schedule.arrival && schedule.departure) {
-    return `${schedule.arrival.format("YYYY-MM-DD")} | ${schedule.departure.format("YYYY-MM-DD")}`;
+    return `${schedule.departure.format("YYYY-MM-DD")} | ${schedule.arrival.format("YYYY-MM-DD")}`;
   }
 
   if (schedule.arrival && !schedule.departure) {
-    return `${schedule.arrival.format("YYYY-MM-DD")} | Pick Departure Date`;
+    return `Pick Departure Date | ${schedule.arrival.format("YYYY-MM-DD")}`;
   }
 
   if (schedule.departure && !schedule.arrival) {
-    return `Pick Arrival Date | ${schedule.departure.format("YYYY-MM-DD")} `;
+    return `${schedule.departure.format("YYYY-MM-DD")} | Pick Arrival Date`;
   }
 }

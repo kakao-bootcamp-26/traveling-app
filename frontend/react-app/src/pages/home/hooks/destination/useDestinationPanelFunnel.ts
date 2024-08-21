@@ -15,6 +15,7 @@ export default function useDestinationPanelFunnel() {
       destination: {
         airportCode: "",
         city: "",
+        cityCode: "",
       },
     }));
   };
