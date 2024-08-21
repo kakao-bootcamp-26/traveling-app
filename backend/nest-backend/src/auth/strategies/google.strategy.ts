@@ -12,6 +12,10 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     private readonly configService: ConfigService,
     private readonly userService: UsersService,
   ) {
+    console.log(
+      'Google Client Secret:',
+      configService.get<string>('GOOGLE_CLIENT_SECRET'),
+    );
     super({
       clientID: configService.get<string>('GOOGLE_CLIENT_ID'),
       clientSecret: configService.get<string>('GOOGLE_CLIENT_SECRET'),

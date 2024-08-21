@@ -1,9 +1,48 @@
 import { Injectable } from '@nestjs/common';
+import { UsersService } from '../users/users.service';
+import { JwtService } from '@nestjs/jwt';
+import { Request } from 'express';
+import { User } from '../users/users.entity';
+
+interface GoogleUser {
+  email: string;
+  googleId: string;
+  name: string;
+}
+
+interface GoogleRequest extends Request {
+  user?: GoogleUser;
+}
 
 @Injectable()
 export class AuthService {
-  //   async validateUser(profile: any): Promise<any> {
-  //     // 프로필 정보로 사용자를 데이터베이스에서 확인하거나 생성하는 로직 구현
-  //     return profile;
-  //   }
+  constructor(
+    private usersService: UsersService,
+    private jwtService: JwtService,
+  ) {}
+
+  async googleLogin(
+    req: GoogleRequest,
+  ): Promise<{ user: User; token: string } | string> {
+    if (!req.user) {
+      return 'No user from google';
+    }
+
+    const { email, googleId, name } = req.user;
+
+    const user = await this.usersService.findOrCreateUser(
+      email,
+      googleId,
+      name,
+    );
+
+    const payload = { email, googleId, name };
+    const token = this.jwtService.sign(payload);
+
+    return { user, token };
+  }
+
+  async validateUser(payload: { email: string }): Promise<User | null> {
+    return await this.usersService.findOneByEmail(payload.email);
+  }
 }
