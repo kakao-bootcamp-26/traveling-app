@@ -65,7 +65,11 @@ export default function HumanSelectPage({ moveToInitialPage, moveToResultPage }:
 
       changeSelectedTravelInfo({
         ...selectedTravelInfo,
-        destination: { airportCode: airport.code, city: selectedCity },
+        destination: {
+          airportCode: airport.airportCode,
+          city: selectedCity,
+          cityCode: airport.cityCode,
+        },
       });
       moveToResultPage();
     }

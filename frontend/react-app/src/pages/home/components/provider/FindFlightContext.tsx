@@ -1,6 +1,9 @@
+import { fareType } from "@/pages/home/constants/fareType";
+import { fetchInternationalRoundTripFlightList } from "@/services/flight";
 import { selectedTravelInfoFlightSuggestionsAtom } from "@/shared/atom/flightAtom";
 import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
 import { TravelInfo } from "@/shared/entities";
+import { isFlightCurationErrorResponse } from "@/shared/entities/flightCuration.entity";
 import { createContext, PropsWithChildren, useEffect, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
@@ -30,24 +33,64 @@ export const FindFlightProvider = ({ children }: PropsWithChildren) => {
     }
   }, [selectedTravelInfo]);
 
-  const findFlight = (travelInfo: TravelInfo) => {
-    updateFlightSuggestions({
-      key: travelInfo.key,
-      flight: null,
-    });
-    setIsFetching(true);
-    setTimeout(() => {
-      const flight = {
-        origin: travelInfo.origin,
-        destination: travelInfo.destination,
-        schedule: travelInfo.schedule,
-      };
+  const findFlight = async (travelInfo: TravelInfo) => {
+    try {
       updateFlightSuggestions({
         key: travelInfo.key,
-        flight,
+        flightCuration: {
+          data: null,
+          error: null,
+        },
       });
+
+      setIsFetching(true);
+      console.log("fetching flight suggestions");
+      const flightCuration = await fetchInternationalRoundTripFlightList({
+        passenger: {
+          count: {
+            adult: travelInfo.passenger.count.adults,
+            child: travelInfo.passenger.count.children,
+            infant: travelInfo.passenger.count.infants,
+          },
+          fareType: fareType[travelInfo.passenger.flightClass],
+        },
+        originCityCode: travelInfo.origin.cityCode,
+        destinationCityCode: travelInfo.destination.cityCode,
+        departureDate: travelInfo.schedule.departure.format("YYYYMMDD"),
+        arrivalDate: travelInfo.schedule.arrival.format("YYYYMMDD"),
+        trip: "RT", // Round Trip
+      });
+      if (isFlightCurationErrorResponse(flightCuration)) {
+        updateFlightSuggestions({
+          key: travelInfo.key,
+          flightCuration: {
+            data: null,
+            error: flightCuration.error,
+          },
+        });
+      } else {
+        updateFlightSuggestions({
+          key: travelInfo.key,
+          flightCuration: {
+            data: flightCuration,
+            error: null,
+          },
+        });
+      }
+
       setIsFetching(false);
-    }, 3000);
+    } catch (error) {
+      updateFlightSuggestions({
+        key: travelInfo.key,
+        flightCuration: {
+          data: null,
+          error: "요청 중 오류가 발생했습니다.",
+        },
+      });
+      console.error(error);
+    } finally {
+      setIsFetching(false);
+    }
   };
 
   return (

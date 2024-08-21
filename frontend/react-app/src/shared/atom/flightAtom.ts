@@ -3,6 +3,7 @@ import { recoilPersist } from "recoil-persist";
 import { localStorageKey } from "@/constants";
 import { localStorageEffect } from "@/shared/atom/utils";
 import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
+import { FlightCuration } from "@/shared/entities/flightCuration.entity";
 
 const { persistAtom } = recoilPersist({
   key: localStorageKey.flightSuggestions,
@@ -10,7 +11,9 @@ const { persistAtom } = recoilPersist({
   converter: JSON,
 });
 
-const flightSuggestionsAtom = atom({
+const flightSuggestionsAtom = atom<
+  { key: string; flightCuration: { data: null | FlightCuration; error: null | string } }[]
+>({
   key: "flightSuggestions",
   default: [],
   effects_UNSTABLE: [persistAtom],

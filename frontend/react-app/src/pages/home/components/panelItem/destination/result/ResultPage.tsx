@@ -70,6 +70,7 @@ export default function ResultPage({ moveToInitialPage }: Props) {
       destination: {
         city: "",
         airportCode: "",
+        cityCode: "",
       },
     }));
   };

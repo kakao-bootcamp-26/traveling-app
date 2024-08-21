@@ -39,7 +39,8 @@ export default function AIRecommendationResult({
         ...prev,
         destination: {
           city: selectedCity.city,
-          airportCode: selectedCity.airport.code,
+          airportCode: selectedCity.airport.airportCode,
+          cityCode: selectedCity.airport.cityCode,
         },
       }));
       moveToResultPage();

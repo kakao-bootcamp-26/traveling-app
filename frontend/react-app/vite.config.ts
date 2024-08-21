@@ -60,5 +60,16 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: [{ find: "@", replacement: "/src" }],
     },
+    server: {
+      proxy: {
+        "/api": {
+          target: "http://localhost:3000",
+          changeOrigin: true,
+          rewrite: (path: string) => path.replace(/^\/api/, ""),
+        },
+      },
+      // host: "0.0.0.0",
+      // port: 5173,
+    },
   };
 });

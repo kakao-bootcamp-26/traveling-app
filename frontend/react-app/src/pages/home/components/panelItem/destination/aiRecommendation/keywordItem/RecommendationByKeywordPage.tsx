@@ -38,12 +38,12 @@ export function RecommendationByKeyword({
           {
             country: "일본",
             city: "도쿄",
-            airport: { name: "나리타 국제공항", code: "NRT" },
+            airport: { name: "나리타 국제공항", airportCode: "NRT", cityCode: "TYO" },
           },
           {
             country: "이탈리아",
             city: "로마",
-            airport: { name: "파우미치노 국제공항", code: "FCO" },
+            airport: { name: "파우미치노 국제공항", airportCode: "FCO", cityCode: "ROM" },
           },
         ]);
         moveToAIRecommendationResultStep();
