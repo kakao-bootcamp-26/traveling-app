@@ -5,7 +5,7 @@ import { selectedTravelInfoFlightSuggestionsAtom } from "@/shared/atom/flightAto
 import AirplaneLoader from "@/shared/components/loader/AirplaneLoader";
 import CurationItem from "@/pages/home/components/flightSuggestions/CurationItem";
 import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
-import { isFlightCurationErrorResponse } from "@/shared/entities/flightCuration.entity";
+import NoFlightCuration from "@/pages/home/components/flightSuggestions/NoFlightCuration";
 
 export default function FlightSuggestions() {
   const { isFetching } = useFindFlightStateContext();
@@ -13,7 +13,7 @@ export default function FlightSuggestions() {
   const flightSuggestions = useRecoilValue(selectedTravelInfoFlightSuggestionsAtom);
   const selectedTravelInfo = useRecoilValue(selectedTravelInfoSelector);
 
-  const curationKeys = Object.keys(flightSuggestions?.flightCuration ?? {});
+  const curationKeys = Object.keys(flightSuggestions?.flightCuration.data ?? {});
   return (
     <div className={`${flightSuggestions?.flightCuration ? "suggestion" : ""}`}>
       <section
@@ -28,32 +28,25 @@ export default function FlightSuggestions() {
 
         {!isFetching && (
           <div>
-            {flightSuggestions?.flightCuration.data && (
-              <div>
-                <nav className="flex flex-col justify-center mb-10 text-xl">
-                  <p>
-                    Flights from {selectedTravelInfo.origin.city} To{" "}
-                    {selectedTravelInfo.destination.city}
-                  </p>
-                </nav>
+            <div>
+              <nav className="flex flex-col justify-center mb-10 text-xl">
+                <p>
+                  Flights from {selectedTravelInfo.origin.city} To{" "}
+                  {selectedTravelInfo.destination.city}
+                </p>
+              </nav>
+              {flightSuggestions?.flightCuration.data && (
                 <section className="flex flex-col w-full gap-y-8">
                   {curationKeys.map((key) => {
                     if (!flightSuggestions?.flightCuration.data) return null;
                     const curation = flightSuggestions.flightCuration.data[key];
-                    return <CurationItem key={key} curation={curation} />;
+                    const airlines = curation.airlines;
+                    return <CurationItem key={key} curation={curation} airlines={airlines} />;
                   })}
                 </section>
-              </div>
-            )}
-            {flightSuggestions?.flightCuration.error && (
-              <div>
-                <h5>검색된 항공편이 없습니다.</h5>
-                <div>
-                  <p>선택하신 조건으로 검색된 항공편이 없습니다</p>
-                  <p>다른 조건으로 다시 검색해주세요</p>
-                </div>
-              </div>
-            )}
+              )}
+              {flightSuggestions?.flightCuration.error && <NoFlightCuration />}
+            </div>
           </div>
         )}
       </section>

@@ -1,5 +1,5 @@
 import React from "react";
-import { FlightInformation } from "@/shared/entities/flightCuration.entity";
+import { Airlines, FlightInformation } from "@/shared/entities/flightCuration.entity";
 import { Link } from "react-router-dom";
 import FlightTimeInformation from "@/pages/home/components/flightSuggestions/FlightTimeInformation";
 import { useRecoilValue } from "recoil";
@@ -7,15 +7,24 @@ import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
 
 type Props = {
   curation: FlightInformation;
+  airlines: Airlines;
 };
-export default function CurationItem({ curation }: Props) {
+export default function CurationItem({ curation, airlines }: Props) {
   const selectedTravelInfo = useRecoilValue(selectedTravelInfoSelector);
   return (
     <article className="flex w-[60%] min-w-[600px]">
       <section className="w-[75%] bg-dark-blue-2 px-6 py-4 flex flex-col">
-        <FlightTimeInformation type="departure" flightInformation={curation.departure} />
+        <FlightTimeInformation
+          type="departure"
+          flightInformation={curation.departure}
+          airline={airlines[curation.departure.airline]}
+        />
         <hr className="my-4 " />
-        <FlightTimeInformation type="arrival" flightInformation={curation.arrival} />
+        <FlightTimeInformation
+          type="arrival"
+          flightInformation={curation.arrival}
+          airline={airlines[curation.departure.airline]}
+        />
       </section>
       <section className="w-[25%] bg-dark-grey px-3 py-4">
         <div className="mb-4 text-[13px]">
@@ -43,9 +52,11 @@ export default function CurationItem({ curation }: Props) {
             )?.toLocaleString("en-US")}
           </div>
         </div>
-        <div className="flex justify-center px-2 py-2 font-semibold bg-blue-400 rounded-md">
+        <div
+          className={`flex justify-center px-2 py-2 font-semibold ${curation.link ? "bg-blue-400" : "bg-slate-500"} rounded-md`}
+        >
           <button>
-            <Link to={curation.link} target="_blank">
+            <Link to={curation.link || ""} target="_blank">
               SELECT
             </Link>
           </button>

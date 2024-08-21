@@ -44,6 +44,7 @@ export const FindFlightProvider = ({ children }: PropsWithChildren) => {
       });
 
       setIsFetching(true);
+      console.log("fetching flight suggestions");
       const flightCuration = await fetchInternationalRoundTripFlightList({
         passenger: {
           count: {
@@ -79,6 +80,13 @@ export const FindFlightProvider = ({ children }: PropsWithChildren) => {
 
       setIsFetching(false);
     } catch (error) {
+      updateFlightSuggestions({
+        key: travelInfo.key,
+        flightCuration: {
+          data: null,
+          error: "요청 중 오류가 발생했습니다.",
+        },
+      });
       console.error(error);
     } finally {
       setIsFetching(false);

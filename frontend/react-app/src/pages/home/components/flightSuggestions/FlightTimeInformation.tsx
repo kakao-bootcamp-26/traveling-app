@@ -4,9 +4,10 @@ import dayjs from "dayjs";
 type Props = {
   type: "departure" | "arrival"; // 출국 귀국
   flightInformation: FlightTimeInformationEntity;
+  airline: string;
 };
 
-export default function FlightTimeInformation({ type, flightInformation }: Props) {
+export default function FlightTimeInformation({ type, flightInformation, airline }: Props) {
   return (
     <section className="flex-col">
       <div className="flex mb-2 gap-x-4">
@@ -48,6 +49,7 @@ export default function FlightTimeInformation({ type, flightInformation }: Props
         <div className="flex flex-col w-[15%] items-center">
           <span>항공사</span>
           <span>{flightInformation.airline}</span>
+          <span className="text-[8px]">{airline}</span>
         </div>
       </div>
       {/* 탄소배출 */}

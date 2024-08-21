@@ -22,6 +22,10 @@ type FlightFare = {
   infant: number;
 };
 
+export type Airlines = {
+  [key: string]: string;
+};
+
 export type FlightTimeInformation = ArrivalInfo & DepartureInfo & FlightSchedule;
 
 export type FlightInformation = {
@@ -30,8 +34,9 @@ export type FlightInformation = {
   // 왕복의 도착
   departure: FlightTimeInformation;
   fare: FlightFare;
-  link: string;
+  link?: string;
   id: string;
+  airlines: Airlines;
 };
 export type FlightCuration = {
   [key: string]: FlightInformation;

@@ -27,17 +27,6 @@ export const Label = ({
         {location}
       </span>
       {/* {schedule ? <span>{scheduleInformationToString(schedule)}</span> : <span>Anytime</span>} */}
-      {schedule?.arrival && (
-        <span
-          style={{
-            fontSize: "11px",
-            height: "20px",
-            lineHeight: "20px",
-          }}
-        >
-          {schedule?.arrival?.format("YYYY-MM-DD")}
-        </span>
-      )}
       {schedule?.departure && (
         <span
           style={{
@@ -47,6 +36,17 @@ export const Label = ({
           }}
         >
           {schedule?.departure?.format("YYYY-MM-DD")}
+        </span>
+      )}
+      {schedule?.arrival && (
+        <span
+          style={{
+            fontSize: "11px",
+            height: "20px",
+            lineHeight: "20px",
+          }}
+        >
+          {schedule?.arrival?.format("YYYY-MM-DD")}
         </span>
       )}
     </div>
