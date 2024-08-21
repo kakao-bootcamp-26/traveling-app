@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
+import { JwtPayload } from './jwt-payload.interface';
 
 interface GoogleUser {
   email: string;
@@ -37,5 +38,14 @@ export class AuthService {
     const token = this.jwtService.sign(payload);
 
     return { user, token };
+  }
+
+  async validateUser(payload: JwtPayload): Promise<any> {
+    const user = await this.usersService.findOneByEmail(payload.email);
+    if (!user) {
+      return null;
+    } else {
+      return user;
+    }
   }
 }
