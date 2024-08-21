@@ -22,11 +22,13 @@ type FlightFare = {
   infant: number;
 };
 
+export type FlightTimeInformation = ArrivalInfo & DepartureInfo & FlightSchedule;
+
 export type FlightInformation = {
   // 왕복의 출발
-  arrival: ArrivalInfo & DepartureInfo & FlightSchedule;
+  arrival: FlightTimeInformation;
   // 왕복의 도착
-  departure: ArrivalInfo & DepartureInfo & FlightSchedule;
+  departure: FlightTimeInformation;
   fare: FlightFare;
   link: string;
   id: string;

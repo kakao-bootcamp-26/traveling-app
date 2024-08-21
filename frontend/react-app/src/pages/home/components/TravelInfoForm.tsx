@@ -10,7 +10,6 @@ import {
   passengerInformationToString,
   scheduleInformationToString,
 } from "@/pages/home/utils";
-import { domesticAirports, internationalAirports } from "@/constants";
 
 export type SelectedTravelInput = Exclude<keyof TravelInfo, "key">;
 
@@ -102,11 +101,7 @@ export default function TravelInfoForm() {
                 style={{
                   padding: "8px 16px",
                 }}
-                value={
-                  internationalAirports[
-                    selectedItem.destination.airportCode as keyof typeof internationalAirports
-                  ]
-                }
+                value={`${selectedItem.destination.city} (${selectedItem.destination.airportCode})`}
                 onFocus={handleInputFocus("destination")}
               />
             </Form.Item>
