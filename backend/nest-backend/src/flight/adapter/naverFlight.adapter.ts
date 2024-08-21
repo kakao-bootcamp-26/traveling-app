@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
+import { TravelInformation } from '@/flight/dto/TravelInformation.dto';
 import {
   makeInternationalRoundTripFlightListKeyPayload,
   makeInternationalRoundTripFlightListPayload,
@@ -20,10 +21,14 @@ const headers = {
   Referer:
     'https://m-flight.naver.com/flights/international/ICN-DAD-20240907?adult=1&isDirect=true&fareType=Y',
 };
-const fetchNaverFlightKey = async (): Promise<NaverFlightKey> => {
+
+const fetchNaverFlightKey = async (
+  travelInformation: TravelInformation,
+): Promise<NaverFlightKey> => {
   const gotInstance = await got();
   try {
-    const payload = makeInternationalRoundTripFlightListKeyPayload();
+    const payload =
+      makeInternationalRoundTripFlightListKeyPayload(travelInformation);
     const response = await gotInstance.post(url, {
       json: payload,
       headers,
@@ -31,38 +36,47 @@ const fetchNaverFlightKey = async (): Promise<NaverFlightKey> => {
     });
 
     const responseData = response.body as any;
-    const travelBizKey = responseData.data.internationalList.travelBizKey;
-    const galileoKey = responseData.data.internationalList.galileoKey;
+    const travelBizKey = responseData.data?.internationalList?.travelBizKey;
+    const galileoKey = responseData.data?.internationalList?.galileoKey;
+
     return {
-      travelBizKey,
-      galileoKey,
+      travelBizKey: travelBizKey || '',
+      galileoKey: galileoKey || '',
     };
   } catch (error) {
-    console.error(
-      'Error fetching the first response:',
-      error,
-      error.response?.body,
-    );
-    if (error.response?.body?.errors) {
-      const err = error.response.body.errors[0];
-      console.error('Error fetching the first response:', err.extensions);
-      console.error(
-        'This Got-based implementation is equivalent to the Axios code you provided. The code is structured to make two API calls to the Naver airline API, the first to retrieve necessary keys and the second to use those keys to fetch detailed flight schedules and fares.',
-      );
-    }
+    console.log(error.response?.body?.errors);
+    // console.error(
+    //   'Error fetching the first response:',
+    //   // error,
+    //   error.response?.body,
+    // );
+
+    // if (error.response?.body?.errors) {
+    //   const err = error.response.body.errors[0];
+    //   console.error('Error fetching the first response!:', err.extensions);
+    //   // console.error(
+    //   //   'This Got-based implementation is equivalent to the Axios code you provided. The code is structured to make two API calls to the Naver airline API, the first to retrieve necessary keys and the second to use those keys to fetch detailed flight schedules and fares.',
+    //   // );
+    // }
   }
 };
 
-export const fetchInternationalFlightList = async () => {
+export const fetchInternationalFlightList = async (
+  travelInformation: TravelInformation,
+) => {
   try {
     const gotInstance = await got();
-    const { galileoKey, travelBizKey } = await fetchNaverFlightKey();
+    const { galileoKey, travelBizKey } =
+      await fetchNaverFlightKey(travelInformation);
     return new Promise((resolve) => {
       setTimeout(async () => {
-        const payload = makeInternationalRoundTripFlightListPayload({
-          galileoKey,
-          travelBizKey,
-        });
+        const payload = makeInternationalRoundTripFlightListPayload(
+          {
+            galileoKey,
+            travelBizKey,
+          },
+          travelInformation,
+        );
         const response = (await gotInstance.post(url, {
           json: payload,
           headers,
@@ -70,6 +84,7 @@ export const fetchInternationalFlightList = async () => {
         })) as any;
 
         const results = response.body?.data?.internationalList?.results;
+
         const fares = results['fares'];
         const schedules = results['schedules'];
         const [departureSchedule, arrivalSchedule] = schedules as [any, any];
@@ -140,7 +155,12 @@ export const fetchInternationalFlightList = async () => {
             link: fare?.ReserveParameter?.['#cdata-section'],
           };
         }
-        resolve(result);
+
+        if (Object.keys(result).length === 0) {
+          resolve(null);
+        } else {
+          resolve(result);
+        }
       }, 2000);
     });
 

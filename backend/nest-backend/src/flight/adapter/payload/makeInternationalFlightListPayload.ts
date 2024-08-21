@@ -1,29 +1,42 @@
-export const makeInternationalRoundTripFlightListKeyPayload = () => {
+import { TravelInformation } from '@/flight/dto/TravelInformation.dto';
+
+export const makeInternationalRoundTripFlightListKeyPayload = ({
+  passenger: {
+    count: { adult, child, infant },
+    fareType,
+  },
+  trip,
+  originCityCode,
+  destinationCityCode,
+  departureDate,
+  arrivalDate,
+}: TravelInformation) => {
   const payload = {
     operationName: 'getInternationalList',
     variables: {
-      adult: 1,
-      child: 0,
-      infant: 0,
+      adult,
+      child,
+      infant,
       where: 'pc',
-      isDirect: true,
+      isDirect: true, // 직항
       galileoFlag: true,
       travelBizFlag: true,
-      fareType: 'Y',
+      fareType: fareType,
       itinerary: [
         {
-          departureAirport: 'ICN',
-          arrivalAirport: 'DAD',
-          departureDate: '20240907',
+          departureAirport: originCityCode,
+          arrivalAirport: destinationCityCode,
+          departureDate: departureDate,
         },
         {
-          departureAirport: 'DAD',
-          arrivalAirport: 'ICN',
-          departureDate: '20240912',
+          departureAirport: destinationCityCode,
+          arrivalAirport: originCityCode,
+          departureDate: arrivalDate,
         },
       ],
       stayLength: '',
-      trip: 'OW',
+      // trip: 'OW',
+      trip: trip,
       galileoKey: '',
       travelBizKey: '',
     },
@@ -82,33 +95,45 @@ export type NaverFlightKey = {
   travelBizKey: string;
 };
 
-export const makeInternationalRoundTripFlightListPayload = ({
-  galileoKey,
-  travelBizKey,
-}: NaverFlightKey) => {
-  if (!galileoKey || !travelBizKey) {
-    throw new Error('Galileo or TravelBiz key is missing');
-  }
+export const makeInternationalRoundTripFlightListPayload = (
+  { galileoKey, travelBizKey }: NaverFlightKey,
+  {
+    passenger: {
+      count: { adult, child, infant },
+      fareType,
+    },
+    trip,
+    originCityCode,
+    destinationCityCode,
+    departureDate,
+    arrivalDate,
+  }: TravelInformation,
+) => {
   const payload = {
     operationName: 'getInternationalList',
     variables: {
-      adult: 1,
-      child: 0,
-      infant: 0,
+      adult,
+      child,
+      infant,
       where: 'pc',
       isDirect: true,
       galileoFlag: galileoKey !== '',
       travelBizFlag: travelBizKey !== '', // If empty, set to false
-      fareType: 'Y',
+      fareType,
       itinerary: [
         {
-          departureAirport: 'ICN',
-          arrivalAirport: 'DAD',
-          departureDate: '20240907',
+          departureAirport: originCityCode,
+          arrivalAirport: destinationCityCode,
+          departureDate: departureDate,
+        },
+        {
+          departureAirport: destinationCityCode,
+          arrivalAirport: originCityCode,
+          departureDate: arrivalDate,
         },
       ],
       stayLength: '',
-      trip: 'OW',
+      trip,
       galileoKey: galileoKey,
       travelBizKey: travelBizKey,
     },
