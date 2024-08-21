@@ -50,6 +50,7 @@ export default function FlightTimeInformation({ type, flightInformation }: Props
           <span>{flightInformation.airline}</span>
         </div>
       </div>
+      {/* 탄소배출 */}
     </section>
   );
 }

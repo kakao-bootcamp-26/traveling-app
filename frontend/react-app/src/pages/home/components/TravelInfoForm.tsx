@@ -101,7 +101,10 @@ export default function TravelInfoForm() {
                 style={{
                   padding: "8px 16px",
                 }}
-                value={`${selectedItem.destination.city} (${selectedItem.destination.airportCode})`}
+                value={
+                  selectedItem.destination.city &&
+                  `${selectedItem.destination.city} (${selectedItem.destination.airportCode})`
+                }
                 onFocus={handleInputFocus("destination")}
               />
             </Form.Item>

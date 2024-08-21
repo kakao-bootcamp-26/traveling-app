@@ -3,6 +3,7 @@ import { fetchInternationalRoundTripFlightList } from "@/services/flight";
 import { selectedTravelInfoFlightSuggestionsAtom } from "@/shared/atom/flightAtom";
 import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
 import { TravelInfo } from "@/shared/entities";
+import { isFlightCurationErrorResponse } from "@/shared/entities/flightCuration.entity";
 import { createContext, PropsWithChildren, useEffect, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
@@ -36,8 +37,12 @@ export const FindFlightProvider = ({ children }: PropsWithChildren) => {
     try {
       updateFlightSuggestions({
         key: travelInfo.key,
-        flightCuration: null,
+        flightCuration: {
+          data: null,
+          error: null,
+        },
       });
+
       setIsFetching(true);
       const flightCuration = await fetchInternationalRoundTripFlightList({
         passenger: {
@@ -52,13 +57,25 @@ export const FindFlightProvider = ({ children }: PropsWithChildren) => {
         destinationCityCode: travelInfo.destination.cityCode,
         departureDate: travelInfo.schedule.departure.format("YYYYMMDD"),
         arrivalDate: travelInfo.schedule.arrival.format("YYYYMMDD"),
-        trip: "RT",
+        trip: "RT", // Round Trip
       });
-
-      updateFlightSuggestions({
-        key: travelInfo.key,
-        flightCuration,
-      });
+      if (isFlightCurationErrorResponse(flightCuration)) {
+        updateFlightSuggestions({
+          key: travelInfo.key,
+          flightCuration: {
+            data: null,
+            error: flightCuration.error,
+          },
+        });
+      } else {
+        updateFlightSuggestions({
+          key: travelInfo.key,
+          flightCuration: {
+            data: flightCuration,
+            error: null,
+          },
+        });
+      }
 
       setIsFetching(false);
     } catch (error) {

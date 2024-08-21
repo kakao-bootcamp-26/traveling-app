@@ -33,6 +33,14 @@ export type FlightInformation = {
   link: string;
   id: string;
 };
-export interface FlightCuration {
+export type FlightCuration = {
   [key: string]: FlightInformation;
+};
+
+export type FlightCurationError = { error: string };
+
+export function isFlightCurationErrorResponse(
+  response: FlightCuration | FlightCurationError,
+): response is FlightCurationError {
+  return "error" in response;
 }

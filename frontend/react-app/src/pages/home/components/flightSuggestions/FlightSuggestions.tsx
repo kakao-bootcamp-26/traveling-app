@@ -5,6 +5,7 @@ import { selectedTravelInfoFlightSuggestionsAtom } from "@/shared/atom/flightAto
 import AirplaneLoader from "@/shared/components/loader/AirplaneLoader";
 import CurationItem from "@/pages/home/components/flightSuggestions/CurationItem";
 import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
+import { isFlightCurationErrorResponse } from "@/shared/entities/flightCuration.entity";
 
 export default function FlightSuggestions() {
   const { isFetching } = useFindFlightStateContext();
@@ -27,7 +28,7 @@ export default function FlightSuggestions() {
 
         {!isFetching && (
           <div>
-            {flightSuggestions?.flightCuration && (
+            {flightSuggestions?.flightCuration.data && (
               <div>
                 <nav className="flex flex-col justify-center mb-10 text-xl">
                   <p>
@@ -37,14 +38,14 @@ export default function FlightSuggestions() {
                 </nav>
                 <section className="flex flex-col w-full gap-y-8">
                   {curationKeys.map((key) => {
-                    if (!flightSuggestions?.flightCuration) return null;
-                    const curation = flightSuggestions.flightCuration[key];
+                    if (!flightSuggestions?.flightCuration.data) return null;
+                    const curation = flightSuggestions.flightCuration.data[key];
                     return <CurationItem key={key} curation={curation} />;
                   })}
                 </section>
               </div>
             )}
-            {!flightSuggestions?.flightCuration && (
+            {flightSuggestions?.flightCuration.error && (
               <div>
                 <h5>검색된 항공편이 없습니다.</h5>
                 <div>

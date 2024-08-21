@@ -11,7 +11,9 @@ const { persistAtom } = recoilPersist({
   converter: JSON,
 });
 
-const flightSuggestionsAtom = atom<{ key: string; flightCuration: null | FlightCuration }[]>({
+const flightSuggestionsAtom = atom<
+  { key: string; flightCuration: { data: null | FlightCuration; error: null | string } }[]
+>({
   key: "flightSuggestions",
   default: [],
   effects_UNSTABLE: [persistAtom],

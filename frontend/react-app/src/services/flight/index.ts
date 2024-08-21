@@ -8,7 +8,7 @@ const flightsApi = indexApi.extend({
 
 export const fetchInternationalRoundTripFlightList = async (
   travelInformation: TravelInformation,
-): Promise<FlightCuration> => {
+): Promise<FlightCuration | { error: string }> => {
   const response = (await flightsApi
     .post("round-trip", {
       json: {
