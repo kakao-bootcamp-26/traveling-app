@@ -16,7 +16,6 @@ export class FlightController {
       // console.log('body', body);
       // TODO: 입력 유효성 검사
       const response = await this.flightService.getRoundTripFlight(body);
-      console.log('response', response);
       // TODO: 만약 항공편이 없을 경우 처리
       return res.json({ data: response });
     } catch (error) {

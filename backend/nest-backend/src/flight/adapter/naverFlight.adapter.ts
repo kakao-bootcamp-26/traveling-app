@@ -88,11 +88,13 @@ export const fetchInternationalFlightList = async (
         const fares = results['fares'];
         const schedules = results['schedules'];
         const [departureSchedule, arrivalSchedule] = schedules as [any, any];
+
         const result = {};
 
         for (const item of Object.entries(fares)) {
           // 가격
           const [key, value] = item as [string, any];
+          // console.log(value.fare['A01']);
           const fare = value.fare['A01'][0];
           const pricePerAdult =
             parseInt(fare['Adult']['NaverFare'], 10) ||
@@ -116,6 +118,7 @@ export const fetchInternationalFlightList = async (
             infant: pricePerInfant,
           };
 
+          console.log(fare);
           const [departureSchKey, arrivalSchKey] = value.sch;
           const departureSch = departureSchedule[departureSchKey];
           const arrivalSch = arrivalSchedule[arrivalSchKey];
@@ -157,7 +160,7 @@ export const fetchInternationalFlightList = async (
         }
 
         if (Object.keys(result).length === 0) {
-          resolve(null);
+          resolve({ error: 'No results found' });
         } else {
           resolve(result);
         }
