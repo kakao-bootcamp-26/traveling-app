@@ -80,9 +80,10 @@ export const fetchInternationalFlightList = async () => {
           const [key, value] = item as [string, any];
           const fare = value.fare['A01'][0];
           const pricePerAdult =
-            parseInt(fare['Adult']['NaverFare'] || fare['Adult']['Fare'], 10) +
-            parseInt(fare['Adult']['Tax'], 10) +
-            parseInt(fare['Adult']['QCharge'], 10);
+            parseInt(fare['Adult']['NaverFare'], 10) ||
+            parseInt(fare['Adult']['Fare'], 10) +
+              parseInt(fare['Adult']['Tax'], 10) +
+              parseInt(fare['Adult']['QCharge'], 10);
           const pricePerChild =
             parseInt(fare['Child']['NaverFare'], 10) ||
             parseInt(fare['Child']['Fare']) +
@@ -110,20 +111,30 @@ export const fetchInternationalFlightList = async () => {
               departureAirport: departureSch.detail[0].sa, // 출발 공항
               departureDate: departureSch.detail[0].sdt, // 출발 날짜
               departureTime: departureSch.detail[0].sdt.slice(-4), // 출발 시각 (마지막 4자리)
-              arrivalAirport: arrivalSch.detail[0].ea, // 도착 공항
-              arrivalDate: arrivalSch.detail[0].edt, // 도착 날짜
-              arrivalTime: arrivalSch.detail[0].edt.slice(-4), // 도착 시각 (마지막 4자리)
+              arrivalAirport: departureSch.detail[0].ea, // 도착 공항
+              arrivalDate: departureSch.detail[0].edt, // 도착 날짜
+              arrivalTime: departureSch.detail[0].edt.slice(-4), // 도착 시각 (마지막 4자리)
               airline: departureSch.detail[0].av, // 항공사
+              journeyTime: {
+                hours: parseInt(departureSch.journeyTime[0]),
+                minutes: parseInt(departureSch.journeyTime[1]),
+              },
+              carbonEmission: departureSch.detail[0].carbonEmission,
             },
 
             arrival: {
               departureAirport: arrivalSch.detail[0].sa, // 출발 공항
               departureDate: arrivalSch.detail[0].sdt, // 출발 날짜
               departureTime: arrivalSch.detail[0].sdt.slice(-4), // 출발 시각 (마지막 4자리)
-              arrivalAirport: departureSch.detail[0].ea, // 도착 공항
-              arrivalDate: departureSch.detail[0].edt, // 도착 날짜
-              arrivalTime: departureSch.detail[0].edt.slice(-4), // 도착 시각 (마지막 4자리)
+              arrivalAirport: arrivalSch.detail[0].ea, // 도착 공항
+              arrivalDate: arrivalSch.detail[0].edt, // 도착 날짜
+              arrivalTime: arrivalSch.detail[0].edt.slice(-4), // 도착 시각 (마지막 4자리)
               airline: arrivalSch.detail[0].av, // 항공사
+              journeyTime: {
+                hours: parseInt(arrivalSch.journeyTime[0]),
+                minutes: parseInt(arrivalSch.journeyTime[1]),
+              },
+              carbonEmission: arrivalSch.detail[0].carbonEmission,
             },
             fare: pricePerPerson,
             link: fare?.ReserveParameter?.['#cdata-section'],
