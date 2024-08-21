@@ -20,8 +20,8 @@ import { AppService } from './app.service';
       cache: true,
       envFilePath: [
         // `env/.env.${process.env.NODE_ENV === 'production' ? '.env.production' : '.env.development'}.local`,
-        `env/.env.${process.env.NODE_ENV || 'production'}.local`,
-        // `env/.env.${process.env.NODE_ENV || 'development'}`,
+        // `env/.env.${process.env.NODE_ENV || 'production'}.local`,
+        `env/.env.${process.env.NODE_ENV || 'development'}.local`,
         'env/.env',
         '.env',
       ],
