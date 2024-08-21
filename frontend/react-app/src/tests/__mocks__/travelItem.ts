@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 export const initTravelItem: InitTravelInfo[] = [
   {
     key: "1",
-    origin: "ICN",
+    origin: { airportCode: "ICN", city: "서울/인천" },
     destination: { airportCode: "LAX", city: "Los Angeles" },
     schedule: { departure: dayjs("10:00"), arrival: dayjs("14:00") },
     passenger: {
@@ -19,7 +19,7 @@ export const initTravelItem: InitTravelInfo[] = [
   },
   {
     key: "2",
-    origin: "JFK",
+    origin: { airportCode: "JFK", city: "New York" },
     destination: { airportCode: "HND", city: "Tokyo" },
     schedule: { departure: dayjs("08:00"), arrival: dayjs("12:00") },
     passenger: {

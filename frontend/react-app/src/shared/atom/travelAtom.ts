@@ -15,7 +15,7 @@ export const travelInfoAtom = atom<InitTravelInfo[]>({
   key: "travelInfo",
   default: [
     {
-      origin: "ICN",
+      origin: { airportCode: "ICN", city: "Seoul/Incheon" },
       destination: {
         city: "",
         airportCode: "",

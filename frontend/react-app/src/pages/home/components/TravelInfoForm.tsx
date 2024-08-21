@@ -90,7 +90,7 @@ export default function TravelInfoForm() {
                 style={{
                   padding: "8px 16px",
                 }}
-                value={domesticAirports[selectedItem.origin as keyof typeof domesticAirports]}
+                value={`${selectedItem.origin.city} (${selectedItem.origin.airportCode})`}
                 onFocus={handleInputFocus("origin")}
               />
             </Form.Item>

@@ -42,7 +42,7 @@ export function OriginPanelItem() {
             <li
               data-nonblur="true"
               data-airport={airport.code}
-              onClick={() => updateOrigin(airport.code)}
+              onClick={() => updateOrigin({ airportCode: airport.code, city: airport.name })}
               key={airport.code}
               style={{
                 display: "flex",

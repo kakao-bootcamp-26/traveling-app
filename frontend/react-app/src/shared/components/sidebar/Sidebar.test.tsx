@@ -21,7 +21,7 @@ describe("Sidebar 컴포넌트", () => {
     mockUseGetMenuList.mockReturnValue({
       menuList: initTravelItem.map((item) => ({
         key: item.key,
-        label: `${item.origin} - ${item.destination.airportCode}`,
+        label: `${item.origin.airportCode} - ${item.destination.airportCode}`,
       })),
       addMenuItem: vi.fn(),
       selectTravelItem: vi.fn().mockImplementation((key: string) => {

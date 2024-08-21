@@ -30,7 +30,8 @@ export default function FlightSuggestions() {
             <>
               <nav className="flex flex-col justify-center mb-10 text-xl">
                 <p>
-                  Flights from {selectedTravelInfo.origin} To {selectedTravelInfo.destination.city}
+                  Flights from {selectedTravelInfo.origin.city} To{" "}
+                  {selectedTravelInfo.destination.city}
                 </p>
               </nav>
               <section className="flex flex-col w-full gap-y-8">

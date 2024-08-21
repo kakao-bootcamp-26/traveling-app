@@ -9,7 +9,7 @@ describe("createNewTravelItem 함수", () => {
     const result = createNewTravelItem(key);
     // Then
     expect(result).toEqual({
-      origin: "ICN",
+      origin: { airportCode: "ICN", city: "서울/인천" },
       destination: { airportCode: "", city: "" },
       key: "1",
       passenger: {
