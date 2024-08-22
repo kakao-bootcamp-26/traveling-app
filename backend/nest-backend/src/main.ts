@@ -5,6 +5,12 @@ import session from 'express-session';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  // CORS 설정
+  app.enableCors({
+    origin: 'http://localhost:5173', // 허용할 출처
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // 허용할 HTTP 메서드
+    credentials: true, // 자격 증명을 사용할 경우 true로 설정
+  });
 
   app.use(
     session({
