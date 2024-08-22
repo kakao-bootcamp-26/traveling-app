@@ -18,15 +18,15 @@ export default function FlightTimeInformation({ type, flightInformation, airline
         <div className="flex flex-col w-[20%] items-center">
           <div className="flex flex-col items-center mb-2">
             <span className="text-[10px]">
-              {dayjs(flightInformation.departureDate, "YYYYMMDDHHmm").format("YYYY/MM/DD(ddd)")}
+              {dayjs(flightInformation?.departureDate, "YYYYMMDDHHmm").format("YYYY/MM/DD(ddd)")}
             </span>
-            <span>{dayjs(flightInformation.departureTime, "HHmm").format("HH:mm")}</span>
+            <span>{dayjs(flightInformation?.departureTime, "HHmm").format("HH:mm")}</span>
           </div>
-          <span>{flightInformation.departureAirport}</span>
+          <span>{flightInformation?.departureAirport}</span>
         </div>
         <div className="w-[45%] flex-1 flex flex-col justify-center items-center px-2">
           <span>
-            {flightInformation.journeyTime.hours}h {flightInformation.journeyTime.minutes}m
+            {flightInformation?.journeyTime.hours}h {flightInformation?.journeyTime.minutes}m
           </span>
           <svg xmlns="http://www.w3.org/2000/svg" width="100" height="6" viewBox="0 0 118.002 6">
             <path
@@ -40,15 +40,15 @@ export default function FlightTimeInformation({ type, flightInformation, airline
         <div className="flex flex-col w-[20%] items-center">
           <div className="flex flex-col items-center mb-2">
             <span className="text-[10px]">
-              {dayjs(flightInformation.arrivalDate, "YYYYMMDDHHmm").format("YYYY/MM/DD(ddd)")}
+              {dayjs(flightInformation?.arrivalDate, "YYYYMMDDHHmm").format("YYYY/MM/DD(ddd)")}
             </span>
-            <span>{dayjs(flightInformation.arrivalTime, "HHmm").format("HH:mm")}</span>
+            <span>{dayjs(flightInformation?.arrivalTime, "HHmm").format("HH:mm")}</span>
           </div>
-          <span>{flightInformation.arrivalAirport}</span>
+          <span>{flightInformation?.arrivalAirport}</span>
         </div>
         <div className="flex flex-col w-[15%] items-center">
           <span>항공사</span>
-          <span>{flightInformation.airline}</span>
+          <span>{flightInformation?.airline}</span>
           <span className="text-[8px]">{airline}</span>
         </div>
       </div>

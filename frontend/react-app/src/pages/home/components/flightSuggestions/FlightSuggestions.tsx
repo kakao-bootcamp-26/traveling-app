@@ -6,6 +6,7 @@ import AirplaneLoader from "@/shared/components/loader/AirplaneLoader";
 import CurationItem from "@/pages/home/components/flightSuggestions/CurationItem";
 import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
 import NoFlightCuration from "@/pages/home/components/flightSuggestions/NoFlightCuration";
+import SelectFlightOptions from "@/pages/home/components/flightSuggestions/SelectFlightOptions";
 
 export default function FlightSuggestions() {
   const { isFetching } = useFindFlightStateContext();
@@ -13,7 +14,7 @@ export default function FlightSuggestions() {
   const flightSuggestions = useRecoilValue(selectedTravelInfoFlightSuggestionsAtom);
   const selectedTravelInfo = useRecoilValue(selectedTravelInfoSelector);
 
-  const curationKeys = Object.keys(flightSuggestions?.flightCuration.data ?? {});
+  const curationKeys = Object.keys(flightSuggestions?.flightCuration.data?.flights ?? {});
   return (
     <div className={`${flightSuggestions?.flightCuration ? "suggestion" : ""}`}>
       <section
@@ -35,12 +36,13 @@ export default function FlightSuggestions() {
                   {selectedTravelInfo.destination.city}
                 </p>
               </nav>
+              <SelectFlightOptions />
               {flightSuggestions?.flightCuration.data && (
                 <section className="flex flex-col w-full gap-y-8">
                   {curationKeys.map((key) => {
-                    if (!flightSuggestions?.flightCuration.data) return null;
-                    const curation = flightSuggestions.flightCuration.data[key];
-                    const airlines = curation.airlines;
+                    if (!flightSuggestions?.flightCuration.data?.flights) return null;
+                    const curation = flightSuggestions.flightCuration.data.flights[key];
+                    const airlines = flightSuggestions.flightCuration.data.airlines;
                     return <CurationItem key={key} curation={curation} airlines={airlines} />;
                   })}
                 </section>
