@@ -70,4 +70,4 @@ RUN yarn install
 EXPOSE 5173
 
 # 애플리케이션을 시작합니다.
-CMD ["yarn", "workspace", "@blog/frontend", "run", "dev"]
+CMD ["yarn", "workspace", "@blog/frontend", "run", "dev","--host"]
