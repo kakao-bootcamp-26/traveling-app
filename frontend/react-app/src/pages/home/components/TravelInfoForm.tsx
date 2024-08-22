@@ -45,7 +45,7 @@ export default function TravelInfoForm() {
 
   return (
     <>
-      <section style={{ width: "360px", height: "100vh", zIndex: "10" }}>
+      <section style={{ width: "360px", minWidth: "360px", height: "100vh", zIndex: "10" }}>
         <div style={{ margin: "14px", marginBottom: "40px" }}>
           <Typography.Title level={2} style={{ color: "black" }}>
             여행 정보

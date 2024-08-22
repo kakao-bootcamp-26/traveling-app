@@ -24,7 +24,10 @@ export default function HomePage() {
       <FindFlightProvider>
         <main style={{ display: "flex", position: "absolute", width: "100%", overflow: "hidden" }}>
           <TravelInfoForm />
-          <section className="main_section" style={{ height: "100vh", flex: "1 1 0" }}>
+          <section
+            className="main_section"
+            style={{ height: "100vh", flex: "1 1 0", minWidth: "700px" }}
+          >
             <FlightSuggestions />
           </section>
         </main>
