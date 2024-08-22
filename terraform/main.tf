@@ -223,7 +223,7 @@ resource "aws_security_group" "backend_sg" {
     from_port   = 3000
     to_port     = 3000
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [aws_subnet.public.cidr_block]
   }
 
   ingress {
@@ -240,7 +240,7 @@ resource "aws_security_group" "backend_sg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
+  
   tags = {
     Name = "backend-sg"
   }
