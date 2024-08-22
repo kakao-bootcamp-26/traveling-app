@@ -1,7 +1,7 @@
 import React from "react";
 import { Airlines, FlightInformation } from "@/shared/entities/flightCuration.entity";
 import { Link } from "react-router-dom";
-import FlightTimeInformation from "@/pages/home/components/flightSuggestions/FlightTimeInformation";
+import FlightTimeInformation from "@/pages/home/components/flightSuggestions/curationList/success/FlightTimeInformation";
 import { useRecoilValue } from "recoil";
 import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
 

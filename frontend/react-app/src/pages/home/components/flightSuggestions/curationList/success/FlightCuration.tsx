@@ -1,4 +1,4 @@
-import CurationItem from "@/pages/home/components/flightSuggestions/CurationItem";
+import CurationItem from "@/pages/home/components/flightSuggestions/curationList/success/CurationItem";
 import { useSelectAirlineStateContext } from "@/pages/home/hooks/context/useSelectAirlineStateContext";
 import { selectedTravelInfoFlightSuggestionsAtom } from "@/shared/atom/flightAtom";
 import React from "react";

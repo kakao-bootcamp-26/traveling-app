@@ -3,10 +3,10 @@ import { useFindFlightStateContext } from "@/pages/home/hooks/context/useFindFli
 import { selectedTravelInfoFlightSuggestionsAtom } from "@/shared/atom/flightAtom";
 import AirplaneLoader from "@/shared/components/loader/AirplaneLoader";
 import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
-import NoFlightCuration from "@/pages/home/components/flightSuggestions/NoFlightCuration";
-import SelectFlightOptions from "@/pages/home/components/flightSuggestions/SelectFlightOptions";
+import FlightCuration from "@/pages/home/components/flightSuggestions/curationList/success/FlightCuration";
+import NoFlightCuration from "@/pages/home/components/flightSuggestions/curationList/failure/NoFlightCuration";
+import SelectFlightOptions from "@/pages/home/components/flightSuggestions/optionSelect/SelectFlightOptions";
 import { SelectAirlineProvider } from "@/pages/home/components/provider/SelectAirlineContext";
-import FlightCuration from "@/pages/home/components/flightSuggestions/FlightCuration";
 
 export default function FlightSuggestions() {
   const { isFetching } = useFindFlightStateContext();
@@ -41,7 +41,6 @@ export default function FlightSuggestions() {
                 {flightSuggestions?.flightCuration.data && (
                   <FlightCuration flightKeys={flightKeys} />
                 )}
-
                 {flightSuggestions?.flightCuration.error && <NoFlightCuration />}
               </SelectAirlineProvider>
             </div>
