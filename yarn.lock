@@ -676,7 +676,6 @@ __metadata:
     "@eslint/js": "npm:^9.8.0"
     "@prerenderer/renderer-puppeteer": "npm:^1.2.4"
     "@prerenderer/rollup-plugin": "npm:^0.3.12"
-    "@react-oauth/google": "npm:^0.12.1"
     "@react-three/drei": "npm:^9.109.5"
     "@react-three/fiber": "npm:^8.16.8"
     "@testing-library/dom": "npm:^10.4.0"
@@ -699,7 +698,6 @@ __metadata:
     eslint-plugin-react-hooks: "npm:^4.6.2"
     eslint-plugin-react-refresh: "npm:^0.4.7"
     jsdom: "npm:^24.1.0"
-    jwt-decode: "npm:^4.0.0"
     ky: "npm:^1.5.0"
     postcss: "npm:^8.4.41"
     puppeteer: "npm:^22.15.0"
@@ -2057,16 +2055,6 @@ __metadata:
     react: ">=16.9.0"
     react-dom: ">=16.9.0"
   checksum: 10c0/978d156c4e34be68aba79b38e2985aff787b5a7ca2f4b69f7e8c85eab78635ddfb61383bc1ab5daf191a1ec1c4fc2dbe34cdc7eeb36013c57e51423b7042d110
-  languageName: node
-  linkType: hard
-
-"@react-oauth/google@npm:^0.12.1":
-  version: 0.12.1
-  resolution: "@react-oauth/google@npm:0.12.1"
-  peerDependencies:
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-  checksum: 10c0/fe23e3c0a4d0b9999fcd7b932b1a42bf94fdab526473931d780d08742455b8861fc647857b3b491e258ecef4a407dbf7321440c0d00890e23059d487795f92fb
   languageName: node
   linkType: hard
 
@@ -8978,13 +8966,6 @@ __metadata:
     jwa: "npm:^1.4.1"
     safe-buffer: "npm:^5.0.1"
   checksum: 10c0/e770704533d92df358adad7d1261fdecad4d7b66fa153ba80d047e03ca0f1f73007ce5ed3fbc04d2eba09ba6e7e6e645f351e08e5ab51614df1b0aa4f384dfff
-  languageName: node
-  linkType: hard
-
-"jwt-decode@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "jwt-decode@npm:4.0.0"
-  checksum: 10c0/de75bbf89220746c388cf6a7b71e56080437b77d2edb29bae1c2155048b02c6b8c59a3e5e8d6ccdfd54f0b8bda25226e491a4f1b55ac5f8da04cfbadec4e546c
   languageName: node
   linkType: hard
 
