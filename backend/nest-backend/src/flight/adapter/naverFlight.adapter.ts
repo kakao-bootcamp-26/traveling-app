@@ -98,7 +98,11 @@ const fetchInternationalFlightList = async ({
       const airlines = results['airlines'];
       const [departureSchedule, arrivalSchedule] = schedules as [any, any];
 
-      const result = {};
+      const result: FlightCurationSuccess = {
+        flights: {},
+        airlines: {},
+        airports: {},
+      } as FlightCurationSuccess;
 
       for (const item of Object.entries(fares)) {
         // 가격
@@ -126,12 +130,12 @@ const fetchInternationalFlightList = async ({
           infant: pricePerInfant,
         };
 
-        // console.log(fare);
         const [departureSchKey, arrivalSchKey] = value.sch;
         const departureSch = departureSchedule[departureSchKey];
         const arrivalSch = arrivalSchedule[arrivalSchKey];
+        // console.log(results['airlines'], airlines);
 
-        result[key] = {
+        result.flights[key] = {
           id: key,
           departure: {
             departureAirport: departureSch.detail[0].sa, // 출발 공항
@@ -164,11 +168,14 @@ const fetchInternationalFlightList = async ({
           },
           fare: pricePerPerson,
           link: fare?.ReserveParameter?.['#cdata-section'],
-          airlines,
         };
       }
 
-      if (Object.keys(result).length === 0) {
+      result.airlines = airlines;
+      result.airports = results['airports'];
+
+      // airlines, airports 키를 제외한 나머지 키가 2개 이하일 경우 에러로 처리
+      if (Object.keys(result.flights).length === 0) {
         resolve({ error: 'No results found' });
       } else {
         resolve(result);
@@ -194,8 +201,8 @@ export const getInternationalFlightList = async (
         travelBizKey,
         travelInformation,
       });
-
-      if (!data.error) {
+      console.log(data);
+      if (!('error' in data)) {
         return data; // 에러가 없으면 데이터를 반환
       }
 
@@ -207,109 +214,6 @@ export const getInternationalFlightList = async (
     // 최대 시도 횟수를 초과했을 경우 에러 처리
     console.log('Max attempts reached, no results found.');
     return { error: 'Max attempts reached, no results found.' };
-
-    // return new Promise((resolve) => {
-    //   setTimeout(async () => {
-    //     const payload = makeInternationalRoundTripFlightListPayload(
-    //       {
-    //         galileoKey,
-    //         travelBizKey,
-    //       },
-    //       travelInformation,
-    //     );
-    //     const response = (await gotInstance.post(url, {
-    //       json: payload,
-    //       headers,
-    //       responseType: 'json',
-    //     })) as any;
-
-    //     const results = response.body?.data?.internationalList?.results;
-    //     console.log('results', payload, results);
-
-    //     const fares = results['fares'];
-    //     const schedules = results['schedules'];
-    //     const airlines = results['airlines'];
-    //     const [departureSchedule, arrivalSchedule] = schedules as [any, any];
-
-    //     const result = {};
-
-    //     for (const item of Object.entries(fares)) {
-    //       // 가격
-    //       const [key, value] = item as [string, any];
-    //       const fare = value.fare['A01'][0];
-    //       const pricePerAdult =
-    //         parseInt(fare['Adult']['NaverFare'], 10) ||
-    //         parseInt(fare['Adult']['Fare'], 10) +
-    //           parseInt(fare['Adult']['Tax'], 10) +
-    //           parseInt(fare['Adult']['QCharge'], 10);
-    //       const pricePerChild =
-    //         parseInt(fare['Child']['NaverFare'], 10) ||
-    //         parseInt(fare['Child']['Fare']) +
-    //           parseInt(fare['Child']['Tax'], 10) +
-    //           parseInt(fare['Child']['QCharge'], 10);
-    //       const pricePerInfant =
-    //         parseInt(fare['Infant']['NaverFare'], 10) ||
-    //         parseInt(fare['Infant']['Fare']) +
-    //           parseInt(fare['Infant']['Tax'], 10) +
-    //           parseInt(fare['Infant']['QCharge'], 10);
-
-    //       const pricePerPerson = {
-    //         adult: pricePerAdult,
-    //         child: pricePerChild,
-    //         infant: pricePerInfant,
-    //       };
-
-    //       // console.log(fare);
-    //       const [departureSchKey, arrivalSchKey] = value.sch;
-    //       const departureSch = departureSchedule[departureSchKey];
-    //       const arrivalSch = arrivalSchedule[arrivalSchKey];
-
-    //       result[key] = {
-    //         id: key,
-    //         departure: {
-    //           departureAirport: departureSch.detail[0].sa, // 출발 공항
-    //           departureDate: departureSch.detail[0].sdt, // 출발 날짜
-    //           departureTime: departureSch.detail[0].sdt.slice(-4), // 출발 시각 (마지막 4자리)
-    //           arrivalAirport: departureSch.detail[0].ea, // 도착 공항
-    //           arrivalDate: departureSch.detail[0].edt, // 도착 날짜
-    //           arrivalTime: departureSch.detail[0].edt.slice(-4), // 도착 시각 (마지막 4자리)
-    //           airline: departureSch.detail[0].av, // 항공사
-    //           journeyTime: {
-    //             hours: parseInt(departureSch.journeyTime[0]),
-    //             minutes: parseInt(departureSch.journeyTime[1]),
-    //           },
-    //           carbonEmission: departureSch.detail[0].carbonEmission,
-    //         },
-
-    //         arrival: {
-    //           departureAirport: arrivalSch.detail[0].sa, // 출발 공항
-    //           departureDate: arrivalSch.detail[0].sdt, // 출발 날짜
-    //           departureTime: arrivalSch.detail[0].sdt.slice(-4), // 출발 시각 (마지막 4자리)
-    //           arrivalAirport: arrivalSch.detail[0].ea, // 도착 공항
-    //           arrivalDate: arrivalSch.detail[0].edt, // 도착 날짜
-    //           arrivalTime: arrivalSch.detail[0].edt.slice(-4), // 도착 시각 (마지막 4자리)
-    //           airline: arrivalSch.detail[0].av, // 항공사
-    //           journeyTime: {
-    //             hours: parseInt(arrivalSch.journeyTime[0]),
-    //             minutes: parseInt(arrivalSch.journeyTime[1]),
-    //           },
-    //           carbonEmission: arrivalSch.detail[0].carbonEmission,
-    //         },
-    //         fare: pricePerPerson,
-    //         link: fare?.ReserveParameter?.['#cdata-section'],
-    //         airlines,
-    //       };
-    //     }
-
-    //     if (Object.keys(result).length === 0) {
-    //       resolve({ error: 'No results found' });
-    //     } else {
-    //       resolve(result);
-    //     }
-    //   }, 4500);
-    // });
-
-    // return result;
   } catch (error) {
     console.error('Error fetching the second response:', error);
   }
