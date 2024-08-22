@@ -1,4 +1,4 @@
-import { useFindFlightDispatchContext } from "@/pages/home/components/provider/useFindFlightDispatchContext";
+import { useFindFlightDispatchContext } from "@/pages/home/hooks/context/useFindFlightDispatchContext";
 import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
 import { GrPowerReset } from "react-icons/gr";
 import { useRecoilValue } from "recoil";

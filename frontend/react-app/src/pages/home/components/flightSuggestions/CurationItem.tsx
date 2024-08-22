@@ -11,7 +11,6 @@ type Props = {
 };
 export default function CurationItem({ curation, airlines }: Props) {
   const selectedTravelInfo = useRecoilValue(selectedTravelInfoSelector);
-  console.log(curation);
   return (
     <article className="flex w-[60%] min-w-[600px]">
       <section className="w-[75%] bg-dark-blue-2 px-6 py-4 flex flex-col">
