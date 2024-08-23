@@ -376,3 +376,89 @@ resource "aws_instance" "db" {
     Name = "db-postgresql"
   }
 }
+
+# AI 보안 그룹 생성
+resource "aws_security_group" "ai_sg" {
+  vpc_id = aws_vpc.main.id
+
+  ingress {
+    description = "Allow HTTP"
+    from_port   = 5000
+    to_port     = 5000
+    protocol    = "tcp"
+    cidr_blocks = [aws_subnet.private.cidr_block] # 백엔드 서브넷에서만 접근 가능
+  }
+
+  ingress {
+    description = "Allow SSH"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "ai-sg"
+  }
+}
+
+# AI EC2 인스턴스 생성
+resource "aws_instance" "ai" {
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = var.instance_type
+  subnet_id     = aws_subnet.private.id
+  vpc_security_group_ids = [aws_security_group.ai_sg.id]
+  key_name = var.key_name  # SSH 접속을 위한 키 페어
+
+  # Docker 및 Jenkins 설치 및 설정
+  user_data = <<-EOF
+              #!/bin/bash
+              sudo apt-get update -y
+              sudo apt-get upgrade -y
+
+              # Docker 설치
+              sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+              curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+              sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+              sudo apt-get update -y
+              sudo apt-get install -y docker-ce
+
+              # Jdk 설치
+              sudo apt-get install -y openjdk-11-jdk
+
+              # Jenkins 설치
+              curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+              echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+              sudo apt-get update -y
+              sudo apt-get install -y jenkins || { echo 'Jenkins 설치 실패' ; exit 1; }
+              sudo systemctl start jenkins || { echo 'Jenkins 시작 실패' ; exit 1; }
+              sudo systemctl enable jenkins
+
+              # Jenkins와 Docker 권한 설정
+              sudo usermod -aG docker jenkins
+              sudo systemctl restart jenkins
+
+              # 깃허브 클론
+              sudo mkdir /app
+              sudo chown ubuntu:ubuntu /app
+              cd /app
+              sudo git clone https://github.com/kakao-bootcamp-26/chatbot.git || { echo 'Git 클론 실패' ; exit 1; }
+
+              # AI 컨테이너 실행 예시 (Dockerfile 필요)
+              # cd /app/your-ai-project
+              # sudo docker build -t ai-app .
+              # sudo docker run -p 5000:5000 ai-app
+              EOF
+
+  tags = {
+    Name = "ai-instance"
+  }
+}
+
