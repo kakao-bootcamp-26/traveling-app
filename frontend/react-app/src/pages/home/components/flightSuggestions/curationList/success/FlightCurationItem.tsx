@@ -9,7 +9,7 @@ type Props = {
   curation: FlightInformation;
   airlines: Airlines;
 };
-export default function CurationItem({ curation, airlines }: Props) {
+export default function FlightCurationItem({ curation, airlines }: Props) {
   const selectedTravelInfo = useRecoilValue(selectedTravelInfoSelector);
   return (
     <article className="flex w-[60%] min-w-[600px]">

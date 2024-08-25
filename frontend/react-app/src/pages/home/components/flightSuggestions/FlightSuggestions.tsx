@@ -7,6 +7,8 @@ import FlightCuration from "@/pages/home/components/flightSuggestions/curationLi
 import NoFlightCuration from "@/pages/home/components/flightSuggestions/curationList/failure/NoFlightCuration";
 import SelectFlightOptions from "@/pages/home/components/flightSuggestions/optionSelect/SelectFlightOptions";
 import { SelectAirlineProvider } from "@/pages/home/components/provider/SelectAirlineContext";
+import HotelCuration from "@/pages/home/components/flightSuggestions/curationList/success/HotelCuration";
+import AirportMap from "@/pages/home/components/flightSuggestions/curationList/success/AirportMap";
 
 export default function FlightSuggestions() {
   const { isFetching } = useFindFlightStateContext();
@@ -39,7 +41,13 @@ export default function FlightSuggestions() {
               <SelectAirlineProvider>
                 <SelectFlightOptions />
                 {flightSuggestions?.flightCuration.data && (
-                  <FlightCuration flightKeys={flightKeys} />
+                  <section className="flex ">
+                    <FlightCuration flightKeys={flightKeys} />
+                    <div className="flex flex-col w-[40%]">
+                      <AirportMap />
+                      <HotelCuration />
+                    </div>
+                  </section>
                 )}
                 {flightSuggestions?.flightCuration.error && <NoFlightCuration />}
               </SelectAirlineProvider>
