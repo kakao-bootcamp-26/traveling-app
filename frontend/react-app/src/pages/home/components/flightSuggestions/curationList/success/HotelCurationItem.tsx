@@ -1,6 +1,7 @@
 import React from "react";
 import { HotelInfo } from "@/shared/entities/hotelCuration.entity";
 import { Link } from "react-router-dom";
+import { Rate } from "antd";
 
 type Props = { hotelInfo: HotelInfo };
 
@@ -22,8 +23,25 @@ export default function HotelCurationItem({ hotelInfo }: Props) {
         <div className="flex flex-col justify-between">
           <div className="flex flex-col gap-y-4">
             <h6 className="text-[16px]">{hotelInfo.name}</h6>
-            <div>가격: {hotelInfo.price.toLocaleString("en-US")}</div>
-            <div>평점: {hotelInfo.overallRating}</div>
+            <div className="flex gap-x-4">
+              <span>가격</span>
+              <span>{hotelInfo.price.toLocaleString("en-US")}</span>
+            </div>
+            <div className="flex gap-x-4">
+              <span>평점</span>
+              <div>
+                <Rate
+                  disabled
+                  allowHalf
+                  defaultValue={hotelInfo.overallRating / 2}
+                  count={5}
+                  style={{
+                    marginRight: "10px",
+                  }}
+                />
+                <span>({hotelInfo.overallRating}/10)</span>
+              </div>
+            </div>
           </div>
 
           <div>
