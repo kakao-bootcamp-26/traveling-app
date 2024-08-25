@@ -1,5 +1,5 @@
 import { TravelInformation } from '@/flight/dto/TravelInformation.dto';
-import { getInternationalFlightList } from '@/flight/adapter/naverFlight.adapter';
+import { getInternationalFlightList } from '@/flight/adapter/out/naverFlight.adapter';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

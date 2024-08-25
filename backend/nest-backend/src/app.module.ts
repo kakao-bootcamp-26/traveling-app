@@ -7,8 +7,8 @@ import { UsersModule } from './users/users.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { FlightModule } from './flight/flight.module';
+import { HotelsModule } from './hotels/hotels.module';
 // import * as Joi from 'joi';
-
 
 @Module({
   imports: [
@@ -39,7 +39,7 @@ import { FlightModule } from './flight/flight.module';
     FlightModule,
     AuthModule,
     UsersModule,
-
+    HotelsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

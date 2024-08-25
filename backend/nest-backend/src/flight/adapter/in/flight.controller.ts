@@ -1,5 +1,5 @@
 import { Body, Controller, Post, Res } from '@nestjs/common';
-import { FlightService } from './flight.service';
+import { FlightService } from '../../flight.service';
 import { Response } from 'express';
 import { TravelInformation } from '@/flight/dto/TravelInformation.dto';
 
