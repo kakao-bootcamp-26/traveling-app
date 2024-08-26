@@ -43,6 +43,7 @@ export const SelectAirlineProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  // 항공사 전체 선택 여부 (진짜 전체 선택했거나 아니면 아무것도 선택하지 않았거나)
   const isAllAirlineSelected =
     selectedAirlineCodes.length === airlineList.length ||
     (airlineList.length > 0 && selectedAirlineCodes.length === 0);

@@ -7,7 +7,6 @@ export default function useShowAirportMap() {
   return (
     <div style={{ width: "100%", height: "20vh", borderRadius: "10px" }}>
       {coordinates && (
-        // <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAP_API_KEY}>
         <GoogleMap
           mapContainerStyle={{
             width: "100%",
@@ -17,7 +16,7 @@ export default function useShowAirportMap() {
             lat: coordinates.lat,
             lng: coordinates.lon,
           }}
-          zoom={14}
+          zoom={12}
         >
           <MarkerF
             position={{
@@ -29,7 +28,6 @@ export default function useShowAirportMap() {
             }
           ></MarkerF>
         </GoogleMap>
-        // </LoadScript>
       )}
     </div>
   );
