@@ -205,6 +205,10 @@ resource "aws_instance" "frontend" {
               sudo chown ubuntu:ubuntu /app
               cd /app
               sudo git clone --branch "feat/docker&jenkins&gitWebHook" https://github.com/kakao-bootcamp-26/traveling-app.git || { echo 'Git 클론 실패' ; exit 1; }
+              
+
+
+
 
               echo "user_data 스크립트 완료"
               EOF
@@ -452,9 +456,9 @@ resource "aws_instance" "ai" {
               sudo git clone https://github.com/kakao-bootcamp-26/chatbot.git || { echo 'Git 클론 실패' ; exit 1; }
 
               # AI 컨테이너 실행 예시 (Dockerfile 필요)
-              # cd /app/your-ai-project
-              # sudo docker build -t ai-app .
-              # sudo docker run -p 5000:5000 ai-app
+              cd /app/chatbot
+              sudo docker build -t ai-app .
+              sudo docker run -p 5000:5000 ai-app
               EOF
 
   tags = {
