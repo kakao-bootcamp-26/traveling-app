@@ -15,23 +15,22 @@ pipeline {
 
         stage('Build') {
             steps {
-                    script {
-                        // 도커 컴포즈를 사용하여 빌드 및 배포
-                        sh 'docker build --no-cache -t frontend-test -f frontend/react-app/Dockerfile .'
-                    }
+                script {
+                    // 현재 작업 디렉토리 출력
+                    sh 'pwd'
+
+                    // 도커 빌드
+                    sh 'docker build --no-cache -t frontend-test -f frontend/react-app/Dockerfile .'
+                }
             }
         }
         stage('Deploy') {
             steps {
                 script {
-                    // 기존 컨테이너 종료 (필요한 경우)
-                    sh 'docker stop frontend-container || true && docker rm frontend-container || true'
-                    
-                    // 새로운 컨테이너 실행
-                    sh 'docker run -d -p 5173:5173 --name frontend-container frontend-test'
+                    // 도커 컴포즈를 사용하여 빌드 및 배포
+                    sh 'docker run -d -p 5173:5173 frontend-test'
                 }
             }
         }
-        
     }
 }
