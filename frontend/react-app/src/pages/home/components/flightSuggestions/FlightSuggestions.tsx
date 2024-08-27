@@ -1,19 +1,22 @@
-import React from "react";
 import { useRecoilValue } from "recoil";
-import { useFindFlightStateContext } from "@/pages/home/components/provider/useFindFlightStateContext";
+import { useFindFlightStateContext } from "@/pages/home/hooks/context/useFindFlightStateContext";
 import { selectedTravelInfoFlightSuggestionsAtom } from "@/shared/atom/flightAtom";
 import AirplaneLoader from "@/shared/components/loader/AirplaneLoader";
-import CurationItem from "@/pages/home/components/flightSuggestions/CurationItem";
 import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
-import NoFlightCuration from "@/pages/home/components/flightSuggestions/NoFlightCuration";
+import FlightCuration from "@/pages/home/components/flightSuggestions/curationList/success/FlightCuration";
+import NoFlightCuration from "@/pages/home/components/flightSuggestions/curationList/failure/NoFlightCuration";
+import SelectFlightOptions from "@/pages/home/components/flightSuggestions/optionSelect/SelectFlightOptions";
+import { SelectAirlineProvider } from "@/pages/home/components/provider/SelectAirlineContext";
+import HotelCuration from "@/pages/home/components/flightSuggestions/curationList/success/HotelCuration";
+import AirportMap from "@/pages/home/components/flightSuggestions/curationList/success/AirportMap";
 
 export default function FlightSuggestions() {
   const { isFetching } = useFindFlightStateContext();
 
   const flightSuggestions = useRecoilValue(selectedTravelInfoFlightSuggestionsAtom);
   const selectedTravelInfo = useRecoilValue(selectedTravelInfoSelector);
+  const flightKeys = Object.keys(flightSuggestions?.flightCuration.data?.flights ?? {});
 
-  const curationKeys = Object.keys(flightSuggestions?.flightCuration.data ?? {});
   return (
     <div className={`${flightSuggestions?.flightCuration ? "suggestion" : ""}`}>
       <section
@@ -26,26 +29,28 @@ export default function FlightSuggestions() {
           <div className="mt-14">Searching for best flights</div>
         </div>
 
-        {!isFetching && (
+        {!isFetching && flightSuggestions?.flightCuration && (
           <div>
             <div>
-              <nav className="flex flex-col justify-center mb-10 text-xl">
+              <nav className="flex flex-col justify-center mb-6 text-xl">
                 <p>
                   Flights from {selectedTravelInfo.origin.city} To{" "}
                   {selectedTravelInfo.destination.city}
                 </p>
               </nav>
-              {flightSuggestions?.flightCuration.data && (
-                <section className="flex flex-col w-full gap-y-8">
-                  {curationKeys.map((key) => {
-                    if (!flightSuggestions?.flightCuration.data) return null;
-                    const curation = flightSuggestions.flightCuration.data[key];
-                    const airlines = curation.airlines;
-                    return <CurationItem key={key} curation={curation} airlines={airlines} />;
-                  })}
-                </section>
-              )}
-              {flightSuggestions?.flightCuration.error && <NoFlightCuration />}
+              <SelectAirlineProvider>
+                <SelectFlightOptions />
+                {flightSuggestions?.flightCuration.data && (
+                  <section className="flex ">
+                    <FlightCuration flightKeys={flightKeys} />
+                    <div className="flex flex-col w-[40%]">
+                      <AirportMap />
+                      <HotelCuration />
+                    </div>
+                  </section>
+                )}
+                {flightSuggestions?.flightCuration.error && <NoFlightCuration />}
+              </SelectAirlineProvider>
             </div>
           </div>
         )}

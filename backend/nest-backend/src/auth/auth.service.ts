@@ -10,7 +10,7 @@ interface GoogleUser {
   name: string;
 }
 
-interface GoogleRequest extends Request {
+export interface GoogleRequest extends Request {
   user?: GoogleUser;
 }
 

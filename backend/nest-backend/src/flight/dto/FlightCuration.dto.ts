@@ -35,12 +35,23 @@ interface FlightResult {
   arrival: FlightDetail;
   fare: PricePerPerson;
   link?: string;
-  airlines: any;
+  // airlines: any;
+  // airports: any;
 }
 
-export interface FlightCurationSuccess {
-  [key: string]: FlightResult;
-}
+type Airlines = {
+  [key: string]: string;
+};
+
+type Airports = {
+  [key: string]: string;
+};
+
+export type FlightCurationSuccess = {
+  flights: {
+    [key: string]: FlightResult;
+  };
+} & { airlines: Airlines; airports: Airports };
 
 export interface FlightCurationError {
   error: string;

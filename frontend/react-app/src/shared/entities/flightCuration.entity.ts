@@ -26,6 +26,10 @@ export type Airlines = {
   [key: string]: string;
 };
 
+export type Airports = {
+  [key: string]: string;
+};
+
 export type FlightTimeInformation = ArrivalInfo & DepartureInfo & FlightSchedule;
 
 export type FlightInformation = {
@@ -36,11 +40,10 @@ export type FlightInformation = {
   fare: FlightFare;
   link?: string;
   id: string;
-  airlines: Airlines;
 };
 export type FlightCuration = {
-  [key: string]: FlightInformation;
-};
+  flights: { [key: string]: FlightInformation };
+} & { airlines: Airlines; airports: Airports };
 
 export type FlightCurationError = { error: string };
 

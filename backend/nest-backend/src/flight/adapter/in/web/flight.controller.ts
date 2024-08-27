@@ -1,5 +1,5 @@
 import { Body, Controller, Post, Res } from '@nestjs/common';
-import { FlightService } from './flight.service';
+import { FlightService } from '../../../application/service/flight.service';
 import { Response } from 'express';
 import { TravelInformation } from '@/flight/dto/TravelInformation.dto';
 
@@ -15,7 +15,7 @@ export class FlightController {
     try {
       // console.log('body', body);
       // TODO: 입력 유효성 검사
-      const response = await this.flightService.getRoundTripFlight(body);
+      const response = await this.flightService.recommendRoundTripFlight(body);
       // TODO: 만약 항공편이 없을 경우 처리
       return res.json({ data: response });
     } catch (error) {

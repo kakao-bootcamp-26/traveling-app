@@ -44,7 +44,6 @@ export const FindFlightProvider = ({ children }: PropsWithChildren) => {
       });
 
       setIsFetching(true);
-      console.log("fetching flight suggestions");
       const flightCuration = await fetchInternationalRoundTripFlightList({
         passenger: {
           count: {

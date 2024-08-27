@@ -4,7 +4,7 @@ import { selectedTravelInfoSelector } from "@/shared/atom/travelAtom";
 import { internationalAirports } from "@/constants";
 import { FunnelSteps } from "@/pages/home/hooks/destination/useDestinationPanelFunnel";
 import { InitTravelInfo } from "@/shared/entities";
-import { useFindFlightDispatchContext } from "@/pages/home/components/provider/useFindFlightDispatchContext";
+import { useFindFlightDispatchContext } from "@/pages/home/hooks/context/useFindFlightDispatchContext";
 
 type Props = {
   name: FunnelSteps;

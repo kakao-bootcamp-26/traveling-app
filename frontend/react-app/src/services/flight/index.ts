@@ -1,6 +1,6 @@
 import { indexApi } from "@/services";
 import { FlightCuration } from "@/shared/entities/flightCuration.entity";
-import { TravelInformation } from "@/shared/entities/flightCurationReq.dto";
+import { TravelInformation } from "@/shared/dto/flightCurationReq.dto";
 
 const flightsApi = indexApi.extend({
   prefixUrl: "api/flights",
