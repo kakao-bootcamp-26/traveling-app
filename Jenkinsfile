@@ -58,7 +58,7 @@ pipeline {
                 dir('/app/traveling-app') {
                     script {
                         sh 'pwd'
-
+                        //테스트용 주석
                         // 도커 컨테이너 실행
                         sh 'docker run -d --name frontend-test -p 5173:5173 frontend-test'
                     }
