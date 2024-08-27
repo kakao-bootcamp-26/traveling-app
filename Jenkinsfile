@@ -10,6 +10,8 @@ pipeline {
             steps {
                 dir('/app/traveling-app') {
                     script {
+                        sh 'pwd'
+
                         // .env 파일을 백업
                         sh 'cp .env /tmp/.env_backup || true'
 
@@ -30,6 +32,8 @@ pipeline {
             steps {
                 script {
                     // 이미 떠 있는 컨테이너 중지 및 삭제
+                    sh 'pwd'
+
                     sh 'docker stop frontend-test || true'
                     sh 'docker rm frontend-test || true'
                 }
@@ -41,6 +45,8 @@ pipeline {
                 dir('/app/traveling-app') {
                     script {
                         // 도커 빌드
+                        sh 'pwd'
+
                         sh 'docker build --no-cache -t frontend-test -f frontend/react-app/Dockerfile .'
                     }
                 }
@@ -51,6 +57,8 @@ pipeline {
             steps {
                 dir('/app/traveling-app') {
                     script {
+                        sh 'pwd'
+
                         // 도커 컨테이너 실행
                         sh 'docker run -d --name frontend-test -p 5173:5173 frontend-test'
                     }
