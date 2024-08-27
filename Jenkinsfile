@@ -6,6 +6,25 @@ pipeline {
     }
 
     stages {
+        stage('Test') {
+            steps {
+                script {
+                        sh 'pwd'
+
+                        // .env 파일을 백업
+                        sh 'cp .env /tmp/.env_backup || true'
+
+                        // 해당 브랜치로 이동하여 최신 변경 사항 가져오기
+                        sh 'git fetch origin'
+                        sh 'git checkout feat/docker&jenkins&gitWebHook'
+                        // 일단은 내 브랜치에만 해놓고 나중에 합치면 main으로 바꾸기
+                        sh 'git reset --hard origin/feat/docker&jenkins&gitWebHook'
+
+                        // .env 파일 복원
+                        sh 'cp /tmp/.env_backup .env || true'
+                    }
+            }
+        }
         stage('Prepare Workspace') {
             steps {
                 dir('/app/traveling-app') {
