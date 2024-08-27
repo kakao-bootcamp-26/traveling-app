@@ -6,6 +6,13 @@ pipeline {
     }
 
     stages {
+        stage('Test') {
+            steps {
+                script {
+                        sh 'pwd'
+                    }
+            }
+        }
         stage('Prepare Workspace') {
             steps {
                 dir('/app/traveling-app') {
