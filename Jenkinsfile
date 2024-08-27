@@ -26,6 +26,16 @@ pipeline {
             }
         }
 
+        stage('Stop Existing Container') {
+            steps {
+                script {
+                    // 이미 떠 있는 컨테이너 중지 및 삭제
+                    sh 'docker stop frontend-test || true'
+                    sh 'docker rm frontend-test || true'
+                }
+            }
+        }
+
         stage('Build') {
             steps {
                 dir('/app/traveling-app') {
@@ -42,7 +52,7 @@ pipeline {
                 dir('/app/traveling-app') {
                     script {
                         // 도커 컨테이너 실행
-                        sh 'docker run -d -p 5173:5173 frontend-test'
+                        sh 'docker run -d --name frontend-test -p 5173:5173 frontend-test'
                     }
                 }
             }
