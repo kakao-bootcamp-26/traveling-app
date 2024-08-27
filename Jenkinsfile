@@ -6,11 +6,21 @@ pipeline {
     }
 
     stages {
-        stage('Clone Repository') {
+        stage('Clone or Update Repository') {
             steps {
                 script {
-                    // Jenkins 기본 작업 공간에 GitHub 레포지토리 클론
-                    sh 'git clone https://github.com/kakao-bootcamp-26/traveling-app.git || (cd traveling-app && git pull origin feat/docker&jenkins&gitWebHook)'
+                    // 레포지토리가 이미 클론되어 있는지 확인
+                    if (fileExists('traveling-app')) {
+                        dir('traveling-app') {
+                            // 이미 클론된 레포지토리의 브랜치 변경 및 최신 상태로 업데이트
+                            sh 'git fetch origin'
+                            sh 'git checkout feat/docker&jenkins&gitWebHook'
+                            sh 'git pull origin feat/docker&jenkins&gitWebHook'
+                        }
+                    } else {
+                        // 레포지토리가 없으면 새로 클론
+                        sh 'git clone --branch feat/docker&jenkins&gitWebHook https://github.com/kakao-bootcamp-26/traveling-app.git'
+                    }
                 }
             }
         }
@@ -49,3 +59,4 @@ pipeline {
         }
     }
 }
+
