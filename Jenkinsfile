@@ -6,54 +6,29 @@ pipeline {
     }
 
     stages {
-        stage('Test') {
+        stage('Clone Repository') {
             steps {
                 script {
-                        sh 'pwd'
-                    }
-            }
-        }
-        stage('Prepare Workspace') {
-            steps {
-                dir('/app/traveling-app') {
-                    script {
-                        sh 'pwd'
-
-                        // .env 파일을 백업
-                        sh 'cp .env /tmp/.env_backup || true'
-
-                        // 해당 브랜치로 이동하여 최신 변경 사항 가져오기
-                        sh 'git fetch origin'
-                        sh 'git checkout "feat/docker&jenkins&gitWebHook"'
-                        // 일단은 내 브랜치에만 해놓고 나중에 합치면 main으로 바꾸기
-                        sh 'git reset --hard origin/feat/docker&jenkins&gitWebHook'
-
-                        // .env 파일 복원
-                        sh 'cp /tmp/.env_backup .env || true'
-                    }
+                    // Jenkins 기본 작업 공간에 GitHub 레포지토리 클론
+                    sh 'git clone https://github.com/kakao-bootcamp-26/traveling-app.git || (cd traveling-app && git pull origin feat/docker&jenkins&gitWebHook)'
                 }
             }
         }
 
-        stage('Stop Existing Container') {
+        stage('Copy .env File') {
             steps {
                 script {
-                    // 이미 떠 있는 컨테이너 중지 및 삭제
-                    sh 'pwd'
-
-                    sh 'docker stop frontend-test || true'
-                    sh 'docker rm frontend-test || true'
+                    // .env 파일을 복사하여 레포지토리 내의 frontend/react-app/ 디렉토리로 이동
+                    sh 'cp /.env ${WORKSPACE}/traveling-app/frontend/react-app/.env'
                 }
             }
         }
 
         stage('Build') {
             steps {
-                dir('/app/traveling-app') {
+                dir('traveling-app') {
                     script {
                         // 도커 빌드
-                        sh 'pwd'
-
                         sh 'docker build --no-cache -t frontend-test -f frontend/react-app/Dockerfile .'
                     }
                 }
@@ -62,13 +37,13 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                dir('/app/traveling-app') {
-                    script {
-                        sh 'pwd'
-                        //테스트용 주석
-                        // 도커 컨테이너 실행
-                        sh 'docker run -d --name frontend-test -p 5173:5173 frontend-test'
-                    }
+                script {
+                    // 기존 컨테이너 중지 및 제거
+                    sh 'docker stop frontend-test || true'
+                    sh 'docker rm frontend-test || true'
+
+                    // 도커 컨테이너 실행
+                    sh 'docker run -d --name frontend-test -p 5173:5173 frontend-test'
                 }
             }
         }
