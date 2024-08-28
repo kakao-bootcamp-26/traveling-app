@@ -14,12 +14,13 @@ pipeline {
                         dir('traveling-app') {
                             // 이미 클론된 레포지토리의 브랜치 변경 및 최신 상태로 업데이트
                             sh 'git fetch origin'
-                            sh 'git checkout feat/docker&jenkins&gitWebHook'
-                            sh 'git pull origin feat/docker&jenkins&gitWebHook'
+                            sh 'git checkout feat/docker-jenkins-gitWebHook'
+                            sh 'git pull origin feat/docker-jenkins-gitWebHook'
                         }
                     } else {
+                        sh 'pwd'
                         // 레포지토리가 없으면 새로 클론
-                        sh 'git clone --branch feat/docker&jenkins&gitWebHook https://github.com/kakao-bootcamp-26/traveling-app.git'
+                        sh 'git clone --branch feat/docker-jenkins-gitWebHook https://github.com/kakao-bootcamp-26/traveling-app.git'
                     }
                 }
             }
@@ -28,6 +29,7 @@ pipeline {
         stage('Copy .env File') {
             steps {
                 script {
+                    sh 'pwd'
                     // .env 파일을 복사하여 레포지토리 내의 frontend/react-app/ 디렉토리로 이동
                     sh 'cp /.env ${WORKSPACE}/traveling-app/frontend/react-app/.env'
                 }
