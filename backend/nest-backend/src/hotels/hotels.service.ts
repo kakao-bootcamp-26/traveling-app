@@ -1,4 +1,4 @@
-import { getNaverHotelRecommendation } from '@/hotels/adapter/out/naverHotelRecommendation.adapter';
+import { getNaverHotelRecommendation } from '@/hotels/adapter/outgoing/naverHotelRecommendation.adapter';
 import { TravelInformation } from '@/hotels/dto/TravelInformation.dto';
 import { Injectable } from '@nestjs/common';
 
