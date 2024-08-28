@@ -20,7 +20,7 @@ pipeline {
                     } else {
                         sh 'pwd'
                         // 레포지토리가 없으면 새로 클론
-                        sh 'git clone https://github.com/kakao-bootcamp-26/traveling-app.git'
+                        sh 'git clone --branch Deploy https://github.com/kakao-bootcamp-26/traveling-app.git'
                     }
                 }
             }
