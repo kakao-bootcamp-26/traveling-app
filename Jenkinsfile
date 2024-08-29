@@ -14,8 +14,8 @@ pipeline {
                         dir('traveling-app') {
                             // 이미 클론된 레포지토리의 브랜치 변경 및 최신 상태로 업데이트
                             sh 'git fetch origin'
-                            sh 'git checkout feat/docker-jenkins-gitWebHook'
-                            sh 'git pull origin feat/docker-jenkins-gitWebHook'
+                            sh 'git checkout Deploy'
+                            sh 'git pull origin Deploy'
                         }
                     } else {
                         sh 'pwd'

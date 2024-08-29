@@ -1,0 +1,13 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Trigger AI Jenkins Job') {
+            steps {
+                script {
+                    def aiJob = build job: 'http://10.0.2.152:8080/job/chatbot', 
+                }
+            }
+        }
+    }
+}
