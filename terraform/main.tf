@@ -390,7 +390,7 @@ resource "aws_security_group" "ai_sg" {
     from_port   = 8080
     to_port     = 8080
     protocol    = "tcp"
-    cidr_blocks = [aws_subnet.private.cidr_block] # 백엔드 서브넷에서만 접근 가능
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
