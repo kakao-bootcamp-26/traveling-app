@@ -428,7 +428,9 @@ resource "aws_instance" "ai" {
   subnet_id     = aws_subnet.private.id
   vpc_security_group_ids = [aws_security_group.ai_sg.id]
   key_name = var.key_name  # SSH 접속을 위한 키 페어
-
+  root_block_device {
+    volume_size = 50  # 루트 EBS 볼륨 크기를 50GB로 설정
+  }
   # Docker 및 Jenkins 설치 및 설정
   user_data = <<-EOF
               #!/bin/bash
