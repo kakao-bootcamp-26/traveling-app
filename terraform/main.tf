@@ -386,6 +386,14 @@ resource "aws_security_group" "ai_sg" {
   vpc_id = aws_vpc.main.id
 
   ingress {
+    description = "For Jenkins"
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = [aws_subnet.private.cidr_block] # 백엔드 서브넷에서만 접근 가능
+  }
+
+  ingress {
     description = "Allow HTTP"
     from_port   = 5000
     to_port     = 5000
