@@ -6,7 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { FlightModule } from './flight/flight.module';
+// import { FlightModule } from './flight/flight.module';
 import { HotelsModule } from './hotels/hotels.module';
 // import * as Joi from 'joi';
 
@@ -36,7 +36,7 @@ import { HotelsModule } from './hotels/hotels.module';
         return typeOrmConfig(configService);
       },
     }),
-    FlightModule,
+    // FlightModule,
     AuthModule,
     UsersModule,
     HotelsModule,
