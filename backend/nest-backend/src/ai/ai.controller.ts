@@ -11,6 +11,15 @@ export class AiController {
   async sendUserMessage(
     @Body() aiRequestDto: AiRequestDto,
   ): Promise<AiResponseDto> {
-    return this.aiService.communicateWithAiServer(aiRequestDto);
+    console.log('Received request:', aiRequestDto);
+    try {
+      const response =
+        await this.aiService.communicateWithAiServer(aiRequestDto);
+      console.log('AI server response:', response);
+      return response;
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    }
   }
 }
