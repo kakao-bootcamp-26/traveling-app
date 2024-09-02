@@ -9,10 +9,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 // import { FlightModule } from './flight/flight.module';
 import { HotelsModule } from './hotels/hotels.module';
+import { AiService } from './ai/ai.service';
+import { AiController } from './ai/ai.controller';
+import { HttpModule } from '@nestjs/axios';
 // import * as Joi from 'joi';
 
 @Module({
   imports: [
+    HttpModule,
     ConfigModule.forRoot({
       isGlobal: true, // 전역 모듈로 설정
       // validationSchema: Joi.object({
@@ -43,7 +47,7 @@ import { HotelsModule } from './hotels/hotels.module';
     HotelsModule,
     AiModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, AiController],
+  providers: [AppService, AiService],
 })
 export class AppModule {}
