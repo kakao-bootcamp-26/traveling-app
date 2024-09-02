@@ -3,19 +3,30 @@ import { HttpService } from '@nestjs/axios';
 import { lastValueFrom } from 'rxjs';
 import { AiRequestDto } from './dto/AiRequest.dto';
 import { AiResponseDto } from './dto/AiResponse.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AiService {
-  constructor(private readonly httpService: HttpService) {}
+  private aiServerUrl: string;
+
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly configService: ConfigService,
+  ) {
+    this.aiServerUrl = this.configService.get<string>('AI_SERVER_URL');
+  }
 
   private isAiResponseDto(obj: any): obj is { data: AiResponseDto } {
     return obj && typeof obj === 'object' && 'data' in obj;
   }
 
   async sendRequestToAiServer(requestDto: AiRequestDto): Promise<string> {
-    const aiServerUrl = `http://${process.env.AI_SERVER_IP}:5000/chat`;
+    // const aiServerUrl = `http://${process.env.AI_SERVER_IP}:${process.env.AI_SERVER_PORT}/chat`;
     const response = await lastValueFrom(
-      this.httpService.post<{ requestId: string }>(aiServerUrl, requestDto),
+      this.httpService.post<{ requestId: string }>(
+        `${this.aiServerUrl}/chat`,
+        requestDto,
+      ),
     );
 
     if (response && response.data && response.data.requestId) {
@@ -26,9 +37,11 @@ export class AiService {
   }
 
   async getResponseFromAiServer(requestId: string): Promise<void> {
-    const aiServerUrl = `http://${process.env.AI_SERVER_IP}:5000/chat/${requestId}`;
+    // const aiServerUrl = `http://${process.env.AI_SERVER_IP}:${process.env.AI_SERVER_PORT}/chat/${requestId}`;
     const response = await lastValueFrom(
-      this.httpService.get<AiResponseDto>(aiServerUrl),
+      this.httpService.get<AiResponseDto>(
+        `${this.aiServerUrl}/chat/${requestId}`,
+      ),
     );
 
     if (this.isAiResponseDto(response)) {

@@ -23,10 +23,11 @@ export class AiController {
   }
 
   @Get('/chat/:requestId')
-  async getAiResponse(@Param('requestId') requestId: string): Promise<void> {
+  async getAiResponse(@Param('requestId') requestId: string): Promise<string> {
     console.log('Fetching result for request ID:', requestId);
     try {
       await this.aiService.getResponseFromAiServer(requestId);
+      return 'Response processed successfully';
     } catch (error) {
       console.error('Error Fetching result:', error);
       throw error;
