@@ -145,6 +145,20 @@ resource "aws_security_group" "frontend_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+    ingress {
+    description = "Allow Backend "
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+    ingress {
+    description = "Allow Bakcend Jenkins"
+    from_port   = 9090
+    to_port     = 9090
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   egress {
     from_port   = 0
@@ -236,6 +250,13 @@ resource "aws_security_group" "backend_sg" {
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+    ingress {
+    description = "Allow Jenkins from Frontend"
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    source_security_group_id = aws_security_group.frontend_sg.id  # 퍼블릭 프론트 인스턴스의 보안 그룹 ID
   }
 
   egress {
