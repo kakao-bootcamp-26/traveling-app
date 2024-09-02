@@ -1,5 +1,5 @@
 # 1단계: Build environment
-FROM node:18 AS build
+FROM node:20 AS build
 
 # 작업 디렉토리를 설정합니다.
 WORKDIR /app
@@ -9,6 +9,9 @@ COPY . .
 
 # Yarn Berry를 사용할 수 있도록 corepack을 활성화합니다.
 RUN corepack enable
+
+# Yarn 버전을 프로젝트에 맞게 설정합니다.
+RUN corepack prepare yarn@4.4.1 --activate
 
 # Yarn 버전을 Berry로 설정합니다.
 RUN yarn set version berry
@@ -48,10 +51,16 @@ WORKDIR /app/frontend/react-app
 RUN yarn build || { echo "yarn build failed"; exit 1; }
 
 # 2단계: Production environment
-FROM node:18
+FROM node:20
 
 # 작업 디렉토리를 설정합니다.
 WORKDIR /app
+
+# Corepack을 활성화하여 프로젝트가 올바른 Yarn 버전을 사용하도록 합니다.
+RUN corepack enable
+
+# Yarn 버전을 프로젝트에 맞게 설정합니다.
+RUN corepack prepare yarn@4.4.1 --activate
 
 # 루트 디렉토리의 모든 파일을 복사합니다.
 COPY --from=build /app .
@@ -60,7 +69,7 @@ COPY --from=build /app .
 ENV PATH /app/node_modules/.bin:$PATH
 
 # 최종 프로덕션 환경에서 의존성 재설치
-RUN yarn install --production || { echo "Final yarn install failed"; exit 1; }
+RUN yarn install || { echo "Final yarn install failed"; exit 1; }
 
 WORKDIR /app/frontend/react-app
 

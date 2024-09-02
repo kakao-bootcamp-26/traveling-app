@@ -201,14 +201,14 @@ resource "aws_instance" "frontend" {
               sudo systemctl restart jenkins
 
               # 깃허브 클론 테스트
-              #sudo mkdir /app
-              #sudo chown ubuntu:ubuntu /app
-              #cd /app
-              #sudo git clone --branch "feat/docker&jenkins&gitWebHook" https://github.com/kakao-bootcamp-26/traveling-app.git || { echo 'Git 클론 실패' ; exit 1; }
+              sudo mkdir /app
+              sudo chown ubuntu:ubuntu /app
+              cd /app
+              sudo git clone --branch Deploy https://github.com/kakao-bootcamp-26/traveling-app.git || { echo 'Git 클론 실패' ; exit 1; }
               
-              #sudo chown -R jenkins:jenkins /app/traveling-app
-              #sudo chmod -R 775 /app/traveling-app
-              #sudo systemctl restart jenkins
+              sudo chown -R jenkins:jenkins /app/traveling-app
+              sudo chmod -R 775 /app/traveling-app
+              sudo systemctl restart jenkins
               
               echo "user_data 스크립트 완료"
               EOF
