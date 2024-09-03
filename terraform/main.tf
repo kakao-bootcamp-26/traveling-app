@@ -465,10 +465,7 @@ resource "aws_instance" "ai" {
               cd /app
               sudo git clone https://github.com/kakao-bootcamp-26/chatbot.git || { echo 'Git 클론 실패' ; exit 1; }
 
-              # AI 컨테이너 실행 예시 (Dockerfile 필요)
-              cd /app/chatbot
-              sudo docker build -t ai-app .
-              sudo docker run -p 5000:5000 ai-app
+
               EOF
 
   tags = {
