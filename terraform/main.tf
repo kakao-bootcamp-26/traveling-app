@@ -145,20 +145,6 @@ resource "aws_security_group" "frontend_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-    ingress {
-    description = "Allow Backend "
-    from_port   = 3000
-    to_port     = 3000
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-    ingress {
-    description = "Allow Bakcend Jenkins"
-    from_port   = 9090
-    to_port     = 9090
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
 
   egress {
     from_port   = 0
@@ -215,14 +201,14 @@ resource "aws_instance" "frontend" {
               sudo systemctl restart jenkins
 
               # 깃허브 클론 테스트
-              #sudo mkdir /app
-              #sudo chown ubuntu:ubuntu /app
-              #cd /app
-              #sudo git clone --branch "feat/docker&jenkins&gitWebHook" https://github.com/kakao-bootcamp-26/traveling-app.git || { echo 'Git 클론 실패' ; exit 1; }
+              sudo mkdir /app
+              sudo chown ubuntu:ubuntu /app
+              cd /app
+              sudo git clone --branch Deploy https://github.com/kakao-bootcamp-26/traveling-app.git || { echo 'Git 클론 실패' ; exit 1; }
               
-              #sudo chown -R jenkins:jenkins /app/traveling-app
-              #sudo chmod -R 775 /app/traveling-app
-              #sudo systemctl restart jenkins
+              sudo chown -R jenkins:jenkins /app/traveling-app
+              sudo chmod -R 775 /app/traveling-app
+              sudo systemctl restart jenkins
               
               echo "user_data 스크립트 완료"
               EOF
@@ -250,13 +236,6 @@ resource "aws_security_group" "backend_sg" {
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-  }
-    ingress {
-    description = "Allow Jenkins from Frontend"
-    from_port   = 8080
-    to_port     = 8080
-    protocol    = "tcp"
-    security_groups = [aws_security_group.frontend_sg.id]  # 퍼블릭 프론트 인스턴스의 보안 그룹 ID
   }
 
   egress {
@@ -305,12 +284,13 @@ resource "aws_instance" "backend" {
               # Jenkins와 Docker 권한 설정
               sudo usermod -aG docker jenkins
               sudo systemctl restart jenkins
-              #깃허브 클론 테스트
+
+              # 깃허브 클론 테스트
               sudo mkdir /app
               sudo chown ubuntu:ubuntu /app
               cd /app
-              sudo git clone --branch "feat/docker&jenkins&gitWebHook" https://github.com/kakao-bootcamp-26/traveling-app.git              # 백엔드 Docker 컨테이너 실행
-              # (여기에서 도커 이미지 빌드 및 실행)
+              sudo git clone --branch Deploy https://github.com/kakao-bootcamp-26/traveling-app.git || { echo 'Git 클론 실패' ; exit 1; }
+
               EOF
 
   tags = {
@@ -350,7 +330,7 @@ resource "aws_security_group" "db_sg" {
   }
 }
 
-# 데이터베이스 EC2 인스턴스 생성 (PostgreSQL을 수동 배포)
+# 데이터베이스 EC2 인스턴스 생성 (PostgreSQL을 Docker로 배포)
 resource "aws_instance" "db" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
@@ -358,7 +338,7 @@ resource "aws_instance" "db" {
   vpc_security_group_ids      = [aws_security_group.db_sg.id]
   key_name                    = var.key_name  # SSH 접속을 위한 키 페어
 
-  # Docker 및 docker-compose 설치
+  # Docker 및 Jenkins 설치 및 PostgreSQL Docker 컨테이너 실행
   user_data = <<-EOF
               #!/bin/bash
               sudo apt-get update -y
@@ -371,11 +351,27 @@ resource "aws_instance" "db" {
               sudo apt-get update -y
               sudo apt-get install -y docker-ce
 
-              # Docker Compose 설치
-              sudo curl -L "https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-              sudo chmod +x /usr/local/bin/docker-compose
+              # Jdk 설치
+              sudo apt-get install -y openjdk-11-jdk
+
+              # Jenkins 설치
+              curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+              echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+              sudo apt-get update -y
+              sudo apt-get install -y jenkins || { echo 'Jenkins 설치 실패' ; exit 1; }
+              sudo systemctl start jenkins || { echo 'Jenkins 시작 실패' ; exit 1; }
+              sudo systemctl enable jenkins
 
 
+              # Jenkins와 Docker 권한 설정
+              sudo usermod -aG docker jenkins
+              sudo systemctl restart jenkins
+
+              # PostgreSQL을 Docker 컨테이너로 실행
+              sudo docker pull postgres:latest
+              sudo docker run --name goatravelDB -e POSTGRES_USER=ktb26 -e POSTGRES_PASSWORD=ktbteam26 -e POSTGRES_DB=goatravel -p 5432:5432 -d postgres
+
+              EOF
   tags = {
     Name = "db-postgresql"
   }
@@ -384,6 +380,14 @@ resource "aws_instance" "db" {
 # AI 보안 그룹 생성
 resource "aws_security_group" "ai_sg" {
   vpc_id = aws_vpc.main.id
+
+  ingress {
+    description = "For Jenkins"
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   ingress {
     description = "Allow HTTP"
@@ -420,7 +424,9 @@ resource "aws_instance" "ai" {
   subnet_id     = aws_subnet.private.id
   vpc_security_group_ids = [aws_security_group.ai_sg.id]
   key_name = var.key_name  # SSH 접속을 위한 키 페어
-
+  root_block_device {
+    volume_size = 50  # 루트 EBS 볼륨 크기를 50GB로 설정
+  }
   # Docker 및 Jenkins 설치 및 설정
   user_data = <<-EOF
               #!/bin/bash
@@ -455,13 +461,11 @@ resource "aws_instance" "ai" {
               cd /app
               sudo git clone https://github.com/kakao-bootcamp-26/chatbot.git || { echo 'Git 클론 실패' ; exit 1; }
 
-              # AI 컨테이너 실행 예시 (Dockerfile 필요)
-              cd /app/chatbot
-              sudo docker build -t ai-app .
-              sudo docker run -p 5000:5000 ai-app
+
               EOF
 
   tags = {
     Name = "ai-instance"
   }
 }
+
