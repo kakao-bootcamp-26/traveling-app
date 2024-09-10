@@ -1,20 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from './users.entity';
+import { Users } from './users.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User)
-    private usersRepository: Repository<User>,
+    @InjectRepository(Users)
+    private usersRepository: Repository<Users>,
   ) {}
 
   async findOrCreateUser(
     email: string,
     googleId: string,
     name: string,
-  ): Promise<User> {
+  ): Promise<Users> {
     let user = await this.usersRepository.findOne({ where: { email } });
     if (!user) {
       user = this.usersRepository.create({ email, googleId, name });
@@ -23,7 +23,7 @@ export class UsersService {
     return user;
   }
 
-  async findOneByEmail(email: string): Promise<User | undefined> {
+  async findOneByEmail(email: string): Promise<Users | undefined> {
     return this.usersRepository.findOne({ where: { email } });
   }
 }

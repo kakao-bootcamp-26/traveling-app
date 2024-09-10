@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
-import { User } from '../users/users.entity';
+import { Users } from '../users/users.entity';
 
 interface GoogleUser {
   email: string;
@@ -23,7 +23,7 @@ export class AuthService {
 
   async googleLogin(
     req: GoogleRequest,
-  ): Promise<{ user: User; token: string } | string> {
+  ): Promise<{ user: Users; token: string } | string> {
     if (!req.user) {
       return 'No user from google';
     }
@@ -42,7 +42,7 @@ export class AuthService {
     return { user, token };
   }
 
-  async validateUser(payload: { email: string }): Promise<User | null> {
+  async validateUser(payload: { email: string }): Promise<Users | null> {
     return await this.usersService.findOneByEmail(payload.email);
   }
 }

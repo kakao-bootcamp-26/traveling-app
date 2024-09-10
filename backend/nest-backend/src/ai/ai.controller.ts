@@ -6,7 +6,7 @@ import { AiRequestDto } from './dto/AiRequest.dto';
 export class AiController {
   constructor(private readonly aiService: AiService) {}
 
-  @Post('/chat')
+  @Post('chat')
   async sendUserMessage(
     @Body() aiRequestDto: AiRequestDto,
   ): Promise<{ requestId: string }> {
@@ -22,7 +22,7 @@ export class AiController {
     }
   }
 
-  @Get('/chat/:requestId')
+  @Get('chat/:requestId')
   async getAiResponse(@Param('requestId') requestId: string): Promise<string> {
     console.log('Fetching result for request ID:', requestId);
     try {

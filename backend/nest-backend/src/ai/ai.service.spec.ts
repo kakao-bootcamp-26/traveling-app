@@ -1,17 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpService } from '@nestjs/axios';
-import { of } from 'rxjs';
-import {
-  AxiosResponse,
-  InternalAxiosRequestConfig,
-  RawAxiosRequestHeaders,
-} from 'axios';
-import { AiService } from './ai.service';
 import { ConfigService } from '@nestjs/config';
+import { Logger } from '@nestjs/common';
+import { of } from 'rxjs';
+import { AxiosResponse } from 'axios';
+import { AiService } from './ai.service';
 
 describe('AiService', () => {
   let service: AiService;
   let httpService: jest.Mocked<HttpService>;
+  let loggerSpy: jest.SpyInstance;
 
   beforeEach(async () => {
     const mockHttpService = {
@@ -19,21 +17,26 @@ describe('AiService', () => {
       get: jest.fn(),
     };
 
+    const mockConfigService = {
+      get: jest.fn().mockReturnValue('mocked-value'),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AiService,
         { provide: HttpService, useValue: mockHttpService },
-        {
-          provide: ConfigService,
-          useValue: {
-            get: jest.fn().mockReturnValue('http://mock-ai-server.com'),
-          },
-        },
+        { provide: ConfigService, useValue: mockConfigService },
       ],
     }).compile();
 
     service = module.get<AiService>(AiService);
     httpService = module.get(HttpService);
+
+    loggerSpy = jest.spyOn(Logger.prototype, 'log').mockImplementation();
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should be defined', () => {
@@ -47,8 +50,8 @@ describe('AiService', () => {
       statusText: 'OK',
       headers: {},
       config: {
-        headers: {} as RawAxiosRequestHeaders,
-      } as InternalAxiosRequestConfig,
+        headers: undefined,
+      },
     };
     httpService.post.mockReturnValue(of(mockResponse));
 
@@ -56,6 +59,10 @@ describe('AiService', () => {
       message: 'Test message',
     });
     expect(result).toBe('mocked-request-id-123');
+    expect(loggerSpy).toHaveBeenCalledWith(
+      'AI server URL: http://mocked-value:mocked-value',
+    );
+    expect(loggerSpy).toHaveBeenCalledWith('Sending request to: /ai/chat');
   });
 
   it('should log a mocked response', async () => {
@@ -65,14 +72,19 @@ describe('AiService', () => {
       statusText: 'OK',
       headers: {},
       config: {
-        headers: {} as RawAxiosRequestHeaders,
-      } as InternalAxiosRequestConfig,
+        headers: undefined,
+      },
     };
     httpService.get.mockReturnValue(of(mockResponse));
 
-    const consoleSpy = jest.spyOn(console, 'log');
     await service.getResponseFromAiServer('test-id');
-    expect(consoleSpy).toHaveBeenCalledWith('Response from AI server:', {
+    expect(loggerSpy).toHaveBeenCalledWith(
+      'AI server URL: http://mocked-value:mocked-value',
+    );
+    expect(loggerSpy).toHaveBeenCalledWith(
+      'Fetching response from: /ai/chat/test-id',
+    );
+    expect(loggerSpy).toHaveBeenCalledWith('Response from AI server:', {
       response: 'Mocked response',
     });
   });
