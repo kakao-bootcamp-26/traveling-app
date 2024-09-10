@@ -145,6 +145,20 @@ resource "aws_security_group" "frontend_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+    ingress {
+    description = "Allow Backend "
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+    ingress {
+    description = "Allow Bakcend Jenkins"
+    from_port   = 9090
+    to_port     = 9090
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   egress {
     from_port   = 0
@@ -236,6 +250,13 @@ resource "aws_security_group" "backend_sg" {
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+    ingress {
+    description = "Allow Jenkins from Frontend"
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    security_groups = [aws_security_group.frontend_sg.id]  # 퍼블릭 프론트 인스턴스의 보안 그룹 ID
   }
 
   egress {
@@ -330,7 +351,7 @@ resource "aws_security_group" "db_sg" {
   }
 }
 
-# 데이터베이스 EC2 인스턴스 생성 (PostgreSQL을 Docker로 배포)
+# 데이터베이스 EC2 인스턴스 생성 (PostgreSQL을 수동 배포)
 resource "aws_instance" "db" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
@@ -338,7 +359,7 @@ resource "aws_instance" "db" {
   vpc_security_group_ids      = [aws_security_group.db_sg.id]
   key_name                    = var.key_name  # SSH 접속을 위한 키 페어
 
-  # Docker 및 Jenkins 설치 및 PostgreSQL Docker 컨테이너 실행
+  # Docker 및 docker-compose 설치
   user_data = <<-EOF
               #!/bin/bash
               sudo apt-get update -y
@@ -351,27 +372,10 @@ resource "aws_instance" "db" {
               sudo apt-get update -y
               sudo apt-get install -y docker-ce
 
-              # Jdk 설치
-              sudo apt-get install -y openjdk-11-jdk
-
-              # Jenkins 설치
-              curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null
-              echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
-              sudo apt-get update -y
-              sudo apt-get install -y jenkins || { echo 'Jenkins 설치 실패' ; exit 1; }
-              sudo systemctl start jenkins || { echo 'Jenkins 시작 실패' ; exit 1; }
-              sudo systemctl enable jenkins
-
-
-              # Jenkins와 Docker 권한 설정
-              sudo usermod -aG docker jenkins
-              sudo systemctl restart jenkins
-
-              # PostgreSQL을 Docker 컨테이너로 실행
-              sudo docker pull postgres:latest
-              sudo docker run --name goatravelDB -e POSTGRES_USER=ktb26 -e POSTGRES_PASSWORD=ktbteam26 -e POSTGRES_DB=goatravel -p 5432:5432 -d postgres
-
-              EOF
+              # Docker Compose 설치
+              sudo curl -L "https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+              sudo chmod +x /usr/local/bin/docker-compose
+              
   tags = {
     Name = "db-postgresql"
   }
