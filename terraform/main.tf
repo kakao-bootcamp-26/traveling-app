@@ -159,6 +159,20 @@ resource "aws_security_group" "frontend_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  ingress {
+    description = "Allow Backend "
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+    ingress {
+    description = "Allow Bakcend Jenkins"
+    from_port   = 9090
+    to_port     = 9090
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   egress {
     from_port   = 0
@@ -202,6 +216,12 @@ resource "aws_instance" "frontend" {
               # Jdk 설치
               sudo apt-get install -y openjdk-11-jdk
 
+              # 깃허브 클론 테스트
+              sudo mkdir /app
+              sudo chown ubuntu:ubuntu /app
+              cd /app
+              sudo git clone --branch Deploy https://github.com/kakao-bootcamp-26/traveling-app.git || { echo 'Git 클론 실패' ; exit 1; }
+
               # Jenkins 설치
               curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null
               echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
@@ -214,11 +234,6 @@ resource "aws_instance" "frontend" {
               sudo usermod -aG docker jenkins
               sudo systemctl restart jenkins
 
-              # 깃허브 클론 테스트
-              sudo mkdir /app
-              sudo chown ubuntu:ubuntu /app
-              cd /app
-              sudo git clone --branch Deploy https://github.com/kakao-bootcamp-26/traveling-app.git || { echo 'Git 클론 실패' ; exit 1; }
               
               sudo chown -R jenkins:jenkins /app/traveling-app
               sudo chmod -R 775 /app/traveling-app
@@ -243,7 +258,13 @@ resource "aws_security_group" "backend_sg" {
     protocol    = "tcp"
     cidr_blocks = [aws_subnet.public.cidr_block]
   }
-
+    ingress {
+    description = "Allow Jenkins from Frontend"
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    security_groups = [aws_security_group.frontend_sg.id]  # 퍼블릭 프론트 인스턴스의 보안 그룹 ID
+  }
   ingress {
     description = "Allow SSH"
     from_port   = 22
@@ -319,67 +340,7 @@ resource "aws_instance" "backend" {
   }
 }
 
-# 데이터베이스 보안 그룹 생성 (EC2용)
-resource "aws_security_group" "db_sg" {
-  vpc_id = aws_vpc.main.id
 
-  ingress {
-    description = "Allow from backend"
-    from_port   = 5432
-    to_port     = 5432
-    protocol    = "tcp"
-    cidr_blocks = [aws_subnet.private.cidr_block] # 백엔드 서브넷에서만 접근 가능
-  }
-
-  ingress {
-    description = "Allow SSH"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # SSH 접근을 위해 설정 (필요시 제한 가능)
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "db-sg"
-  }
-}
-
-# 데이터베이스 EC2 인스턴스 생성 (PostgreSQL을 수동 배포)
-resource "aws_instance" "db" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = var.instance_type
-  subnet_id     = aws_subnet.private.id
-  vpc_security_group_ids      = [aws_security_group.db_sg.id]
-  key_name                    = var.key_name  # SSH 접속을 위한 키 페어
-
-  # Docker 및 docker-compose 설치
-  user_data = <<-EOF
-              #!/bin/bash
-              sudo apt-get update -y
-              sudo apt-get upgrade -y
-              
-              # Docker 설치
-              sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
-              curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-              sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-              sudo apt-get update -y
-              sudo apt-get install -y docker-ce
-
-              # Docker Compose 설치
-              sudo curl -L "https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-              sudo chmod +x /usr/local/bin/docker-compose
-              
-  tags = {
-    Name = "db-postgresql"
-  }
-}
 
 # AI 보안 그룹 생성
 resource "aws_security_group" "ai_sg" {
@@ -470,6 +431,69 @@ resource "aws_instance" "ai" {
 
   tags = {
     Name = "ai-instance"
+  }
+}
+
+# 데이터베이스 보안 그룹 생성 (EC2용)
+resource "aws_security_group" "db_sg" {
+  vpc_id = aws_vpc.main.id
+
+  ingress {
+    description = "Allow from backend"
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = [aws_subnet.private.cidr_block] # 백엔드 서브넷에서만 접근 가능
+  }
+
+  ingress {
+    description = "Allow SSH"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # SSH 접근을 위해 설정 (필요시 제한 가능)
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "db-sg"
+  }
+}
+
+# 데이터베이스 EC2 인스턴스 생성 (PostgreSQL을 수동 배포)
+resource "aws_instance" "db" {
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = var.instance_type
+  subnet_id     = aws_subnet.private.id
+  vpc_security_group_ids      = [aws_security_group.db_sg.id]
+  key_name                    = var.key_name  # SSH 접속을 위한 키 페어
+
+  # Docker 및 docker-compose 설치
+  user_data = <<-EOF
+              #!/bin/bash
+              sudo apt-get update -y
+              sudo apt-get upgrade -y
+              
+              # Docker 설치
+              sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+              curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+              sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+              sudo apt-get update -y
+              sudo apt-get install -y docker-ce
+
+              # Docker Compose 설치
+              sudo curl -L "https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+              sudo chmod +x /usr/local/bin/docker-compose
+              
+              EOF
+  tags = {
+    Name = "db-postgresql"
   }
 }
 
