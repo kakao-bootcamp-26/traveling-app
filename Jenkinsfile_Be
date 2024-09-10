@@ -41,7 +41,7 @@ pipeline {
                 dir('traveling-app') {
                     script {
                         // 백엔드 도커 빌드
-                        sh 'docker build --no-cache -t back-server:latest -f /app/traveling-app/backend/nest-backend'
+                        sh 'docker build --no-cache -t back-server:latest -f /app/traveling-app/backend/nest-backend/Dockerfile .'
                     }
                 }
             }
