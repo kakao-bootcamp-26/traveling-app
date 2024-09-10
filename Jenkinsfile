@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         GIT_CREDENTIALS_ID = 'jenkinstest'
-        //테스트용 주석
     }
 
     stages {
