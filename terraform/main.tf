@@ -284,12 +284,13 @@ resource "aws_instance" "backend" {
               # Jenkins와 Docker 권한 설정
               sudo usermod -aG docker jenkins
               sudo systemctl restart jenkins
-              #깃허브 클론 테스트
+
+              # 깃허브 클론 테스트
               sudo mkdir /app
               sudo chown ubuntu:ubuntu /app
               cd /app
-              sudo git clone --branch "feat/docker&jenkins&gitWebHook" https://github.com/kakao-bootcamp-26/traveling-app.git              # 백엔드 Docker 컨테이너 실행
-              # (여기에서 도커 이미지 빌드 및 실행)
+              sudo git clone --branch Deploy https://github.com/kakao-bootcamp-26/traveling-app.git || { echo 'Git 클론 실패' ; exit 1; }
+
               EOF
 
   tags = {
@@ -370,11 +371,6 @@ resource "aws_instance" "db" {
               sudo docker pull postgres:latest
               sudo docker run --name goatravelDB -e POSTGRES_USER=ktb26 -e POSTGRES_PASSWORD=ktbteam26 -e POSTGRES_DB=goatravel -p 5432:5432 -d postgres
 
-              #깃 클론 테스트
-              sudo mkdir /app
-              sudo chown ubuntu:ubuntu /app
-              cd /app
-              sudo git clone --branch "feat/docker&jenkins&gitWebHook" https://github.com/kakao-bootcamp-26/traveling-app.git          EOF
               EOF
   tags = {
     Name = "db-postgresql"
