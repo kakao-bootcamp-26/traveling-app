@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        GIT_CREDENTIALS_ID = 'jenkinstest'
-    }
-
     stages {
         stage('Clone or Update Repository') {
             steps {
