@@ -55,7 +55,8 @@ pipeline {
                     sh 'docker rm back-server || true'
 
                     // 백엔드 도커 컨테이너 실행
-                    sh 'docker run -d --name back-server -p 3000:3000 back-server:latest sleep infinity'
+                    sh 'docker run -d -p 3000:3000 --name back-server back-server:latest sleep infinity'
+                    
                 }
             }
         }
