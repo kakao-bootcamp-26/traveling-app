@@ -1,0 +1,63 @@
+pipeline {
+    agent any
+
+    environment {
+        GIT_CREDENTIALS_ID = 'Github_access_key'
+    }
+
+    stages {
+        stage('Clone or Update Repository') {
+            steps {
+                script {
+                    // 레포지토리가 이미 클론되어 있는지 확인
+                    if (fileExists('traveling-app')) {
+                        dir('traveling-app') {
+                            // 이미 클론된 레포지토리의 브랜치 변경 및 최신 상태로 업데이트
+                            sh 'git fetch origin'
+                            sh 'git checkout main'
+                            sh 'git pull origin main'
+                        }
+                    } else {
+                        sh 'pwd'
+                        // 레포지토리가 없으면 새로 클론
+                        sh 'git clone --branch main https://github.com/kakao-bootcamp-26/traveling-app.git'
+                    }
+                }
+            }
+        }
+
+        stage('Copy .env File') {
+            steps {
+                script {
+                    sh 'pwd'
+                    // .env 파일을 복사하여 레포지토리 내의 backend/ 디렉토리로 이동
+                    sh 'cp ~/.env ${WORKSPACE}/traveling-app/backend/.env'
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                dir('traveling-app') {
+                    script {
+                        // 백엔드 도커 빌드
+                        sh 'docker build --no-cache -t back-server:latest -f /app/traveling-app/backend/nest-backend/Dockerfile .'
+                    }
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script {
+                    // 기존 백엔드 컨테이너 중지 및 제거
+                    sh 'docker stop back-server || true'
+                    sh 'docker rm back-server || true'
+
+                    // 백엔드 도커 컨테이너 실행
+                    sh 'docker run -d --name back-server -p 3000:3000 back-server:latest'
+                }
+            }
+        }
+    }
+}
