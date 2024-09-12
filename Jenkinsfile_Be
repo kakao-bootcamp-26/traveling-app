@@ -56,6 +56,10 @@ pipeline {
 
                     // 백엔드 도커 컨테이너 실행
                     sh 'docker run -d -p 3000:3000 --name back-server back-server:latest sleep infinity'
+
+                    // 컨테이너 내부에서 postgresql-client 설치
+                    sh 'docker exec back-server apt-get update'
+                    sh 'docker exec back-server apt-get install -y postgresql-client'
                     
                 }
             }
