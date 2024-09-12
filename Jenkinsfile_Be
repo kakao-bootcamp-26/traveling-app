@@ -14,13 +14,13 @@ pipeline {
                         dir('traveling-app') {
                             // 이미 클론된 레포지토리의 브랜치 변경 및 최신 상태로 업데이트
                             sh 'git fetch origin'
-                            sh 'git checkout main'
-                            sh 'git pull origin main'
+                            sh 'git checkout develop'   // develop 브랜치로 체크아웃
+                            sh 'git pull origin develop' // develop 브랜치 최신 업데이트
                         }
                     } else {
                         sh 'pwd'
                         // 레포지토리가 없으면 새로 클론
-                        sh 'git clone --branch main https://github.com/kakao-bootcamp-26/traveling-app.git'
+                        sh 'git clone --branch develop https://github.com/kakao-bootcamp-26/traveling-app.git'
                     }
                 }
             }
